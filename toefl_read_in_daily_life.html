@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL – Read in Daily Life</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f6fa;color:#1f2937;min-height:100vh}
+.screen{display:none;max-width:820px;margin:0 auto;padding:1.5rem}
+.screen.active{display:block}
+
+/* HOME */
+.home-hero{text-align:center;padding:2.5rem 1rem 1.5rem}
+.home-hero h1{font-size:26px;font-weight:700;color:#1a2744;margin-bottom:8px}
+.home-hero p{font-size:15px;color:#64748b;line-height:1.6;max-width:520px;margin:0 auto}
+.task-info{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.task-info h2{font-size:15px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.task-info ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.task-info li{font-size:13.5px;color:#374151;padding-left:20px;position:relative;line-height:1.5}
+.task-info li::before{content:"→";position:absolute;left:0;color:#185fa5;font-weight:700}
+.task-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.tcard{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1rem 1.25rem;cursor:pointer;transition:border-color .15s,box-shadow .15s;display:flex;align-items:center;gap:14px}
+.tcard:hover{border-color:#185fa5;box-shadow:0 2px 8px rgba(24,95,165,.1)}
+.tcard.done{border-color:#1d9e75;background:#f0faf6}
+.tcard-num{width:38px;height:38px;border-radius:50%;background:#e6f1fb;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#185fa5;flex-shrink:0}
+.tcard.done .tcard-num{background:#1d9e75;color:#fff}
+.tcard-info h3{font-size:14px;font-weight:600;color:#1f2937;margin-bottom:2px}
+.tcard-info p{font-size:12px;color:#64748b}
+.tcard-type{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;background:#e6f1fb;color:#185fa5;white-space:nowrap;flex-shrink:0;margin-left:auto}
+.tcard.done .tcard-type{background:#e1f5ee;color:#0f6e56}
+
+/* QUIZ HEADER */
+.quiz-top{display:flex;align-items:center;justify-content:space-between;padding:10px 0 16px;border-bottom:1px solid #e8ecf4;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
+.quiz-label{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;background:#e6f1fb;color:#185fa5}
+.quiz-progress{font-size:13px;color:#64748b}
+.timer{font-size:16px;font-weight:700;color:#1f2937;background:#f5f6fa;padding:5px 16px;border-radius:8px;border:1px solid #e8ecf4;min-width:72px;text-align:center;font-variant-numeric:tabular-nums}
+.timer.warn{color:#a32d2d;border-color:#f7c1c1;background:#fcebeb}
+
+/* TEXT DISPLAY BOXES */
+.text-type-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:8px}
+
+/* Email */
+.email-box{background:#fff;border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.email-header{background:#f9fafb;border-bottom:1px solid #e8ecf4;padding:.75rem 1.1rem}
+.email-field{display:flex;gap:8px;font-size:13px;line-height:1.6}
+.email-field-label{font-weight:700;color:#64748b;min-width:52px}
+.email-field-val{color:#1f2937}
+.email-body{padding:1rem 1.1rem;font-size:14px;line-height:1.8;color:#1f2937}
+
+/* Announcement */
+.announcement-box{background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:1.1rem 1.25rem;margin-bottom:1.5rem;font-size:14px;line-height:1.8;color:#1f2937}
+
+/* Text chain */
+.textchain-box{background:#fff;border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.textchain-header{background:#f9fafb;border-bottom:1px solid #e8ecf4;padding:.6rem 1.1rem;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px}
+.textchain-body{padding:.75rem 1rem;display:flex;flex-direction:column;gap:6px}
+.msg{display:flex;gap:8px;align-items:flex-start}
+.msg-sender{font-size:12px;font-weight:700;color:#1a2744;min-width:140px;flex-shrink:0;padding-top:2px}
+.msg-time{font-size:11px;color:#9ca3af;white-space:nowrap;padding-top:3px}
+.msg-text{font-size:13.5px;color:#1f2937;line-height:1.6;flex:1;background:#f5f6fa;border-radius:8px;padding:6px 10px}
+
+/* QUESTIONS */
+.question-block{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:12px}
+.q-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#185fa5;margin-bottom:6px}
+.q-text{font-size:15px;font-weight:600;color:#1f2937;margin-bottom:12px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px solid #e8ecf4;border-radius:8px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s;font-size:14px;color:#1f2937;line-height:1.45}
+.opt:hover{border-color:#b5d4f4;background:#f5f9ff}
+.opt.selected{border-color:#378add;background:#e6f1fb}
+.opt.correct{border-color:#0f6e56;background:#e1f5ee;pointer-events:none}
+.opt.wrong{border-color:#993c1d;background:#faece7;pointer-events:none}
+.opt.reveal{border-color:#0f6e56;background:#e1f5ee;pointer-events:none}
+.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid #d3d1c7;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#64748b;flex-shrink:0;margin-top:1px}
+.opt.selected .opt-letter{background:#378add;border-color:#378add;color:#fff}
+.opt.correct .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.opt.wrong .opt-letter{background:#993c1d;border-color:#993c1d;color:#fff}
+.opt.reveal .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+
+/* FEEDBACK */
+.feedback{margin-top:10px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e1f5ee;color:#085041;border:1px solid #9fe1cb}
+.feedback.bad{background:#faece7;color:#4a1b0c;border:1px solid #f5c4b3}
+.feedback-title{font-weight:700;margin-bottom:3px}
+
+/* TASK ACTIONS */
+.task-actions{padding:1rem 0;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e8ecf4;margin-top:.5rem}
+.progress-dots{display:flex;gap:5px;align-items:center}
+.pdot{width:9px;height:9px;border-radius:50%;background:#d3d1c7;transition:background .2s}
+.pdot.active{background:#378add;transform:scale(1.2)}
+.pdot.correct{background:#1d9e75}
+.pdot.wrong{background:#d85a30}
+button{font-family:inherit;font-size:14px;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid #d3d1c7;background:#fff;color:#1f2937;transition:background .12s}
+button:hover{background:#f5f6fa}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:#1a2744;color:#fff;border-color:#1a2744}
+button.primary:hover:not(:disabled){background:#243460}
+
+/* RESULTS */
+.results-wrap{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.5rem;margin:1rem 0}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.score-circle{width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #378add;background:#e6f1fb;flex-shrink:0}
+.score-num{font-size:26px;font-weight:700;color:#185fa5}
+.score-lbl{font-size:10px;color:#185fa5;font-weight:600}
+.score-msg h3{font-size:17px;font-weight:700;color:#1f2937;margin-bottom:4px}
+.score-msg p{font-size:13.5px;color:#64748b;line-height:1.5;max-width:440px}
+.review-section{border-top:1px solid #e8ecf4;padding-top:1rem;margin-top:1rem}
+.review-section h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:12px}
+.review-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
+.review-item.r-ok{background:#e1f5ee;border:1px solid #9fe1cb}
+.review-item.r-bad{background:#faece7;border:1px solid #f5c4b3}
+.ri-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ri-icon.ok{background:#1d9e75;color:#fff}
+.ri-icon.no{background:#d85a30;color:#fff}
+.ri-content{flex:1;line-height:1.5}
+.ri-q{font-weight:600;color:#1f2937;margin-bottom:3px}
+.ri-ans{font-size:12px;color:#64748b}
+.ri-exp{font-size:12px;color:#374151;margin-top:4px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-hero">
+    <h1>Read in Daily Life</h1>
+    <p>TOEFL Reading practice — read real-life texts and answer comprehension questions.</p>
+  </div>
+  <div class="task-info">
+    <h2>How it works</h2>
+    <ul>
+      <li>3 different text types — just like the real TOEFL</li>
+      <li>Read the text carefully, then answer the questions</li>
+      <li>Get immediate feedback after each answer</li>
+      <li><strong>8 minutes total</strong> — the timer runs for all 3 texts together</li>
+      <li>Full score and review at the end</li>
+    </ul>
+  </div>
+  <div class="task-cards">
+    <div class="tcard" onclick="startQuiz()">
+      <div class="tcard-num" id="startIcon">▶</div>
+      <div class="tcard-info">
+        <h3>Full Practice Session</h3>
+        <p>3 texts · 7 questions · 8 minutes</p>
+      </div>
+      <div class="tcard-type" id="startBadge">Start</div>
+    </div>
+  </div>
+  <div style="background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem">
+    <p style="font-size:13px;font-weight:700;color:#1a2744;margin-bottom:8px">You will read:</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#374151">
+        <span style="background:#e6f1fb;color:#185fa5;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap">Announcement</span>
+        Building elevator notice · 2 questions
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#374151">
+        <span style="background:#faeeda;color:#854f0b;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap">Email</span>
+        Staff training confirmation · 2 questions
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#374151">
+        <span style="background:#eeedfe;color:#534ab7;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap">Text Chain</span>
+        Team product delay · 3 questions
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#64748b;text-align:center">Source: TST Prep — 100 Practice Questions for the TOEFL® Reading Section (2026)</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="quiz-top">
+    <span class="quiz-label" id="qLabel">Read in Daily Life</span>
+    <span class="quiz-progress" id="qProgress"></span>
+    <div class="timer" id="timer">8:00</div>
+  </div>
+  <div id="quizBody"></div>
+  <div class="task-actions">
+    <div class="progress-dots" id="progDots"></div>
+    <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="results-wrap">
+    <div class="score-row">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum"></div>
+        <div class="score-lbl">correct</div>
+      </div>
+      <div class="score-msg">
+        <h3 id="scoreTitle"></h3>
+        <p id="scoreDesc"></p>
+      </div>
+    </div>
+    <div class="review-section">
+      <h4>Question review</h4>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+    <button onclick="restartQuiz()">Try again</button>
+    <button class="primary" onclick="goHome()">Back to home</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const TASKS = [
+  {
+    type: "Announcement",
+    typeColor: "#185fa5",
+    typeBg: "#e6f1fb",
+    text: {
+      kind: "announcement",
+      body: `The elevator in Building C will be out of service all day on Wednesday, June 12, for a full safety inspection and routine maintenance. Employees who work on upper floors should plan accordingly by using the stairs or accessing Building D, which has a functioning elevator. Signs will be posted near the main lobby to guide staff to alternative routes.`
+    },
+    questions: [
+      {
+        id: 1,
+        q: "Why will the elevator in Building C be unavailable?",
+        opts: ["It will be replaced with a newer model.", "It will undergo a safety inspection and maintenance.", "It will be inspected and painted.", "It will have a light tune-up on the motor."],
+        ans: 1,
+        exp: "The announcement says the elevator will be out of service 'for a full safety inspection and routine maintenance.' Options A, C, and D either add details not mentioned or minimize the scope of the work."
+      },
+      {
+        id: 2,
+        q: "What should employees who work on upper floors do on June 12?",
+        opts: ["Wait until the inspection ends before returning to work.", "Use Building D to reach their offices.", "Try the functioning elevator in Building C.", "Follow the signs up the stairs to their offices."],
+        ans: 1,
+        exp: "The announcement advises staff to 'access Building D, which has a functioning elevator.' Option A is wrong because employees aren't told to stop working. Option C is wrong because Building C's elevator won't be working. Option D misinterprets the signs — they guide to alternative routes, not specifically up stairs."
+      }
+    ]
+  },
+  {
+    type: "Email",
+    typeColor: "#854f0b",
+    typeBg: "#faeeda",
+    text: {
+      kind: "email",
+      subject: "Staff Training Confirmation",
+      from: "Ahmed Khan",
+      to: "Ms. Forester",
+      body: `Dear Ms. Forester,\n\nYour registration for the customer service training on August 10 has been confirmed. The session will begin at 9:00 a.m. in Conference Room 3. Please bring your ID badge. Refreshments will be provided, but lunch is not included.\n\nSincerely,\nAhmed Khan`
+    },
+    questions: [
+      {
+        id: 3,
+        q: "What is the main purpose of this email?",
+        opts: ["To ask Ms. Forester to refrain from bringing outside food or drinks.", "To announce a change in room location.", "To remind Ms. Forester to bring her ID badge.", "To confirm a registration for training."],
+        ans: 3,
+        exp: "The email opens with 'Your registration for the customer service training on August 10 has been confirmed' — that's its main purpose. Option C is only one detail, not the main message. Options A and B are not mentioned."
+      },
+      {
+        id: 4,
+        q: "Which of the following is NOT true according to the email?",
+        opts: ["Participants need to bring an ID badge.", "The training will take place in Conference Room 3.", "Lunch will be provided during the session.", "Refreshments will be available."],
+        ans: 2,
+        exp: "The email says 'Refreshments will be provided, but lunch is NOT included' — so option C is false. Options A, B, and D are all confirmed in the email: bring an ID badge ✓, Conference Room 3 ✓, refreshments provided ✓."
+      }
+    ]
+  },
+  {
+    type: "Text Chain",
+    typeColor: "#534ab7",
+    typeBg: "#eeedfe",
+    text: {
+      kind: "textchain",
+      messages: [
+        { sender: "Olga Antonov", time: "9:00 A.M.", text: "Morning team. The shipment of EcoBlend mugs was delayed due to the storm. We need to update our customers right away." },
+        { sender: "Luis Fernandez", time: "9:03 A.M.", text: "I'll email all wholesale clients explaining the new delivery date. Do we know when the shipment will arrive?" },
+        { sender: "Olga Antonov", time: "9:05 A.M.", text: "The supplier expects delivery on Thursday instead of Tuesday." },
+        { sender: "Yasmin Hasan", time: "9:08 A.M.", text: "Should I also post an announcement on our website and social media pages?" },
+        { sender: "Olga Antonov", time: "9:10 A.M.", text: "Yes, please do. Keep the message positive — mention the weather issue but emphasize that orders will ship later this week." },
+        { sender: "Ahmed Khan", time: "9:12 A.M.", text: "Got it. I'll adjust the inventory page so customers can't place new mug orders until Thursday." },
+        { sender: "Olga Antonov", time: "9:14 A.M.", text: "Thanks, everyone. Let's avoid the kind of confusion we had during last month's delay." }
+      ]
+    },
+    questions: [
+      {
+        id: 5,
+        q: "What is Olga's main concern in these messages?",
+        opts: ["Designing a new product that suppliers can deliver on time.", "Preventing customer confusion about the late orders.", "Losing contact with the supplier.", "Finding ways to email clients about social media pages."],
+        ans: 1,
+        exp: "Olga's final message says 'Let's avoid the kind of confusion we had during last month's delay.' She coordinates multiple actions (emails, social posts, inventory) all focused on keeping customers informed and avoiding confusion."
+      },
+      {
+        id: 6,
+        q: "According to the messages, when will the shipment now arrive?",
+        opts: ["Thursday.", "Tuesday.", "Monday.", "Friday."],
+        ans: 0,
+        exp: "Olga says 'The supplier expects delivery on Thursday instead of Tuesday.' Tuesday was the original date — Thursday is the new one. Monday and Friday are not mentioned."
+      },
+      {
+        id: 7,
+        q: "Which of the following actions is NOT mentioned in the messages?",
+        opts: ["Contacting wholesale clients by email.", "Posting an update on social media.", "Adjusting the inventory page.", "Calling the supplier by phone."],
+        ans: 3,
+        exp: "No one mentions calling the supplier. The three actions that ARE mentioned: Luis emails wholesale clients ✓, Yasmin posts on social media ✓, Ahmed adjusts the inventory page ✓. The delay was communicated by the supplier without a phone call being described."
+      }
+    ]
+  }
+];
+
+// ── FLATTEN QUESTIONS ─────────────────────────────────────────────────────────
+let allQuestions = [];
+TASKS.forEach((task, ti) => {
+  task.questions.forEach(q => {
+    allQuestions.push({ ...q, taskIdx: ti });
+  });
+});
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let qi = 0;
+let answers = [];
+let timerInterval = null;
+let secondsLeft = 480;
+let quizStarted = false;
+
+// ── HOME ──────────────────────────────────────────────────────────────────────
+function goHome() {
+  clearInterval(timerInterval);
+  quizStarted = false;
+  qi = 0; answers = []; secondsLeft = 480;
+  showScreen('home');
+}
+
+function restartQuiz() {
+  clearInterval(timerInterval);
+  qi = 0; answers = []; secondsLeft = 480;
+  startQuiz();
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────────
+function startQuiz() {
+  quizStarted = true;
+  startTimer();
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  updateTimer();
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimer();
+    if (secondsLeft <= 0) { clearInterval(timerInterval); finishQuiz(); }
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
+  const el = document.getElementById('timer');
+  el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'timer' + (secondsLeft <= 60 ? ' warn' : '');
+}
+
+function renderQuestion() {
+  const qData = allQuestions[qi];
+  const task = TASKS[qData.taskIdx];
+  const total = allQuestions.length;
+
+  document.getElementById('qLabel').textContent = task.type;
+  document.getElementById('qLabel').style.background = task.typeBg;
+  document.getElementById('qLabel').style.color = task.typeColor;
+  document.getElementById('qProgress').textContent = `Question ${qi + 1} of ${total}`;
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').textContent = qi < total - 1 ? 'Next' : 'See results';
+
+  // Progress dots
+  const pd = document.getElementById('progDots');
+  pd.innerHTML = '';
+  allQuestions.forEach((_, i) => {
+    const dot = document.createElement('div');
+    let cls = 'pdot';
+    if (i === qi) cls += ' active';
+    else if (i < answers.length) cls += answers[i] === allQuestions[i].ans ? ' correct' : ' wrong';
+    dot.className = cls;
+    pd.appendChild(dot);
+  });
+
+  // Build body
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  // Always show the text
+  const lbl = document.createElement('div');
+  lbl.className = 'text-type-label';
+  lbl.textContent = 'Read a' + (task.type === 'Announcement' ? 'n announcement' : task.type === 'Email' ? 'n email' : ' text chain') + '.';
+  body.appendChild(lbl);
+  body.appendChild(buildTextDisplay(task));
+
+  // Question block
+  const qBlock = document.createElement('div');
+  qBlock.className = 'question-block';
+
+  const qNum = document.createElement('div');
+  qNum.className = 'q-num';
+  qNum.textContent = `Question ${qi + 1}`;
+  qBlock.appendChild(qNum);
+
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = qData.q;
+  qBlock.appendChild(qText);
+
+  const opts = document.createElement('div');
+  opts.className = 'options';
+  const letters = ['A', 'B', 'C', 'D'];
+  qData.opts.forEach((optText, oi) => {
+    const opt = document.createElement('div');
+    opt.className = 'opt';
+    opt.innerHTML = `<div class="opt-letter">${letters[oi]}</div><div>${optText}</div>`;
+    opt.onclick = () => selectAnswer(oi, qData, opt, opts, feedback);
+    opts.appendChild(opt);
+  });
+  qBlock.appendChild(opts);
+
+  const feedback = document.createElement('div');
+  feedback.className = 'feedback';
+  qBlock.appendChild(feedback);
+
+  body.appendChild(qBlock);
+}
+
+function buildTextDisplay(task) {
+  const t = task.text;
+
+  if (t.kind === 'announcement') {
+    const box = document.createElement('div');
+    box.className = 'announcement-box';
+    box.textContent = t.body;
+    return box;
+  }
+
+  if (t.kind === 'email') {
+    const box = document.createElement('div');
+    box.className = 'email-box';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'email-header';
+    [['Subject', t.subject], ['To', t.to]].forEach(([label, val]) => {
+      const row = document.createElement('div');
+      row.className = 'email-field';
+      row.innerHTML = `<span class="email-field-label">${label}:</span><span class="email-field-val">${val}</span>`;
+      hdr.appendChild(row);
+    });
+    box.appendChild(hdr);
+
+    const bdy = document.createElement('div');
+    bdy.className = 'email-body';
+    bdy.style.whiteSpace = 'pre-wrap';
+    bdy.textContent = t.body;
+    box.appendChild(bdy);
+    return box;
+  }
+
+  if (t.kind === 'textchain') {
+    const box = document.createElement('div');
+    box.className = 'textchain-box';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'textchain-header';
+    hdr.textContent = 'Group chat';
+    box.appendChild(hdr);
+
+    const bdy = document.createElement('div');
+    bdy.className = 'textchain-body';
+    t.messages.forEach(msg => {
+      const row = document.createElement('div');
+      row.className = 'msg';
+      row.innerHTML = `
+        <span class="msg-sender">${msg.sender}<br><span class="msg-time">${msg.time}</span></span>
+        <span class="msg-text">${msg.text}</span>`;
+      bdy.appendChild(row);
+    });
+    box.appendChild(bdy);
+    return box;
+  }
+}
+
+function selectAnswer(oi, qData, clickedOpt, optsContainer, feedback) {
+  const opts = optsContainer.querySelectorAll('.opt');
+  opts.forEach(o => o.onclick = null);
+  clickedOpt.classList.add(oi === qData.ans ? 'correct' : 'wrong');
+  if (oi !== qData.ans) opts[qData.ans].classList.add('reveal');
+  answers.push(oi);
+
+  const isRight = oi === qData.ans;
+  feedback.className = 'feedback show ' + (isRight ? 'good' : 'bad');
+  feedback.innerHTML = `<div class="feedback-title">${isRight ? 'Correct!' : 'Not quite.'}</div>${qData.exp}`;
+
+  document.getElementById('nextBtn').disabled = false;
+
+  // Update dot
+  const dots = document.getElementById('progDots').children;
+  if (dots[qi]) dots[qi].className = 'pdot ' + (isRight ? 'correct' : 'wrong');
+}
+
+function nextQuestion() {
+  qi++;
+  if (qi >= allQuestions.length) {
+    clearInterval(timerInterval);
+    finishQuiz();
+  } else {
+    renderQuestion();
+    window.scrollTo(0, 0);
+  }
+}
+
+// ── RESULTS ───────────────────────────────────────────────────────────────────
+function finishQuiz() {
+  // Make sure all answers are recorded for time-out case
+  while (answers.length < allQuestions.length) answers.push(-1);
+
+  const correct = answers.filter((a, i) => a === allQuestions[i].ans).length;
+  const total = allQuestions.length;
+  const pct = Math.round(correct / total * 100);
+
+  document.getElementById('scoreNum').textContent = correct + '/' + total;
+
+  let title, desc;
+  if (pct === 100) { title = 'Perfect!'; desc = 'Every question correct. You read for purpose and detail exactly right.' }
+  else if (pct >= 70) { title = 'Well done!'; desc = 'Strong performance. Review the ones you missed — pay attention to what the text actually says vs. what seems logical.' }
+  else if (pct >= 50) { title = 'Good effort!'; desc = 'Getting there. Focus on identifying the main purpose of each text before reading the questions.' }
+  else { title = 'Keep going!'; desc = 'Re-read the explanations below. Tip: skim the text first, then scan for the specific answer.' }
+
+  document.getElementById('scoreTitle').textContent = title;
+  document.getElementById('scoreDesc').textContent = desc;
+
+  const rl = document.getElementById('reviewList');
+  rl.innerHTML = '';
+  allQuestions.forEach((q, i) => {
+    const userAns = answers[i];
+    const ok = userAns === q.ans;
+    const letters = ['A', 'B', 'C', 'D'];
+    const task = TASKS[q.taskIdx];
+
+    const item = document.createElement('div');
+    item.className = 'review-item ' + (ok ? 'r-ok' : 'r-bad');
+    item.innerHTML = `
+      <div class="ri-icon ${ok ? 'ok' : 'no'}">${ok ? '✓' : '✗'}</div>
+      <div class="ri-content">
+        <div class="ri-q">Q${i + 1} <span style="font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;background:${task.typeBg};color:${task.typeColor};margin-left:4px">${task.type}</span> — ${q.q}</div>
+        <div class="ri-ans">
+          Your answer: <strong>${userAns >= 0 ? letters[userAns] + '. ' + q.opts[userAns] : 'No answer'}</strong>
+          ${!ok ? `<br>Correct: <strong style="color:#0f6e56">${letters[q.ans]}. ${q.opts[q.ans]}</strong>` : ''}
+        </div>
+        ${!ok ? `<div class="ri-exp">${q.exp}</div>` : ''}
+      </div>`;
+    rl.appendChild(item);
+  });
+
+  showScreen('results');
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
