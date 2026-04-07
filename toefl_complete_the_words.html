@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL – Complete the Words</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f6fa;color:#1f2937;min-height:100vh}
+.screen{display:none;max-width:780px;margin:0 auto;padding:1.5rem}
+.screen.active{display:block}
+.home-hero{text-align:center;padding:2.5rem 1rem 1.5rem}
+.home-hero h1{font-size:26px;font-weight:700;color:#1a2744;margin-bottom:8px}
+.home-hero p{font-size:15px;color:#64748b;line-height:1.6;max-width:500px;margin:0 auto}
+.task-info{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.task-info h2{font-size:15px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.task-info ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.task-info li{font-size:13.5px;color:#374151;padding-left:20px;position:relative;line-height:1.5}
+.task-info li::before{content:"→";position:absolute;left:0;color:#1b7a8c;font-weight:700}
+.passage-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.pcard{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1rem 1.25rem;cursor:pointer;transition:border-color .15s,box-shadow .15s;display:flex;align-items:center;gap:14px}
+.pcard:hover{border-color:#1b7a8c;box-shadow:0 2px 8px rgba(27,122,140,.1)}
+.pcard.done{border-color:#1d9e75;background:#f0faf6}
+.pcard-num{width:36px;height:36px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#0f6e56;flex-shrink:0}
+.pcard.done .pcard-num{background:#1d9e75;color:#fff}
+.pcard-info h3{font-size:14px;font-weight:600;color:#1f2937;margin-bottom:2px}
+.pcard-info p{font-size:12px;color:#64748b}
+.pcard-badge{margin-left:auto;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:#e1f5ee;color:#0f6e56;white-space:nowrap;flex-shrink:0}
+.quiz-top{display:flex;align-items:center;justify-content:space-between;padding:10px 0 16px;border-bottom:1px solid #e8ecf4;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
+.quiz-label{font-size:13px;font-weight:600;color:#1b7a8c;background:#e1f5ee;padding:4px 12px;border-radius:20px}
+.quiz-meta{font-size:13px;color:#64748b}
+.timer{font-size:16px;font-weight:700;color:#1f2937;background:#f5f6fa;padding:5px 16px;border-radius:8px;border:1px solid #e8ecf4;min-width:70px;text-align:center;font-variant-numeric:tabular-nums}
+.timer.warn{color:#a32d2d;border-color:#f7c1c1;background:#fcebeb}
+.instructions{background:#e6f1fb;border:1px solid #b5d4f4;border-radius:10px;padding:.85rem 1rem;margin-bottom:1.25rem;font-size:13.5px;color:#185fa5;line-height:1.6}
+
+/* ── PASSAGE ── */
+.passage-wrap{
+  background:#fff;border:1px solid #e8ecf4;border-radius:12px;
+  padding:1.5rem 1.75rem;margin-bottom:1.5rem;
+  font-size:16px;line-height:2.8;color:#1f2937;
+}
+/* inline word: prefix + input with dashes */
+.word-item{
+  display:inline-flex;align-items:baseline;gap:0;
+  white-space:nowrap;
+}
+.word-prefix{font-size:16px;color:#1f2937;font-weight:400}
+
+/* The input is sized to match letter count */
+.blank-wrap{
+  display:inline-block;position:relative;
+  /* height of the input + underline */
+}
+.blank-input{
+  display:block;
+  border:none;
+  border-bottom:2.5px solid #378add;
+  background:transparent;
+  font-size:16px;font-family:'Courier New',Courier,monospace;font-weight:700;
+  color:#185fa5;
+  outline:none;
+  padding:0 2px 4px 2px;
+  text-align:center;
+  letter-spacing:5px;
+  transition:border-color .15s;
+  position:relative;z-index:4;
+}
+.blank-input::placeholder{
+  color:#1f2937;
+  font-weight:900;
+  letter-spacing:5px;
+  font-size:16px;
+  opacity:1;
+}
+.blank-input:focus::placeholder{color:#c0c8d4;}
+.blank-input.correct{border-bottom-color:#1d9e75 !important;color:#0f6e56}
+.blank-input.wrong{border-bottom-color:#d85a30 !important;color:#c0392b}
+.blank-input.revealed{border-bottom-color:#e8a838 !important;color:#854f0b}
+.dashes{display:none}
+.dash{display:none}
+
+.quiz-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+button{font-family:inherit;font-size:14px;padding:9px 20px;border-radius:8px;cursor:pointer;border:1px solid #d3d1c7;background:#fff;color:#1f2937;transition:background .12s}
+button:hover{background:#f5f6fa}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:#1a2744;color:#fff;border-color:#1a2744}
+button.primary:hover:not(:disabled){background:#243460}
+
+.result-wrap{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.5rem;margin:1rem 0}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.score-circle{width:88px;height:88px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #378add;background:#e6f1fb;flex-shrink:0}
+.score-num{font-size:26px;font-weight:700;color:#185fa5}
+.score-lbl{font-size:10px;color:#185fa5;font-weight:600}
+.score-msg h3{font-size:17px;font-weight:700;color:#1f2937;margin-bottom:4px}
+.score-msg p{font-size:13.5px;color:#64748b;line-height:1.5;max-width:440px}
+.answer-review{border-top:1px solid #e8ecf4;padding-top:1rem;margin-top:1rem}
+.answer-review h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:10px}
+.answer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.answer-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;background:#f5f6fa;border-radius:8px;padding:8px 10px}
+.ai-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ai-icon.ok{background:#1d9e75;color:#fff}
+.ai-icon.no{background:#d85a30;color:#fff}
+.ai-text{line-height:1.55;flex:1}
+.ai-label{font-size:11px;color:#64748b}
+.ai-correct{color:#0f6e56;font-weight:700}
+.ai-wrong{color:#c0392b;font-weight:700;text-decoration:line-through;margin-right:4px}
+.passage-review-box{background:#f5f6fa;border:1px solid #e8ecf4;border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.25rem;font-size:15.5px;line-height:2.6;color:#1f2937}
+.passage-review-box h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:14px}
+.r-ok{color:#0f6e56;font-weight:700;background:#d8f3e8;padding:0 3px 1px;border-radius:3px}
+.r-bad{color:#c0392b;font-weight:700;background:#fde8e4;padding:0 3px 1px;border-radius:3px;text-decoration:line-through;font-size:13px;margin-right:2px}
+.r-fix{color:#0f6e56;font-weight:700;background:#d8f3e8;padding:0 3px 1px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-hero">
+    <h1>Complete the Words</h1>
+    <p>TOEFL Reading practice — fill in the missing letters, just like on test day.</p>
+  </div>
+  <div class="task-info">
+    <h2>How it works</h2>
+    <ul>
+      <li>Each blank shows <strong>exactly how many letters are missing</strong> using underscores</li>
+      <li>The first letters of the word are already shown — type only the missing part</li>
+      <li>No multiple choice — just like the real TOEFL</li>
+      <li>Press <strong>Tab</strong> to move to the next blank</li>
+      <li><strong>4 minutes</strong> per passage</li>
+    </ul>
+  </div>
+  <div class="passage-cards" id="cardList"></div>
+  <p style="font-size:12px;color:#64748b;text-align:center;margin-top:.5rem">Source: TST Prep — 100 Practice Questions for the TOEFL® Reading Section (2026)</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="quiz-top">
+    <span class="quiz-label" id="qLabel"></span>
+    <span class="quiz-meta" id="qMeta"></span>
+    <div class="timer" id="timer">4:00</div>
+  </div>
+  <div class="instructions">
+    Fill in the <strong>missing letters</strong>. Each blank shows the <strong>exact number of missing letters</strong> as underscores. The first part of each word is already visible — type only what's missing.
+  </div>
+  <div class="passage-wrap" id="passageWrap"></div>
+  <div class="quiz-actions">
+    <button id="revealBtn" onclick="revealAll()">Show answers</button>
+    <button class="primary" id="checkBtn" onclick="checkAnswers()">Check my answers</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="result-wrap">
+    <div class="score-row">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum"></div>
+        <div class="score-lbl">correct</div>
+      </div>
+      <div class="score-msg">
+        <h3 id="scoreTitle"></h3>
+        <p id="scoreDesc"></p>
+      </div>
+    </div>
+    <div class="answer-review">
+      <h4>Answer breakdown</h4>
+      <div class="answer-grid" id="answerGrid"></div>
+    </div>
+    <div class="passage-review-box">
+      <h4>Full passage — answers highlighted</h4>
+      <div id="reviewBody"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+    <button onclick="retryPassage()">Try again</button>
+    <button class="primary" onclick="goHome()">Back to passages</button>
+  </div>
+</div>
+
+<script>
+const PASSAGES = [
+  {
+    title:"Rainforests", topic:"Nature & Environment", blanks:10,
+    tokens:[
+      "Rainforests are dense regions filled with tall trees and countless living things. ",
+      {prefix:"Wa",answer:"rm"}," air ",
+      {prefix:"a",answer:"nd"}," heavy ",
+      {prefix:"ra",answer:"in"}," create ",
+      {prefix:"t",answer:"he"}," ideal ",
+      {prefix:"envi",answer:"ronment"}," for ",
+      {prefix:"pl",answer:"ants"}," to ",
+      {prefix:"gr",answer:"ow"}," all ",
+      {prefix:"ye",answer:"ar"},". As ",
+      {prefix:"le",answer:"aves"}," fall ",
+      {prefix:"a",answer:"nd"},
+      " decay, they return nutrients to the soil, supporting new life. Animals from insects to large cats depend on this balance for food and shelter. When large areas are cleared, the entire system weakens, and the forest struggles to recover."
+    ]
+  },
+  {
+    title:"The Moon", topic:"Science & Space", blanks:10,
+    tokens:[
+      "The Moon appears bright because its surface reflects sunlight toward Earth. Over ",
+      {prefix:"bil",answer:"lions"}," of ",
+      {prefix:"ye",answer:"ars"},", countless ",
+      {prefix:"imp",answer:"acts"}," have ",
+      {prefix:"cov",answer:"ered"}," it ",
+      {prefix:"wi",answer:"th"}," fine ",
+      {prefix:"du",answer:"st"}," and ",
+      {prefix:"ro",answer:"ck"}," fragments. ",
+      {prefix:"Th",answer:"ese"}," scars ",
+      {prefix:"re",answer:"main"}," unchanged ",
+      {prefix:"bec",answer:"ause"},
+      " the Moon has no wind or rain to wear them away. Scientists study the patterns of craters to learn how often objects hit our solar system. Each mark on its surface tells a small part of the Moon's long and silent history."
+    ]
+  },
+  {
+    title:"Sound", topic:"Physics", blanks:10,
+    tokens:[
+      "Sound travels as waves that move through air, water, or solid material. ",
+      {prefix:"Wh",answer:"en"}," something ",
+      {prefix:"vib",answer:"rates"},", it ",
+      {prefix:"pu",answer:"shes"}," and ",
+      {prefix:"pu",answer:"lls"}," nearby ",
+      {prefix:"part",answer:"icles"},", creating ",
+      {prefix:"pat",answer:"terns"}," of ",
+      {prefix:"mot",answer:"ion"}," that ",
+      {prefix:"o",answer:"ur"}," ears ",
+      {prefix:"c",answer:"an"}," detect. ",
+      {prefix:"Fa",answer:"ster"},
+      " vibrations make higher sounds, while slower ones produce deeper tones. The strength of these waves affects how loud the sound feels. Although invisible, sound connects people every day through voices, music, and the natural noises around us."
+    ]
+  }
+];
+
+let currentIdx=0, timerInterval=null, secondsLeft=240;
+let scores=new Array(PASSAGES.length).fill(null);
+let userAnswers=[];
+
+function buildHome(){
+  const cl=document.getElementById('cardList');
+  cl.innerHTML='';
+  PASSAGES.forEach((p,i)=>{
+    const done=scores[i]!==null;
+    const d=document.createElement('div');
+    d.className='pcard'+(done?' done':'');
+    d.onclick=()=>startPassage(i);
+    d.innerHTML=`<div class="pcard-num">${done?'✓':i+1}</div>
+      <div class="pcard-info"><h3>Passage ${i+1}: ${p.title}</h3><p>${p.topic} · ${p.blanks} blanks · 4 min</p></div>
+      ${done?`<div class="pcard-badge">${scores[i]}/${p.blanks} correct</div>`:''}`;
+    cl.appendChild(d);
+  });
+}
+
+function goHome(){clearInterval(timerInterval);buildHome();showScreen('home');}
+
+function startPassage(idx){
+  currentIdx=idx; secondsLeft=240; userAnswers=[];
+  const p=PASSAGES[idx];
+  document.getElementById('qLabel').textContent=`Passage ${idx+1}: ${p.title}`;
+  document.getElementById('qMeta').textContent=`${p.blanks} blanks`;
+  document.getElementById('checkBtn').disabled=false;
+  document.getElementById('revealBtn').disabled=false;
+  renderPassage(p);
+  startTimer();
+  showScreen('quiz');
+  setTimeout(()=>{const f=document.querySelector('.blank-input');if(f)f.focus();},100);
+}
+
+function renderPassage(p){
+  const wrap=document.getElementById('passageWrap');
+  wrap.innerHTML='';
+
+  p.tokens.forEach(tok=>{
+    if(typeof tok==='string'){wrap.appendChild(document.createTextNode(tok));return;}
+
+    const len=tok.answer.length;
+    // Calculate width: each char ~11px minimum, at least 11*len
+    const charPx=15;
+    const w=Math.max(len*charPx, 28);
+
+    // Container
+    const wi=document.createElement('span');
+    wi.className='word-item';
+
+    // Prefix
+    if(tok.prefix){
+      const pfx=document.createElement('span');
+      pfx.className='word-prefix';
+      pfx.textContent=tok.prefix;
+      wi.appendChild(pfx);
+    }
+
+    // Wrap for input + dashes
+    const bw=document.createElement('span');
+    bw.className='blank-wrap';
+    bw.style.width=w+'px';
+    bw.style.display='inline-block';
+
+    const inp=document.createElement('input');
+    inp.type='text';
+    inp.className='blank-input';
+    inp.dataset.answer=tok.answer.toLowerCase();
+    inp.maxLength=len+1;
+    inp.style.width=w+'px';
+    inp.setAttribute('autocomplete','off');
+    inp.setAttribute('autocorrect','off');
+    inp.setAttribute('autocapitalize','off');
+    inp.setAttribute('spellcheck','false');
+    // Placeholder shows exact number of underscores
+    inp.placeholder = '_'.repeat(len);
+    bw.appendChild(inp);
+
+    // Dashes
+    const dr=document.createElement('span');
+    dr.className='dashes';
+    for(let i=0;i<len;i++){
+      const dc=document.createElement('span');
+      dc.className='dash';
+      dc.textContent='_';
+      dr.appendChild(dc);
+    }
+    bw.appendChild(dr);
+    wi.appendChild(bw);
+    wrap.appendChild(wi);
+  });
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval=setInterval(()=>{
+    secondsLeft--;
+    updateTimerDisplay();
+    if(secondsLeft<=0){clearInterval(timerInterval);checkAnswers();}
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(secondsLeft/60),s=secondsLeft%60;
+  const el=document.getElementById('timer');
+  el.textContent=m+':'+(s<10?'0':'')+s;
+  el.className='timer'+(secondsLeft<=60?' warn':'');
+}
+
+function getInputs(){return Array.from(document.querySelectorAll('#passageWrap .blank-input'));}
+
+function checkAnswers(){
+  clearInterval(timerInterval);
+  const inputs=getInputs();
+  let correct=0;
+  userAnswers=[];
+  inputs.forEach(inp=>{
+    const user=inp.value.trim().toLowerCase();
+    const ans=inp.dataset.answer;
+    userAnswers.push(user);
+    inp.disabled=true;
+    inp.classList.remove('correct','wrong','revealed');
+    if(user===ans){inp.classList.add('correct');correct++;}
+    else{inp.classList.add('wrong');}
+  });
+  scores[currentIdx]=correct;
+  document.getElementById('checkBtn').disabled=true;
+  document.getElementById('revealBtn').disabled=true;
+  setTimeout(()=>showResults(correct,inputs),350);
+}
+
+function revealAll(){
+  clearInterval(timerInterval);
+  const inputs=getInputs();
+  userAnswers=[];
+  inputs.forEach(inp=>{
+    const user=inp.value.trim().toLowerCase();
+    userAnswers.push(user);
+    inp.disabled=true;
+    inp.classList.remove('correct','wrong','revealed');
+    if(user===inp.dataset.answer){inp.classList.add('correct');}
+    else{inp.value=inp.dataset.answer;inp.classList.add('revealed');}
+  });
+  document.getElementById('checkBtn').disabled=true;
+  document.getElementById('revealBtn').disabled=true;
+}
+
+function retryPassage(){scores[currentIdx]=null;startPassage(currentIdx);}
+
+function showResults(correct,inputs){
+  const p=PASSAGES[currentIdx];
+  const total=p.blanks;
+  const pct=Math.round(correct/total*100);
+  document.getElementById('scoreNum').textContent=correct+'/'+total;
+
+  let title,desc;
+  if(pct===100){title='Perfect!';desc='Every blank correct. You read context clues and word endings perfectly.';}
+  else if(pct>=80){title='Great work!';desc='Almost there. Review the missed blanks — check the word endings in the answer.';}
+  else if(pct>=60){title='Good effort!';desc='Getting there! Always read the full sentence before filling each blank.';}
+  else{title='Keep practicing.';desc='Study the answers below. Key tip: read for meaning first, then check the blank.';}
+  document.getElementById('scoreTitle').textContent=title;
+  document.getElementById('scoreDesc').textContent=desc;
+
+  const blanks=p.tokens.filter(t=>typeof t!=='string');
+  const grid=document.getElementById('answerGrid');
+  grid.innerHTML='';
+  blanks.forEach((tok,i)=>{
+    const user=userAnswers[i]||'';
+    const ok=user===tok.answer;
+    const item=document.createElement('div');
+    item.className='answer-item';
+    item.innerHTML=`<div class="ai-icon ${ok?'ok':'no'}">${ok?'✓':'✗'}</div>
+      <div class="ai-text">
+        <div class="ai-label">${tok.prefix} + ___</div>
+        ${ok
+          ?`<span class="ai-correct">${tok.prefix}${tok.answer}</span>`
+          :`<span class="ai-wrong">${tok.prefix}${user||'?'}</span><span class="ai-correct">${tok.prefix}${tok.answer}</span>`
+        }
+      </div>`;
+    grid.appendChild(item);
+  });
+
+  const body=document.getElementById('reviewBody');
+  body.innerHTML='';
+  let bi=0;
+  p.tokens.forEach(tok=>{
+    if(typeof tok==='string'){body.appendChild(document.createTextNode(tok));return;}
+    const user=userAnswers[bi]||'';
+    const ok=user===tok.answer;
+    if(ok){
+      const s=document.createElement('span');s.className='r-ok';
+      s.textContent=tok.prefix+tok.answer;body.appendChild(s);
+    } else {
+      if(user){
+        const sw=document.createElement('span');sw.className='r-bad';
+        sw.textContent=tok.prefix+user;body.appendChild(sw);
+        body.appendChild(document.createTextNode(' '));
+      }
+      const sa=document.createElement('span');sa.className='r-fix';
+      sa.textContent=tok.prefix+tok.answer;body.appendChild(sa);
+    }
+    bi++;
+  });
+
+  showScreen('results');
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+buildHome();
+</script>
+</body>
+</html>
