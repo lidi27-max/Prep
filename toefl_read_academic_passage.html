@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL – Read an Academic Passage</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f6fa;color:#1f2937;min-height:100vh}
+.screen{display:none;max-width:860px;margin:0 auto;padding:1.5rem}
+.screen.active{display:block}
+
+/* HOME */
+.home-hero{text-align:center;padding:2.5rem 1rem 1.5rem}
+.home-hero h1{font-size:26px;font-weight:700;color:#1a2744;margin-bottom:8px}
+.home-hero p{font-size:15px;color:#64748b;line-height:1.6;max-width:540px;margin:0 auto}
+.task-info{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.task-info h2{font-size:15px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.task-info ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.task-info li{font-size:13.5px;color:#374151;padding-left:20px;position:relative;line-height:1.5}
+.task-info li::before{content:"→";position:absolute;left:0;color:#534ab7;font-weight:700}
+.overview-card{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.overview-card p{font-size:13px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.overview-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#374151;margin-bottom:8px}
+.overview-row:last-child{margin-bottom:0}
+.pnum{width:26px;height:26px;border-radius:50%;background:#eeedfe;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#534ab7;flex-shrink:0}
+.start-btn{width:100%;padding:14px;background:#1a2744;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:1rem;transition:background .15s;font-family:inherit}
+.start-btn:hover{background:#243460}
+
+/* QUIZ */
+.quiz-top{display:flex;align-items:center;justify-content:space-between;padding:10px 0 14px;border-bottom:1px solid #e8ecf4;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
+.quiz-label{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;background:#eeedfe;color:#534ab7}
+.quiz-progress{font-size:13px;color:#64748b}
+.timer{font-size:16px;font-weight:700;color:#1f2937;background:#f5f6fa;padding:5px 16px;border-radius:8px;border:1px solid #e8ecf4;min-width:72px;text-align:center;font-variant-numeric:tabular-nums}
+.timer.warn{color:#a32d2d;border-color:#f7c1c1;background:#fcebeb}
+
+/* PASSAGE */
+.passage-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:6px}
+.passage-title{font-size:16px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.passage-box{background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:1.1rem 1.4rem;margin-bottom:1.25rem;font-size:14.5px;line-height:1.85;color:#1f2937}
+.passage-box p{margin-bottom:.75rem}
+.passage-box p:last-child{margin-bottom:0}
+
+/* QUESTIONS */
+.question-block{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:12px}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.q-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#534ab7}
+.q-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:#f5f6fa;color:#64748b;border:1px solid #e8ecf4}
+.q-text{font-size:15px;font-weight:600;color:#1f2937;margin-bottom:12px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px solid #e8ecf4;border-radius:8px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s;font-size:14px;color:#1f2937;line-height:1.45}
+.opt:hover{border-color:#c4b5f4;background:#faf8ff}
+.opt.selected{border-color:#7c3aed;background:#eeedfe}
+.opt.correct{border-color:#0f6e56;background:#e1f5ee;pointer-events:none}
+.opt.wrong{border-color:#993c1d;background:#faece7;pointer-events:none}
+.opt.reveal{border-color:#0f6e56;background:#e1f5ee;pointer-events:none}
+.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid #d3d1c7;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#64748b;flex-shrink:0;margin-top:1px}
+.opt.selected .opt-letter{background:#7c3aed;border-color:#7c3aed;color:#fff}
+.opt.correct .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.opt.wrong .opt-letter{background:#993c1d;border-color:#993c1d;color:#fff}
+.opt.reveal .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.feedback{margin-top:10px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e1f5ee;color:#085041;border:1px solid #9fe1cb}
+.feedback.bad{background:#faece7;color:#4a1b0c;border:1px solid #f5c4b3}
+.feedback-title{font-weight:700;margin-bottom:3px}
+
+/* FOOTER */
+.quiz-footer{padding:1rem 0;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e8ecf4;margin-top:.5rem;position:sticky;bottom:0;background:#f5f6fa}
+.progress-dots{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.pdot{width:9px;height:9px;border-radius:50%;background:#d3d1c7;transition:background .2s}
+.pdot.active{background:#7c3aed;transform:scale(1.2)}
+.pdot.correct{background:#1d9e75}
+.pdot.wrong{background:#d85a30}
+.pdot.separator{width:1px;height:14px;border-radius:0;background:#d3d1c7;margin:0 3px}
+button{font-family:inherit;font-size:14px;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid #d3d1c7;background:#fff;color:#1f2937;transition:background .12s}
+button:hover{background:#f5f6fa}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:#1a2744;color:#fff;border-color:#1a2744}
+button.primary:hover:not(:disabled){background:#243460}
+
+/* RESULTS */
+.results-wrap{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.5rem;margin:1rem 0}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.score-circle{width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #7c3aed;background:#eeedfe;flex-shrink:0}
+.score-num{font-size:26px;font-weight:700;color:#534ab7}
+.score-lbl{font-size:10px;color:#534ab7;font-weight:600}
+.score-msg h3{font-size:17px;font-weight:700;color:#1f2937;margin-bottom:4px}
+.score-msg p{font-size:13.5px;color:#64748b;line-height:1.5;max-width:440px}
+.by-passage{margin-top:1.25rem;border-top:1px solid #e8ecf4;padding-top:1rem}
+.by-passage h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:10px}
+.passage-score-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:13px}
+.ps-bar-wrap{flex:1;background:#f5f6fa;border-radius:20px;height:8px;overflow:hidden}
+.ps-bar{height:8px;border-radius:20px;background:#7c3aed;transition:width .4s}
+.review-section{border-top:1px solid #e8ecf4;padding-top:1rem;margin-top:1rem}
+.review-section h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:12px}
+.review-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
+.review-item.r-ok{background:#e1f5ee;border:1px solid #9fe1cb}
+.review-item.r-bad{background:#faece7;border:1px solid #f5c4b3}
+.ri-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ri-icon.ok{background:#1d9e75;color:#fff}
+.ri-icon.no{background:#d85a30;color:#fff}
+.ri-content{flex:1;line-height:1.5}
+.ri-q{font-weight:600;color:#1f2937;margin-bottom:3px}
+.ri-psg{font-size:11px;color:#534ab7;font-weight:600;margin-bottom:3px}
+.ri-ans{font-size:12px;color:#64748b}
+.ri-exp{font-size:12px;color:#374151;margin-top:4px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-hero">
+    <h1>Read an Academic Passage</h1>
+    <p>TOEFL Reading practice — read short academic texts and answer comprehension questions.</p>
+  </div>
+  <div class="task-info">
+    <h2>How it works</h2>
+    <ul>
+      <li>Read each passage (~200 words) carefully — it stays visible while you answer</li>
+      <li>5 questions per passage covering all major question types</li>
+      <li>Immediate feedback with explanation after each answer</li>
+      <li><strong>15 minutes</strong> for all 3 passages — pace yourself</li>
+      <li>Full score breakdown by passage at the end</li>
+    </ul>
+  </div>
+  <div class="overview-card">
+    <p>You will read:</p>
+    <div class="overview-row"><div class="pnum">1</div>The Evolution of Money · 5 questions</div>
+    <div class="overview-row"><div class="pnum">2</div>The Hidden Life of Soil · 5 questions</div>
+    <div class="overview-row"><div class="pnum">3</div>The Double Edge of Facial Recognition · 5 questions</div>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Start practice →</button>
+  <p style="font-size:12px;color:#64748b;text-align:center">Source: TST Prep — 100 Practice Questions for the TOEFL® Reading Section (2026)</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="quiz-top">
+    <span class="quiz-label" id="qLabel">Read an Academic Passage</span>
+    <span class="quiz-progress" id="qProgress"></span>
+    <div class="timer" id="timer">15:00</div>
+  </div>
+  <div id="quizBody"></div>
+  <div class="quiz-footer">
+    <div class="progress-dots" id="progDots"></div>
+    <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="results-wrap">
+    <div class="score-row">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum"></div>
+        <div class="score-lbl">correct</div>
+      </div>
+      <div class="score-msg">
+        <h3 id="scoreTitle"></h3>
+        <p id="scoreDesc"></p>
+      </div>
+    </div>
+    <div class="by-passage">
+      <h4>Score by passage</h4>
+      <div id="byPassage"></div>
+    </div>
+    <div class="review-section">
+      <h4>Question review</h4>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+    <button onclick="restartQuiz()">Try again</button>
+    <button class="primary" onclick="goHome()">Back to home</button>
+  </div>
+</div>
+
+<script>
+const PASSAGES = [
+  {
+    title: "The Evolution of Money",
+    body: [
+      "For most of human history, trade depended on direct exchange. A farmer might swap grain for a pot or cloth for salt. This system, known as barter, worked only when both parties wanted exactly what the other offered. The difficulty of such \"double coincidence of wants\" encouraged the search for a more flexible medium of exchange. Early societies adopted shells, beads, and metals whose durability and scarcity made them reliable stores of value.",
+      "The invention of coinage around 600 BCE revolutionized commerce. Stamped metal pieces provided an official guarantee of weight and purity, allowing long-distance trade to flourish. Over time, coins gave way to paper notes backed by precious metals, and later to credit systems built on trust in banks rather than gold. Each step represented a gradual move from tangible goods toward abstract promises.",
+      "Today, the rise of digital currencies marks another turning point. Cryptographic systems such as Bitcoin eliminate the need for central authorities, replacing institutional trust with mathematical verification. Supporters see this as a democratization of finance, while critics warn of volatility and environmental costs. Whether electronic or metallic, money continues to evolve as a reflection of the societies that create it."
+    ],
+    qs: [
+      {
+        q: "According to the passage, what problem made barter an inefficient system of trade?",
+        type: "Factual",
+        opts: ["Each trader had to want what the other person offered.", "Barter required government supervision to be fair.", "Farmers could not determine the quality of exchanged goods.", "Early societies needed to adopt the same system of beads and shells."],
+        ans: 0,
+        exp: "The passage states barter 'worked only when both parties wanted exactly what the other offered' — the 'double coincidence of wants.' Options B, C, and D introduce ideas not mentioned in the passage."
+      },
+      {
+        q: "What was one effect of the invention of coinage around 600 BCE?",
+        type: "Factual",
+        opts: ["It caused shells and beads to lose their economic importance.", "It promoted trade over long distances by creating standardized value.", "It diminished the need for paper money in later economies.", "It restricted commerce to only places that used stamped metal pieces."],
+        ans: 1,
+        exp: "The passage says stamped coins 'provided an official guarantee of weight and purity, allowing long-distance trade to flourish.' Option A is not stated. Options C and D misrepresent the effect — coinage expanded trade, not restricted it."
+      },
+      {
+        q: "The word \"durability\" in the passage is closest in meaning to",
+        type: "Vocabulary",
+        opts: ["purity", "rarity", "weight", "strength"],
+        ans: 3,
+        exp: "'Durability' refers to the ability to last over time — closest to 'strength.' The passage uses it alongside 'scarcity' to explain why metals and shells were reliable stores of value. Purity, rarity, and weight are separate qualities not captured by 'durability.'"
+      },
+      {
+        q: "Why does the author mention the \"double coincidence of wants\"?",
+        type: "Rhetorical Purpose",
+        opts: ["To define an early form of currency used in ancient markets.", "To illustrate why barter created obstacles that money later solved.", "To explain why some societies still rely on trade without money.", "To introduce a technical term that describes how bartering led to coin-making."],
+        ans: 1,
+        exp: "The phrase illustrates the core problem with barter — both parties had to want exactly what the other had. The author uses it to motivate the invention of money. It is not a definition of currency (A), not about current societies (C), and barter did not directly lead to coin-making without intermediate steps (D)."
+      },
+      {
+        q: "Where would the following sentence best fit? \"This innovation allowed goods to be traded more easily across regions and cultures.\" (A) After 'reliable stores of value.' (B) After 'revolutionized commerce.' (C) After 'allowing long-distance trade to flourish.' (D) After 'abstract promises.'",
+        type: "Insert Text",
+        opts: ["Position A — after 'reliable stores of value'", "Position B — after 'revolutionized commerce'", "Position C — after 'allowing long-distance trade to flourish'", "Position D — after 'abstract promises'"],
+        ans: 1,
+        exp: "'This innovation' refers to the invention of coinage just mentioned. Position B follows the sentence 'The invention of coinage around 600 BCE revolutionized commerce' — the new sentence elaborates on what that innovation achieved. At A, no innovation has been introduced yet. C and D break the logical flow of the paragraph."
+      }
+    ]
+  },
+  {
+    title: "The Hidden Life of Soil",
+    body: [
+      "Soil appears inert, yet beneath its surface lies one of the planet's most dynamic ecosystems. A single handful contains billions of microorganisms — bacteria, fungi, and tiny invertebrates — interacting in intricate food webs. These organisms decompose organic matter, releasing nutrients that plants need to grow. In this sense, soil functions as both a living factory and a storage system for global carbon.",
+      "Human activity, however, is reshaping this hidden ecosystem in measurable ways. For example, heavy use of nitrogen fertilizers in Europe and China can favor a few bacterial species while killing others, upsetting the natural balance of soil communities. As these microorganisms decline, carbon that was once stored underground escapes into the atmosphere, adding to greenhouse gases. Because these changes occur below the surface, scientists describe soil degradation as a \"quiet crisis\" that receives far less attention than deforestation or melting ice.",
+      "Some regions are now demonstrating how soil recovery can work in practice. In India, farmers who rotate rice and lentil crops are restoring nitrogen levels naturally. The lentils host bacteria that fix nitrogen in the soil, reducing the need for chemical fertilizers and improving yields in the following rice season. These efforts show that reviving soil life is not merely an environmental gesture but a practical climate strategy."
+    ],
+    qs: [
+      {
+        q: "According to the passage, what enables soil to act as a \"living factory\"?",
+        type: "Factual",
+        opts: ["The balance of oxygen and water maintained by plant roots.", "The minerals that form naturally in the soil over time.", "The constant addition of fertilizers invented by microorganisms.", "The interaction of countless organisms that release nutrients."],
+        ans: 3,
+        exp: "The passage explains that billions of microorganisms 'decompose organic matter, releasing nutrients that plants need to grow' — this is what makes soil a living factory. Options A and B are not stated. Option C reverses the relationship: fertilizers are man-made, not invented by microorganisms."
+      },
+      {
+        q: "All of the following are described in the passage as outcomes of soil degradation EXCEPT",
+        type: "Negative Factual",
+        opts: ["The loss of microbial diversity.", "Increased release of carbon into the atmosphere.", "Greater public recognition of underground ecological change.", "Rising greenhouse gas concentrations."],
+        ans: 2,
+        exp: "The passage says soil degradation is a 'quiet crisis that receives far less attention' — the opposite of greater public recognition. Options A, B, and D are all directly stated as consequences of declining microorganisms and fertilizer overuse."
+      },
+      {
+        q: "The word \"inert\" in the passage is closest in meaning to",
+        type: "Vocabulary",
+        opts: ["complex", "valuable", "motionless", "fragile"],
+        ans: 2,
+        exp: "The author uses 'inert' to contrast with the dynamic activity happening beneath the surface — soil looks still and lifeless from the outside. 'Motionless' captures this meaning. The contrast 'appears inert, yet...' signals that the word describes an appearance of inactivity, not complexity, value, or fragility."
+      },
+      {
+        q: "Why does the author refer to farming practices in India?",
+        type: "Rhetorical Purpose",
+        opts: ["To argue that crop rotation is no longer necessary in modern farming.", "To contrast traditional techniques with industrial fertilizer use.", "To show a successful example of restoring soil health.", "To highlight regions most affected by carbon loss from soil."],
+        ans: 2,
+        exp: "The India example concludes the passage with a practical, positive case — rotating rice and lentil crops restores nitrogen naturally. The author uses it to show that recovery is possible. Option A contradicts the passage. B focuses on contrast, but the purpose is not contrast — it's demonstration of a solution. D is wrong because India is cited for innovation, not damage."
+      },
+      {
+        q: "What can be inferred from the passage about nitrogen fertilizers?",
+        type: "Inference",
+        opts: ["They are more effective in Europe than in China.", "Their widespread use may ultimately harm the crops they are meant to support.", "They were developed as a result of soil degradation research.", "They are used primarily in regions with the most fertile soil."],
+        ans: 1,
+        exp: "The passage says fertilizers upset the balance of soil communities, causing microorganisms to decline — and those microorganisms release the nutrients plants need. So heavy fertilizer use can degrade the very ecosystem that sustains crop growth. This is implied, not stated. Options A, C, and D introduce ideas not supported by the text."
+      }
+    ]
+  },
+  {
+    title: "The Double Edge of Facial Recognition",
+    body: [
+      "Facial recognition technology has moved rapidly from science fiction to daily life. Airports now allow passengers to board by looking at a camera, and some stores test systems that identify returning customers. These programs promise speed and convenience, reducing the need for tickets, cards, or passwords. Governments also use them to enhance security, claiming that instant identification can help locate missing persons or prevent crime.",
+      "The city of London provides one of the most ambitious examples. Its \"Live Facial Recognition\" network scans crowded streets, comparing faces with police databases in real time. Supporters praise the system for identifying suspects in large events where manual monitoring would be impossible. However, independent reviews have shown that accuracy can vary depending on lighting, camera angle, and the diversity of the population being scanned. Civil rights groups have challenged the practice in court, arguing that it collects personal data without consent and risks normalizing mass surveillance.",
+      "The London case highlights the dilemma faced by many societies: efficiency versus privacy. The same algorithms that can protect the public can also track it. Whether facial recognition becomes a trusted guardian or a tool of control depends not only on its accuracy but on the values guiding its use."
+    ],
+    qs: [
+      {
+        q: "What is the main idea of the passage?",
+        type: "Factual",
+        opts: ["Facial recognition offers both convenience and significant risks.", "Governments should ban facial recognition because it violates civil liberties.", "The success of facial recognition depends entirely on its technological accuracy.", "The London system has proven that large-scale surveillance is reliable."],
+        ans: 0,
+        exp: "The passage presents both sides — the convenience and security benefits, and the privacy and accuracy concerns. Option B goes further than the passage, which never calls for a ban. Option C is too narrow (accuracy is one factor, not the only one). Option D misrepresents the passage — independent reviews showed accuracy problems with the London system."
+      },
+      {
+        q: "The word \"ambitious\" in the passage is closest in meaning to",
+        type: "Vocabulary",
+        opts: ["reliable", "careful", "secret", "extensive"],
+        ans: 3,
+        exp: "'Ambitious' describes London's facial recognition network as large-scale and far-reaching in scope. 'Extensive' captures this best — it describes something broad and comprehensive. 'Reliable' relates to accuracy, not scale. 'Careful' means cautious. 'Secret' is the opposite — the system operates publicly on city streets."
+      },
+      {
+        q: "Why does the author mention the city of London?",
+        type: "Rhetorical Purpose",
+        opts: ["To describe the first city to ban facial recognition technology.", "To provide a real-world example of facial recognition in practice.", "To explain how civil rights groups have successfully stopped surveillance.", "To show that facial recognition is always effective in identifying criminals."],
+        ans: 1,
+        exp: "London is introduced as 'one of the most ambitious examples' of facial recognition — used to illustrate the technology's real-world application and the debates it raises. Option A is wrong — London has not banned the technology. Option C overstates the outcome (groups challenged it in court, not stopped it). Option D contradicts the passage, which notes accuracy problems."
+      },
+      {
+        q: "According to the passage, what advantage do airports gain by using facial recognition?",
+        type: "Factual",
+        opts: ["It allows passengers to verify their identity without traditional documents.", "It minimizes the need for all airport security checks.", "It increases the efficiency of check-in by eliminating boarding passes.", "It ensures 100% accuracy in identifying every passenger."],
+        ans: 0,
+        exp: "The passage says airports 'allow passengers to board by looking at a camera,' reducing 'the need for tickets, cards, or passwords.' This means passengers verify identity without traditional documents. Option B overstates — not all security checks are eliminated. Option C is close but 'boarding passes' specifically is not mentioned. Option D is not stated — no accuracy guarantee is made."
+      },
+      {
+        q: "What can be inferred about the author's view of facial recognition technology?",
+        type: "Inference",
+        opts: ["It will likely replace all existing forms of personal identification.", "Its impact on society depends on the ethical framework guiding its use.", "Its risks are exaggerated compared with traditional surveillance systems.", "It benefits society as a whole even though some groups oppose it."],
+        ans: 1,
+        exp: "The final sentence states that whether facial recognition becomes 'a trusted guardian or a tool of control depends not only on its accuracy but on the values guiding its use.' This directly implies that ethical governance — not just the technology itself — determines its impact. Options A, C, and D go beyond what the text states or contradict the balanced tone of the passage."
+      }
+    ]
+  }
+];
+
+// Flatten all questions
+let allQ = [];
+PASSAGES.forEach((p, pi) => {
+  p.qs.forEach(q => allQ.push({ ...q, passageIdx: pi }));
+});
+
+let qi = 0, answers = [], timerInterval = null, secondsLeft = 900;
+
+function goHome() { clearInterval(timerInterval); qi=0; answers=[]; secondsLeft=900; showScreen('home'); }
+function restartQuiz() { clearInterval(timerInterval); qi=0; answers=[]; secondsLeft=900; startQuiz(); }
+
+function startQuiz() {
+  startTimer();
+  showScreen('quiz');
+  renderQ();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  updateTimer();
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimer();
+    if (secondsLeft <= 0) { clearInterval(timerInterval); finishQuiz(); }
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = Math.floor(secondsLeft/60), s = secondsLeft%60;
+  const el = document.getElementById('timer');
+  el.textContent = m + ':' + (s<10?'0':'') + s;
+  el.className = 'timer' + (secondsLeft<=120?' warn':'');
+}
+
+function renderQ() {
+  const qd = allQ[qi];
+  const p = PASSAGES[qd.passageIdx];
+  const total = allQ.length;
+  const passageQIdx = allQ.filter((q,i) => i<=qi && q.passageIdx===qd.passageIdx).length;
+
+  document.getElementById('qLabel').textContent = `Passage ${qd.passageIdx+1} of 3`;
+  document.getElementById('qProgress').textContent = `Question ${qi+1} of ${total}`;
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').textContent = qi < total-1 ? 'Next' : 'See results';
+
+  // Progress dots with passage separators
+  const pd = document.getElementById('progDots');
+  pd.innerHTML = '';
+  let lastPassage = -1;
+  allQ.forEach((q, i) => {
+    if (q.passageIdx !== lastPassage && lastPassage !== -1) {
+      const sep = document.createElement('div'); sep.className='pdot separator'; pd.appendChild(sep);
+    }
+    const dot = document.createElement('div');
+    let cls = 'pdot';
+    if (i===qi) cls+=' active';
+    else if (i<answers.length) cls += answers[i]===allQ[i].ans?' correct':' wrong';
+    dot.className=cls; pd.appendChild(dot);
+    lastPassage = q.passageIdx;
+  });
+
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  // Passage (always visible)
+  const plbl = document.createElement('div'); plbl.className='passage-label';
+  plbl.textContent = `Read an academic passage.`; body.appendChild(plbl);
+  const ptitle = document.createElement('div'); ptitle.className='passage-title';
+  ptitle.textContent = p.title; body.appendChild(ptitle);
+  const pbox = document.createElement('div'); pbox.className='passage-box';
+  p.body.forEach(para => { const el=document.createElement('p'); el.textContent=para; pbox.appendChild(el); });
+  body.appendChild(pbox);
+
+  // Question block
+  const qBlock = document.createElement('div'); qBlock.className='question-block';
+  const qmeta = document.createElement('div'); qmeta.className='q-meta';
+  const qnum = document.createElement('div'); qnum.className='q-num';
+  qnum.textContent = `Question ${passageQIdx} of 5`;
+  const qtbadge = document.createElement('div'); qtbadge.className='q-type-badge';
+  qtbadge.textContent = qd.type;
+  qmeta.appendChild(qnum); qmeta.appendChild(qtbadge); qBlock.appendChild(qmeta);
+  const qtext = document.createElement('div'); qtext.className='q-text'; qtext.textContent=qd.q;
+  qBlock.appendChild(qtext);
+
+  const opts = document.createElement('div'); opts.className='options';
+  const feedback = document.createElement('div'); feedback.className='feedback';
+  const letters = ['A','B','C','D'];
+  qd.opts.forEach((opt,oi) => {
+    const o = document.createElement('div'); o.className='opt';
+    o.innerHTML=`<div class="opt-letter">${letters[oi]}</div><div>${opt}</div>`;
+    o.onclick = () => selectAnswer(oi, qd, o, opts, feedback);
+    opts.appendChild(o);
+  });
+  qBlock.appendChild(opts); qBlock.appendChild(feedback); body.appendChild(qBlock);
+  window.scrollTo(0,0);
+}
+
+function selectAnswer(oi, qd, clicked, optsContainer, feedback) {
+  optsContainer.querySelectorAll('.opt').forEach(o => o.onclick=null);
+  clicked.classList.add(oi===qd.ans?'correct':'wrong');
+  if (oi!==qd.ans) optsContainer.querySelectorAll('.opt')[qd.ans].classList.add('reveal');
+  answers.push(oi);
+  const ok = oi===qd.ans;
+  feedback.className='feedback show '+(ok?'good':'bad');
+  feedback.innerHTML=`<div class="feedback-title">${ok?'Correct!':'Not quite.'}</div>${qd.exp}`;
+  document.getElementById('nextBtn').disabled=false;
+  const dots = document.getElementById('progDots');
+  // update current dot
+  let dotIdx = 0, sep = 0;
+  for (let i=0; i<allQ.length; i++) {
+    if (i>0 && allQ[i].passageIdx!==allQ[i-1].passageIdx) sep++;
+    if (i===qi) { dots.children[dotIdx+sep].className='pdot '+(ok?'correct':'wrong'); break; }
+    dotIdx++;
+  }
+}
+
+function nextQuestion() {
+  qi++;
+  if (qi>=allQ.length) { clearInterval(timerInterval); finishQuiz(); }
+  else renderQ();
+}
+
+function finishQuiz() {
+  while (answers.length<allQ.length) answers.push(-1);
+  const correct = answers.filter((a,i)=>a===allQ[i].ans).length;
+  const total = allQ.length;
+  const pct = Math.round(correct/total*100);
+  document.getElementById('scoreNum').textContent=correct+'/'+total;
+  let title, desc;
+  if(pct===100){title='Perfect!';desc='Outstanding — every question correct across all three passages.';}
+  else if(pct>=80){title='Excellent work!';desc='Strong academic reading skills. Review the ones you missed and note the question type — each type requires a different strategy.';}
+  else if(pct>=60){title='Good progress!';desc='You\'re building strong skills. Focus on the question types you missed most — check your review below.';}
+  else{title='Keep practicing.';desc='Academic passages take time to master. Re-read the explanations carefully and note which question types are hardest for you.';}
+  document.getElementById('scoreTitle').textContent=title;
+  document.getElementById('scoreDesc').textContent=desc;
+
+  // By passage scores
+  const bp = document.getElementById('byPassage');
+  bp.innerHTML='';
+  PASSAGES.forEach((p,pi) => {
+    const pqs = allQ.filter((_,i)=>allQ[i].passageIdx===pi);
+    const pStart = allQ.findIndex(q=>q.passageIdx===pi);
+    const pCorrect = pqs.filter((_,i)=>answers[pStart+i]===pqs[i].ans).length;
+    const row = document.createElement('div'); row.className='passage-score-row';
+    row.innerHTML=`<span style="font-size:13px;font-weight:600;color:#1f2937;min-width:200px">${p.title}</span>
+      <div class="ps-bar-wrap"><div class="ps-bar" style="width:${pCorrect/5*100}%"></div></div>
+      <span style="font-size:13px;font-weight:700;color:#534ab7;min-width:36px;text-align:right">${pCorrect}/5</span>`;
+    bp.appendChild(row);
+  });
+
+  // Review list
+  const rl = document.getElementById('reviewList');
+  rl.innerHTML='';
+  allQ.forEach((qd,i) => {
+    const user=answers[i]; const ok=user===qd.ans;
+    const letters=['A','B','C','D'];
+    const item=document.createElement('div'); item.className='review-item '+(ok?'r-ok':'r-bad');
+    item.innerHTML=`<div class="ri-icon ${ok?'ok':'no'}">${ok?'✓':'✗'}</div>
+      <div class="ri-content">
+        <div class="ri-psg">${PASSAGES[qd.passageIdx].title} · ${qd.type}</div>
+        <div class="ri-q">${qd.q.length>80?qd.q.slice(0,80)+'…':qd.q}</div>
+        <div class="ri-ans">Your answer: <strong>${user>=0?letters[user]+'. '+qd.opts[user]:'No answer'}</strong>
+          ${!ok?`<br>Correct: <strong style="color:#0f6e56">${letters[qd.ans]}. ${qd.opts[qd.ans]}</strong>`:''}
+        </div>
+        ${!ok?`<div class="ri-exp">${qd.exp}</div>`:''}
+      </div>`;
+    rl.appendChild(item);
+  });
+  showScreen('results');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
