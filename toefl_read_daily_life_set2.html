@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL – Read in Daily Life · Set 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f6fa;color:#1f2937;min-height:100vh}
+.screen{display:none;max-width:820px;margin:0 auto;padding:1.5rem}
+.screen.active{display:block}
+
+/* HOME */
+.home-hero{text-align:center;padding:2.5rem 1rem 1.5rem}
+.home-hero h1{font-size:26px;font-weight:700;color:#1a2744;margin-bottom:8px}
+.home-hero p{font-size:15px;color:#64748b;line-height:1.6;max-width:520px;margin:0 auto}
+.task-info{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.task-info h2{font-size:15px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.task-info ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.task-info li{font-size:13.5px;color:#374151;padding-left:20px;position:relative;line-height:1.5}
+.task-info li::before{content:"→";position:absolute;left:0;color:#185fa5;font-weight:700}
+.overview-card{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.overview-card p{font-size:13px;font-weight:700;color:#1a2744;margin-bottom:10px}
+.overview-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#374151;margin-bottom:8px}
+.overview-row:last-child{margin-bottom:0}
+.type-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.start-btn{width:100%;padding:14px;background:#1a2744;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:1rem;transition:background .15s;font-family:inherit}
+.start-btn:hover{background:#243460}
+
+/* QUIZ HEADER */
+.quiz-top{display:flex;align-items:center;justify-content:space-between;padding:10px 0 16px;border-bottom:1px solid #e8ecf4;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
+.quiz-label{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
+.quiz-progress{font-size:13px;color:#64748b}
+.timer{font-size:16px;font-weight:700;color:#1f2937;background:#f5f6fa;padding:5px 16px;border-radius:8px;border:1px solid #e8ecf4;min-width:72px;text-align:center;font-variant-numeric:tabular-nums}
+.timer.warn{color:#a32d2d;border-color:#f7c1c1;background:#fcebeb}
+
+/* TEXT TYPE LABEL */
+.text-type-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:8px}
+
+/* SIGN */
+.sign-box{background:#fff;border:3px solid #1f2937;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;text-align:center;max-width:420px}
+.sign-title{font-size:16px;font-weight:900;color:#1f2937;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;border-bottom:2px solid #1f2937;padding-bottom:8px}
+.sign-body{font-size:14px;color:#1f2937;line-height:1.7}
+.sign-body p{margin-bottom:6px}
+.sign-body p:last-child{margin-bottom:0}
+.sign-note{font-size:12px;color:#64748b;margin-top:10px;font-style:italic}
+
+/* EMAIL */
+.email-box{background:#fff;border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.email-header{background:#f9fafb;border-bottom:1px solid #e8ecf4;padding:.75rem 1.1rem;display:flex;flex-direction:column;gap:3px}
+.email-field{display:flex;gap:8px;font-size:13px;line-height:1.6}
+.email-field-label{font-weight:700;color:#64748b;min-width:52px;flex-shrink:0}
+.email-field-val{color:#1f2937}
+.email-body{padding:1.1rem 1.25rem;font-size:14px;line-height:1.85;color:#1f2937;white-space:pre-wrap}
+
+/* ADVERTISEMENT */
+.ad-box{background:#fff;border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.ad-banner{background:#1a2744;padding:.9rem 1.25rem;text-align:center}
+.ad-banner-title{font-size:18px;font-weight:900;color:#e8a838;letter-spacing:.5px;margin-bottom:2px}
+.ad-banner-sub{font-size:12px;color:#d6eef5;letter-spacing:.3px}
+.ad-body{padding:1rem 1.25rem;font-size:14px;line-height:1.8;color:#1f2937}
+.ad-highlight{background:#fef3dc;border-left:3px solid #e8a838;padding:8px 12px;margin:10px 0;font-size:13.5px;font-weight:600;color:#1f2937;border-radius:0 6px 6px 0}
+.ad-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ad-detail{background:#f5f6fa;border-radius:6px;padding:8px 10px;font-size:13px;color:#374151}
+.ad-detail strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;margin-bottom:2px}
+.ad-footer{border-top:1px solid #e8ecf4;padding:.65rem 1.25rem;font-size:12px;color:#64748b;background:#f9fafb}
+
+/* QUESTIONS */
+.question-block{background:#fff;border:1px solid #e8ecf4;border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:12px}
+.q-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#185fa5;margin-bottom:6px}
+.q-text{font-size:15px;font-weight:600;color:#1f2937;margin-bottom:12px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px solid #e8ecf4;border-radius:8px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s;font-size:14px;color:#1f2937;line-height:1.45}
+.opt:hover{border-color:#b5d4f4;background:#f5f9ff}
+.opt.selected{border-color:#378add;background:#e6f1fb}
+.opt.correct{border-color:#0f6e56;background:#e1f5ee;pointer-events:none}
+.opt.wrong{border-color:#993c1d;background:#faece7;pointer-events:none}
+.opt.reveal{border-color:#0f6e56;background:#e1f5ee;pointer-events:none}
+.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid #d3d1c7;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#64748b;flex-shrink:0;margin-top:1px}
+.opt.selected .opt-letter{background:#378add;border-color:#378add;color:#fff}
+.opt.correct .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.opt.wrong .opt-letter{background:#993c1d;border-color:#993c1d;color:#fff}
+.opt.reveal .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.feedback{margin-top:10px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e1f5ee;color:#085041;border:1px solid #9fe1cb}
+.feedback.bad{background:#faece7;color:#4a1b0c;border:1px solid #f5c4b3}
+.feedback-title{font-weight:700;margin-bottom:3px}
+
+/* FOOTER ACTIONS */
+.task-actions{padding:1rem 0;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e8ecf4;margin-top:.5rem}
+.progress-dots{display:flex;gap:5px;align-items:center}
+.pdot{width:9px;height:9px;border-radius:50%;background:#d3d1c7;transition:background .2s}
+.pdot.active{background:#378add;transform:scale(1.2)}
+.pdot.correct{background:#1d9e75}
+.pdot.wrong{background:#d85a30}
+button{font-family:inherit;font-size:14px;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid #d3d1c7;background:#fff;color:#1f2937;transition:background .12s}
+button:hover{background:#f5f6fa}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:#1a2744;color:#fff;border-color:#1a2744}
+button.primary:hover:not(:disabled){background:#243460}
+
+/* RESULTS */
+.results-wrap{background:#fff;border:1px solid #e8ecf4;border-radius:12px;padding:1.5rem;margin:1rem 0}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.score-circle{width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #378add;background:#e6f1fb;flex-shrink:0}
+.score-num{font-size:26px;font-weight:700;color:#185fa5}
+.score-lbl{font-size:10px;color:#185fa5;font-weight:600}
+.score-msg h3{font-size:17px;font-weight:700;color:#1f2937;margin-bottom:4px}
+.score-msg p{font-size:13.5px;color:#64748b;line-height:1.5;max-width:440px}
+.review-section{border-top:1px solid #e8ecf4;padding-top:1rem;margin-top:1rem}
+.review-section h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:12px}
+.review-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
+.review-item.r-ok{background:#e1f5ee;border:1px solid #9fe1cb}
+.review-item.r-bad{background:#faece7;border:1px solid #f5c4b3}
+.ri-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ri-icon.ok{background:#1d9e75;color:#fff}
+.ri-icon.no{background:#d85a30;color:#fff}
+.ri-content{flex:1;line-height:1.5}
+.ri-q{font-weight:600;color:#1f2937;margin-bottom:3px}
+.ri-ans{font-size:12px;color:#64748b}
+.ri-exp{font-size:12px;color:#374151;margin-top:4px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-hero">
+    <h1>Read in Daily Life · Set 2</h1>
+    <p>TOEFL Reading practice — read everyday texts and answer comprehension questions.</p>
+  </div>
+  <div class="task-info">
+    <h2>How it works</h2>
+    <ul>
+      <li>3 different text types — a sign, an email, and an advertisement</li>
+      <li>The text is always visible while you answer the questions</li>
+      <li>Get immediate feedback after each answer</li>
+      <li><strong>8 minutes total</strong> for all 3 texts</li>
+      <li>Full score and review at the end</li>
+    </ul>
+  </div>
+  <div class="overview-card">
+    <p>You will read:</p>
+    <div class="overview-row">
+      <span class="type-badge" style="background:#e1f5ee;color:#0f6e56">Sign</span>
+      Library quiet zone notice · 2 questions
+    </div>
+    <div class="overview-row">
+      <span class="type-badge" style="background:#faeeda;color:#854f0b">Email</span>
+      Apartment maintenance update · 3 questions
+    </div>
+    <div class="overview-row">
+      <span class="type-badge" style="background:#eeedfe;color:#534ab7">Advertisement</span>
+      Language school promotion · 3 questions
+    </div>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Start practice →</button>
+  <p style="font-size:12px;color:#64748b;text-align:center">Original content created for TOEFL preparation practice</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="quiz-top">
+    <span class="quiz-label" id="qLabel"></span>
+    <span class="quiz-progress" id="qProgress"></span>
+    <div class="timer" id="timer">8:00</div>
+  </div>
+  <div id="quizBody"></div>
+  <div class="task-actions">
+    <div class="progress-dots" id="progDots"></div>
+    <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="results-wrap">
+    <div class="score-row">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum"></div>
+        <div class="score-lbl">correct</div>
+      </div>
+      <div class="score-msg">
+        <h3 id="scoreTitle"></h3>
+        <p id="scoreDesc"></p>
+      </div>
+    </div>
+    <div class="review-section">
+      <h4>Question review</h4>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+    <button onclick="restartQuiz()">Try again</button>
+    <button class="primary" onclick="goHome()">Back to home</button>
+  </div>
+</div>
+
+<script>
+const TASKS = [
+  {
+    type: "Sign",
+    typeColor: "#0f6e56",
+    typeBg: "#e1f5ee",
+    buildText: function() {
+      const box = document.createElement('div');
+      box.className = 'sign-box';
+      box.innerHTML = `
+        <div class="sign-title">Quiet Study Zone</div>
+        <div class="sign-body">
+          <p>This area is reserved for <strong>silent individual study only.</strong></p>
+          <p>No group work. No phone calls.</p>
+          <p>Laptops permitted. Headphones required for audio.</p>
+          <p>Food and open drinks are not allowed.</p>
+          <p style="margin-top:10px;font-weight:700">Violators may be asked to leave.</p>
+        </div>
+        <div class="sign-note">Posted by Riverside Public Library — Floor 3</div>`;
+      return box;
+    },
+    questions: [
+      {
+        q: "Why was this sign most likely posted?",
+        opts: [
+          "To encourage visitors to use the library's digital resources.",
+          "To make clear what behavior is expected in a designated section.",
+          "To warn readers that access to the third floor requires registration.",
+          "To remind staff about weekly cleaning procedures."
+        ],
+        ans: 1,
+        exp: "The sign establishes behavioral expectations for the Quiet Study Zone — no noise, no groups, no food. Its purpose is to set clear conduct standards for that section. The other options introduce ideas not present in the sign."
+      },
+      {
+        q: "Which activity would NOT result in a visitor being asked to leave?",
+        opts: [
+          "Taking a phone call at a low volume.",
+          "Sharing a meal with a classmate.",
+          "Listening to a lecture through headphones on a laptop.",
+          "Meeting with two colleagues to review a report."
+        ],
+        ans: 2,
+        exp: "The sign allows laptops and requires headphones for audio — so listening through headphones is within the rules. Phone calls, food, and collaborative meetings are all explicitly prohibited and could result in removal."
+      }
+    ]
+  },
+  {
+    type: "Email",
+    typeColor: "#854f0b",
+    typeBg: "#faeeda",
+    buildText: function() {
+      const box = document.createElement('div');
+      box.className = 'email-box';
+      box.innerHTML = `
+        <div class="email-header">
+          <div class="email-field"><span class="email-field-label">Subject:</span><span class="email-field-val">Scheduled Maintenance — Hot Water Interruption</span></div>
+          <div class="email-field"><span class="email-field-label">To:</span><span class="email-field-val">All Residents, Maplewood Apartments</span></div>
+          <div class="email-field"><span class="email-field-label">From:</span><span class="email-field-val">Building Management Office</span></div>
+        </div>
+        <div class="email-body">Dear Residents,
+
+We are writing to inform you that scheduled maintenance on the building's hot water system will take place on Friday, March 14, from 8:00 a.m. to 2:00 p.m. During this time, hot water will be temporarily unavailable in all units.
+
+We strongly recommend that residents who require hot water for morning routines plan ahead and store what they need before 8:00 a.m. Cold water will remain available throughout the maintenance period.
+
+The maintenance team will make every effort to complete the work on schedule. However, if additional repairs are needed, the process may extend into the late afternoon. We will send an update by noon if any delays are expected.
+
+Residents with medical conditions that require consistent hot water access should contact the management office directly at ext. 204 before Thursday, March 13, so we can arrange alternative accommodations.
+
+We apologize for any inconvenience this may cause and thank you for your patience and cooperation.
+
+Best regards,
+Maplewood Apartments Management Office</div>`;
+      return box;
+    },
+    questions: [
+      {
+        q: "What is the primary reason management sent this message?",
+        opts: [
+          "To issue a formal apology for a recent plumbing failure.",
+          "To prepare residents for a planned service disruption.",
+          "To introduce a new policy for water usage in the building.",
+          "To collect feedback about ongoing maintenance concerns."
+        ],
+        ans: 1,
+        exp: "The email is a proactive notice about upcoming scheduled work — not an apology, a new policy, or a feedback request. Management wants residents to be prepared before the interruption begins on March 14."
+      },
+      {
+        q: "At what point should residents have their hot water supply ready?",
+        opts: [
+          "Shortly after the maintenance crew arrives at the building.",
+          "No later than the start of the maintenance window.",
+          "At any point during the six-hour maintenance period.",
+          "Once the management office confirms the work is complete."
+        ],
+        ans: 1,
+        exp: "The email recommends storing hot water 'before 8:00 a.m.' — which is when maintenance begins. In other words, residents need to be prepared by the time the work starts, not during or after it. Option A sounds similar but is wrong — once the crew arrives, the water is already off."
+      },
+      {
+        q: "What does the email suggest about residents with health-related needs?",
+        opts: [
+          "They are guaranteed uninterrupted hot water access during repairs.",
+          "They should evacuate the building on the morning of March 14.",
+          "They could be accommodated differently if they act before the deadline.",
+          "They are exempt from the water interruption without any action required."
+        ],
+        ans: 2,
+        exp: "The email says residents with medical conditions 'should contact the management office... before Thursday, March 13.' The word 'should' implies action is needed — help is possible, but only if requested in time. Options A and D incorrectly suggest help is automatic, and B is never mentioned."
+      }
+    ]
+  },
+  {
+    type: "Advertisement",
+    typeColor: "#534ab7",
+    typeBg: "#eeedfe",
+    buildText: function() {
+      const box = document.createElement('div');
+      box.className = 'ad-box';
+      box.innerHTML = `
+        <div class="ad-banner">
+          <div class="ad-banner-title">SPEAK UP Language School</div>
+          <div class="ad-banner-sub">Professional English Training — Since 2008</div>
+        </div>
+        <div class="ad-body">
+          <p>Are you preparing for the TOEFL, IELTS, or a job interview in English? <strong>Speak Up Language School</strong> offers flexible, results-driven courses for adult learners at every level.</p>
+          <div class="ad-highlight">New session starting May 5 — Limited spots available!</div>
+          <p>Our experienced instructors use real-world materials and personalized feedback to help you reach your goals faster. All courses include weekly practice tests and one-on-one speaking sessions.</p>
+          <div class="ad-details">
+            <div class="ad-detail"><strong>Schedule</strong>Mornings, evenings &amp; weekends</div>
+            <div class="ad-detail"><strong>Format</strong>In-person &amp; online</div>
+            <div class="ad-detail"><strong>Duration</strong>8-week intensive program</div>
+            <div class="ad-detail"><strong>First class</strong>Free trial — no commitment</div>
+          </div>
+        </div>
+        <div class="ad-footer">Call us at (555) 304-8820 · info@speakupschool.com · Walk-ins welcome Mon–Fri, 9 a.m. – 6 p.m.</div>`;
+      return box;
+    },
+    questions: [
+      {
+        q: "Who is this advertisement most likely targeting?",
+        opts: [
+          "Native English speakers looking to learn a second language.",
+          "Adults who want to improve their English for academic or professional reasons.",
+          "Children preparing for standardized reading tests.",
+          "University professors seeking continuing education credits."
+        ],
+        ans: 1,
+        exp: "The ad mentions TOEFL and IELTS preparation, job interviews, and 'adult learners at every level' — all pointing to adults with academic or professional goals. Children and university professors are not the intended audience, and the school teaches English, not other languages."
+      },
+      {
+        q: "Which of the following is offered as part of every course at this school?",
+        opts: [
+          "Guaranteed improvement on any standardized exam.",
+          "Regular timed assessments and individual speaking feedback.",
+          "Complimentary study guides and printed course materials.",
+          "Unlimited access to recorded lessons for twelve months."
+        ],
+        ans: 1,
+        exp: "The ad says all courses include 'weekly practice tests and one-on-one speaking sessions' — paraphrased as 'regular timed assessments and individual speaking feedback.' Score guarantees, free materials, and recorded lesson access are not mentioned."
+      },
+      {
+        q: "What opportunity does the school offer to someone who is unsure about enrolling?",
+        opts: [
+          "A partial refund if they withdraw within the first two weeks.",
+          "The chance to experience one session at no cost before deciding.",
+          "A discounted rate for students who register more than a month in advance.",
+          "A consultation with a certified language assessor."
+        ],
+        ans: 1,
+        exp: "'First class: Free trial — no commitment' means a potential student can attend one class for free with no obligation to continue. Refunds, early-registration discounts, and language assessments are not mentioned in the advertisement."
+      }
+    ]
+  }
+];
+
+// Flatten questions
+let allQ = [];
+TASKS.forEach((task, ti) => {
+  task.questions.forEach(q => allQ.push({ ...q, taskIdx: ti }));
+});
+
+let qi = 0, answers = [], timerInterval = null, secondsLeft = 480;
+
+function goHome() {
+  clearInterval(timerInterval);
+  qi = 0; answers = []; secondsLeft = 480;
+  showScreen('home');
+}
+
+function restartQuiz() {
+  clearInterval(timerInterval);
+  qi = 0; answers = []; secondsLeft = 480;
+  startQuiz();
+}
+
+function startQuiz() {
+  startTimer();
+  showScreen('quiz');
+  renderQ();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  updateTimer();
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimer();
+    if (secondsLeft <= 0) { clearInterval(timerInterval); finishQuiz(); }
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
+  const el = document.getElementById('timer');
+  el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'timer' + (secondsLeft <= 60 ? ' warn' : '');
+}
+
+function renderQ() {
+  const qData = allQ[qi];
+  const task = TASKS[qData.taskIdx];
+  const total = allQ.length;
+
+  document.getElementById('qLabel').textContent = task.type;
+  document.getElementById('qLabel').style.background = task.typeBg;
+  document.getElementById('qLabel').style.color = task.typeColor;
+  document.getElementById('qProgress').textContent = 'Question ' + (qi + 1) + ' of ' + total;
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').textContent = qi < total - 1 ? 'Next' : 'See results';
+
+  // Progress dots
+  const pd = document.getElementById('progDots');
+  pd.innerHTML = '';
+  allQ.forEach((_, i) => {
+    const dot = document.createElement('div');
+    let cls = 'pdot';
+    if (i === qi) cls += ' active';
+    else if (i < answers.length) cls += answers[i] === allQ[i].ans ? ' correct' : ' wrong';
+    dot.className = cls;
+    pd.appendChild(dot);
+  });
+
+  // Build body
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  // Always show text
+  const lbl = document.createElement('div');
+  lbl.className = 'text-type-label';
+  const typeLabel = task.type === 'Sign' ? 'a sign' : task.type === 'Email' ? 'an email' : 'an advertisement';
+  lbl.textContent = 'Read ' + typeLabel + '.';
+  body.appendChild(lbl);
+  body.appendChild(task.buildText());
+
+  // Question block
+  const qBlock = document.createElement('div');
+  qBlock.className = 'question-block';
+
+  const qNum = document.createElement('div');
+  qNum.className = 'q-num';
+  qNum.textContent = 'Question ' + (qi + 1);
+  qBlock.appendChild(qNum);
+
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = qData.q;
+  qBlock.appendChild(qText);
+
+  const opts = document.createElement('div');
+  opts.className = 'options';
+  const letters = ['A', 'B', 'C', 'D'];
+  const feedback = document.createElement('div');
+  feedback.className = 'feedback';
+
+  qData.opts.forEach((optText, oi) => {
+    const opt = document.createElement('div');
+    opt.className = 'opt';
+    opt.innerHTML = '<div class="opt-letter">' + letters[oi] + '</div><div>' + optText + '</div>';
+    opt.onclick = () => selectAnswer(oi, qData, opt, opts, feedback);
+    opts.appendChild(opt);
+  });
+
+  qBlock.appendChild(opts);
+  qBlock.appendChild(feedback);
+  body.appendChild(qBlock);
+  window.scrollTo(0, 0);
+}
+
+function selectAnswer(oi, qData, clickedOpt, optsContainer, feedback) {
+  const opts = optsContainer.querySelectorAll('.opt');
+  opts.forEach(o => o.onclick = null);
+  clickedOpt.classList.add(oi === qData.ans ? 'correct' : 'wrong');
+  if (oi !== qData.ans) opts[qData.ans].classList.add('reveal');
+  answers.push(oi);
+
+  const ok = oi === qData.ans;
+  feedback.className = 'feedback show ' + (ok ? 'good' : 'bad');
+  feedback.innerHTML = '<div class="feedback-title">' + (ok ? 'Correct!' : 'Not quite.') + '</div>' + qData.exp;
+  document.getElementById('nextBtn').disabled = false;
+
+  const dots = document.getElementById('progDots').children;
+  if (dots[qi]) dots[qi].className = 'pdot ' + (ok ? 'correct' : 'wrong');
+}
+
+function nextQuestion() {
+  qi++;
+  if (qi >= allQ.length) { clearInterval(timerInterval); finishQuiz(); }
+  else renderQ();
+}
+
+function finishQuiz() {
+  while (answers.length < allQ.length) answers.push(-1);
+  const correct = answers.filter((a, i) => a === allQ[i].ans).length;
+  const total = allQ.length;
+  const pct = Math.round(correct / total * 100);
+
+  document.getElementById('scoreNum').textContent = correct + '/' + total;
+
+  let title, desc;
+  if (pct === 100) { title = 'Perfect!'; desc = 'Every answer correct. You read for purpose and key details exactly right.' }
+  else if (pct >= 70) { title = 'Well done!'; desc = 'Strong performance. Review the ones you missed — focus on what the text actually says.' }
+  else if (pct >= 50) { title = 'Good effort!'; desc = 'Getting there. Identify the main purpose first, then scan for specific details.' }
+  else { title = 'Keep going!'; desc = 'Study the explanations below. Tip: never choose an answer based on what seems logical — only on what the text says.' }
+
+  document.getElementById('scoreTitle').textContent = title;
+  document.getElementById('scoreDesc').textContent = desc;
+
+  const rl = document.getElementById('reviewList');
+  rl.innerHTML = '';
+  allQ.forEach((q, i) => {
+    const user = answers[i];
+    const ok = user === q.ans;
+    const task = TASKS[q.taskIdx];
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const item = document.createElement('div');
+    item.className = 'review-item ' + (ok ? 'r-ok' : 'r-bad');
+    item.innerHTML = `
+      <div class="ri-icon ${ok ? 'ok' : 'no'}">${ok ? '✓' : '✗'}</div>
+      <div class="ri-content">
+        <div class="ri-q">Q${i + 1} <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;background:${task.typeBg};color:${task.typeColor};margin-left:4px">${task.type}</span> — ${q.q}</div>
+        <div class="ri-ans">Your answer: <strong>${user >= 0 ? letters[user] + '. ' + q.opts[user] : 'No answer'}</strong>
+          ${!ok ? '<br>Correct: <strong style="color:#0f6e56">' + letters[q.ans] + '. ' + q.opts[q.ans] + '</strong>' : ''}
+        </div>
+        ${!ok ? '<div class="ri-exp">' + q.exp + '</div>' : ''}
+      </div>`;
+    rl.appendChild(item);
+  });
+
+  showScreen('results');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
