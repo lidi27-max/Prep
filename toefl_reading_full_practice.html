@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL Reading – Full Practice Test</title>
+<style>
+/* ── RESET & BASE ── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1A2744;
+  --teal:#1B7A8C;
+  --gold:#E8A838;
+  --green:#1d9e75;
+  --green-bg:#e1f5ee;
+  --green-border:#9fe1cb;
+  --coral:#d85a30;
+  --coral-bg:#faece7;
+  --coral-border:#f5c4b3;
+  --blue:#185fa5;
+  --blue-bg:#e6f1fb;
+  --blue-border:#b5d4f4;
+  --purple:#534ab7;
+  --purple-bg:#eeedfe;
+  --purple-border:#c4b5f4;
+  --bg:#f5f6fa;
+  --card:#fff;
+  --border:#e8ecf4;
+  --text:#1f2937;
+  --muted:#64748b;
+  --warn-text:#a32d2d;
+  --warn-bg:#fcebeb;
+  --warn-border:#f7c1c1;
+}
+body{font-family:'Trebuchet MS',Trebuchet,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── SCREENS ── */
+.screen{display:none;max-width:860px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+.screen.active{display:block}
+
+/* ── HOME ── */
+.home-hero{text-align:center;padding:3rem 1rem 2rem}
+.home-hero .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--navy);color:#fff;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+.home-hero h1{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.2}
+.home-hero p{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;margin:0 auto}
+
+.how-it-works{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.6rem;margin:1.5rem 0}
+.how-it-works h2{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.how-it-works ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.how-it-works li{font-size:13.5px;color:#374151;padding-left:22px;position:relative;line-height:1.55}
+.how-it-works li::before{content:"→";position:absolute;left:0;color:var(--teal);font-weight:700}
+
+.modules-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+@media(max-width:560px){.modules-grid{grid-template-columns:1fr}}
+.module-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem}
+.module-card .mc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.module-card .mc-label.m1{color:var(--blue)}
+.module-card .mc-label.m2{color:var(--purple)}
+.module-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.module-card .mc-rows{display:flex;flex-direction:column;gap:6px}
+.module-card .mc-row{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#374151}
+.mc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mc-dot.fill{background:var(--teal)}
+.mc-dot.daily{background:var(--blue)}
+.mc-dot.acad{background:var(--purple)}
+
+.start-btn{width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;letter-spacing:.3px}
+.start-btn:hover{background:#243460}
+
+/* ── GLOBAL TIMER BAR ── */
+.global-bar{position:sticky;top:0;z-index:100;background:var(--navy);padding:10px 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gb-left{display:flex;align-items:center;gap:10px}
+.gb-section{font-size:12px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.7px}
+.gb-task{font-size:13px;font-weight:700;color:#fff}
+.gb-progress{font-size:12px;color:rgba(255,255,255,.5)}
+.gb-timer{font-size:18px;font-weight:700;color:#fff;background:rgba(255,255,255,.12);padding:6px 16px;border-radius:8px;font-variant-numeric:tabular-nums;min-width:80px;text-align:center;transition:background .3s,color .3s}
+.gb-timer.warn{background:var(--warn-bg);color:var(--warn-text)}
+
+/* ── QUIZ BODY ── */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:1.25rem 1.5rem 5rem}
+
+/* Section header */
+.section-header{padding:1rem 0 1.25rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.section-header .sh-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:4px}
+.section-header h2{font-size:18px;font-weight:700;color:var(--navy)}
+.section-header p{font-size:13.5px;color:var(--muted);margin-top:4px}
+
+/* Instruction box */
+.instr-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:13.5px;color:var(--blue);line-height:1.6}
+
+/* Complete the Words passage */
+.passage-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.75rem;margin-bottom:1.5rem;font-size:16px;line-height:3;color:var(--text)}
+.word-item{display:inline-flex;align-items:baseline;white-space:nowrap}
+.word-prefix{font-size:16px;color:var(--text);font-weight:400}
+.blank-wrap{display:inline-block;position:relative}
+.blank-input{display:block;border:none;border-bottom:2.5px solid #378add;background:transparent;font-size:16px;font-family:'Courier New',monospace;font-weight:700;color:var(--blue);outline:none;padding:0 2px 4px;text-align:center;letter-spacing:5px;transition:border-color .15s;position:relative;z-index:4}
+.blank-input::placeholder{color:var(--text);font-weight:900;letter-spacing:5px;font-size:16px;opacity:1}
+.blank-input:focus::placeholder{color:#c0c8d4}
+.blank-input.correct{border-bottom-color:var(--green)!important;color:#0f6e56}
+.blank-input.wrong{border-bottom-color:var(--coral)!important;color:#c0392b}
+.blank-input.revealed{border-bottom-color:var(--gold)!important;color:#854f0b}
+
+/* Fill actions */
+.fill-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:.5rem;flex-wrap:wrap}
+
+/* Text types — daily life */
+.text-type-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:8px}
+.email-box{background:var(--card);border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.email-header{background:#f9fafb;border-bottom:1px solid var(--border);padding:.75rem 1.1rem}
+.email-field{display:flex;gap:8px;font-size:13px;line-height:1.6}
+.email-field-label{font-weight:700;color:var(--muted);min-width:60px}
+.email-body{padding:1rem 1.1rem;font-size:14px;line-height:1.85;white-space:pre-wrap}
+.notice-box{background:var(--card);border:1px solid #d1d5db;border-radius:8px;padding:1.1rem 1.4rem;margin-bottom:1.5rem;font-size:14px;line-height:1.85}
+.notice-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:.75rem;text-align:center}
+.notice-list{margin:.75rem 0 0 0;padding-left:1.2rem;display:flex;flex-direction:column;gap:6px}
+.notice-list li{font-size:13.5px;line-height:1.6}
+.ad-box{background:var(--card);border:2px solid var(--navy);border-radius:8px;padding:1.2rem 1.4rem;margin-bottom:1.5rem}
+.ad-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:.6rem}
+.ad-body{font-size:13.5px;line-height:1.8;color:var(--text)}
+
+/* Academic passage */
+.passage-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px}
+.passage-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.passage-box{background:var(--card);border:1px solid #d1d5db;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1.25rem;font-size:14.5px;line-height:1.85}
+.passage-box p{margin-bottom:.75rem}
+.passage-box p:last-child{margin-bottom:0}
+
+/* Questions */
+.question-block{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:12px}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.q-num.daily{color:var(--blue)}
+.q-num.acad{color:var(--purple)}
+.q-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.q-text{font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--card);transition:border-color .15s,background .15s;font-size:14px;color:var(--text);line-height:1.45;text-align:left;width:100%;font-family:inherit}
+.opt:hover:not(:disabled){border-color:#b5d4f4;background:#f5f9ff}
+.opt.selected{border-color:#378add;background:var(--blue-bg)}
+.opt.correct{border-color:#0f6e56;background:var(--green-bg);pointer-events:none}
+.opt.wrong{border-color:#993c1d;background:var(--coral-bg);pointer-events:none}
+.opt.reveal{border-color:#0f6e56;background:var(--green-bg);pointer-events:none}
+.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid #d3d1c7;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);flex-shrink:0;margin-top:1px}
+.opt.selected .opt-letter{background:#378add;border-color:#378add;color:#fff}
+.opt.correct .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.opt.wrong .opt-letter{background:#993c1d;border-color:#993c1d;color:#fff}
+.opt.reveal .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+
+.feedback{margin-top:10px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.good{background:var(--green-bg);color:#085041;border:1px solid var(--green-border)}
+.feedback.bad{background:var(--coral-bg);color:#4a1b0c;border:1px solid var(--coral-border)}
+.feedback-title{font-weight:700;margin-bottom:3px}
+
+/* Footer nav */
+.quiz-footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:12px 1.5rem;display:flex;justify-content:space-between;align-items:center;z-index:90}
+.progress-dots{display:flex;gap:4px;align-items:center;flex-wrap:wrap;max-width:60%}
+.pdot{width:9px;height:9px;border-radius:50%;background:#d3d1c7;transition:background .2s,transform .2s;flex-shrink:0}
+.pdot.active{transform:scale(1.3)}
+.pdot.active.fill-type{background:var(--teal)}
+.pdot.active.daily-type{background:var(--blue)}
+.pdot.active.acad-type{background:var(--purple)}
+.pdot.correct{background:var(--green)}
+.pdot.wrong{background:var(--coral)}
+.pdot.separator{width:1px;height:14px;border-radius:0;background:#d3d1c7;margin:0 4px}
+
+/* Buttons */
+button{font-family:'Trebuchet MS',Trebuchet,sans-serif;font-size:14px;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid #d3d1c7;background:#fff;color:var(--text);transition:background .12s}
+button:hover:not(:disabled){background:var(--bg)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+button.primary:hover:not(:disabled){background:#243460}
+button.secondary{background:var(--bg);color:var(--text);border-color:#d3d1c7}
+
+/* Fill results (Complete the Words) */
+.fill-result-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.fill-score-row{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.fill-score-circle{width:84px;height:84px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--teal);background:#e1f8f0;flex-shrink:0}
+.fill-score-num{font-size:24px;font-weight:700;color:var(--teal)}
+.fill-score-lbl{font-size:10px;color:var(--teal);font-weight:700}
+.fill-score-msg h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.fill-score-msg p{font-size:13px;color:var(--muted);line-height:1.5;max-width:400px}
+.answer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;margin-top:1rem}
+.answer-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;background:var(--bg);border-radius:8px;padding:8px 10px}
+.ai-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ai-icon.ok{background:var(--green);color:#fff}
+.ai-icon.no{background:var(--coral);color:#fff}
+.ai-text{line-height:1.55;flex:1}
+.ai-label{font-size:11px;color:var(--muted)}
+.ai-correct{color:#0f6e56;font-weight:700}
+.ai-wrong{color:#c0392b;font-weight:700;text-decoration:line-through;margin-right:4px}
+.passage-review-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.25rem;font-size:15.5px;line-height:2.7}
+.passage-review-box h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:14px}
+.r-ok{color:#0f6e56;font-weight:700;background:#d8f3e8;padding:0 3px 1px;border-radius:3px}
+.r-bad{color:#c0392b;font-weight:700;background:#fde8e4;padding:0 3px 1px;border-radius:3px;text-decoration:line-through;font-size:13px;margin-right:2px}
+.r-fix{color:#0f6e56;font-weight:700;background:#d8f3e8;padding:0 3px 1px;border-radius:3px}
+
+/* ── RESULTS ── */
+.results-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:2rem;margin:1rem 0}
+.results-hero{text-align:center;margin-bottom:2rem}
+.results-hero .score-big{font-size:52px;font-weight:700;color:var(--navy);line-height:1}
+.results-hero .score-out{font-size:16px;color:var(--muted);margin-top:4px}
+.results-hero h2{font-size:20px;font-weight:700;margin:16px 0 6px}
+.results-hero p{font-size:14px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.6}
+
+.module-summary{border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.25rem}
+.module-summary h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:12px}
+.mod-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px}
+.mod-label{font-weight:600;min-width:220px;color:var(--text)}
+.mod-bar-wrap{flex:1;background:var(--bg);border-radius:20px;height:8px;overflow:hidden}
+.mod-bar{height:8px;border-radius:20px;transition:width .5s}
+.mod-score{font-size:13px;font-weight:700;min-width:36px;text-align:right}
+
+.review-section{border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.25rem}
+.review-section h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:12px}
+.review-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
+.review-item.r-ok-item{background:var(--green-bg);border:1px solid var(--green-border)}
+.review-item.r-bad-item{background:var(--coral-bg);border:1px solid var(--coral-border)}
+.ri-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ri-icon.ok{background:var(--green);color:#fff}
+.ri-icon.no{background:var(--coral);color:#fff}
+.ri-content{flex:1;line-height:1.5}
+.ri-section{font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.ri-q{font-weight:600;color:var(--text);margin-bottom:3px}
+.ri-ans{font-size:12px;color:var(--muted)}
+.ri-exp{font-size:12px;color:#374151;margin-top:4px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
+
+.source-note{font-size:12px;color:var(--muted);text-align:center;margin-top:1rem}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME ══════════════════════════════════════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <div class="home-hero">
+    <div class="badge">TOEFL iBT® Practice Test 3</div>
+    <h1>Reading Section<br>Full Practice</h1>
+    <p>Two complete modules with all question types — fill-in, daily life texts, and academic passages.</p>
+  </div>
+  <div class="how-it-works">
+    <h2>How it works</h2>
+    <ul>
+      <li>Complete <strong>Module 1</strong> then <strong>Module 2</strong> in order</li>
+      <li>Each module has a <strong>Complete the Words</strong> task + daily life texts + an academic passage</li>
+      <li>Answer questions one at a time — get instant feedback if you're wrong</li>
+      <li>Each module has its own <strong>15-minute timer</strong> — it resets for Module 2</li>
+      <li>Full score breakdown at the end</li>
+    </ul>
+  </div>
+  <div class="modules-grid">
+    <div class="module-card">
+      <div class="mc-label m1">Module 1</div>
+      <h3>Conservation & Jet Stream</h3>
+      <div class="mc-rows">
+        <div class="mc-row"><div class="mc-dot fill"></div>Complete the Words · 10 blanks</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Email (Maintenance) · 2 Qs</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Notice (Library) · 3 Qs</div>
+        <div class="mc-row"><div class="mc-dot acad"></div>Jet Stream Dynamics · 5 Qs</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="mc-label m2">Module 2</div>
+      <h3>Economics & Golden Age TV</h3>
+      <div class="mc-rows">
+        <div class="mc-row"><div class="mc-dot fill"></div>Complete the Words · 10 blanks</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Email (Medical) · 2 Qs</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Advertisement (Volunteers) · 3 Qs</div>
+        <div class="mc-row"><div class="mc-dot acad"></div>The Golden Age of TV · 5 Qs</div>
+      </div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTest()">Start Full Practice →</button>
+  <p class="source-note" style="margin-top:1rem">Source: TOEFL iBT® Teacher Resources — Practice Test 3</p>
+</div>
+
+<!-- ══ GLOBAL BAR ═════════════════════════════════════════════════════ -->
+<div id="globalBar" class="global-bar" style="display:none">
+  <div class="gb-left">
+    <span class="gb-section" id="gbSection"></span>
+    <span class="gb-task" id="gbTask"></span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="gb-progress" id="gbProgress"></span>
+    <div class="gb-timer" id="gbTimer">15:00</div>
+  </div>
+</div>
+
+<!-- ══ QUIZ SCREEN ════════════════════════════════════════════════════ -->
+<div id="screen-quiz" class="screen" style="padding-top:0">
+  <div class="quiz-wrap" id="quizBody"></div>
+</div>
+
+<!-- ══ FILL RESULT SCREEN ════════════════════════════════════════════ -->
+<div id="screen-fill-result" class="screen">
+  <div class="fill-result-wrap" id="fillResultWrap"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="primary" id="fillContinueBtn" onclick="continueAfterFill()">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ MODULE TRANSITION ══════════════════════════════════════════════ -->
+<div id="screen-transition" class="screen">
+  <div style="text-align:center;padding:4rem 1rem">
+    <div style="font-size:48px;margin-bottom:1rem">✓</div>
+    <h2 style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:8px">Module 1 Complete!</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:2rem;max-width:400px;margin-left:auto;margin-right:auto">Great work! The timer will reset to 15:00 when you start Module 2.</p>
+    <button class="primary" onclick="startModule(1)" style="font-size:15px;padding:14px 32px">Start Module 2 →</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS SCREEN ════════════════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="results-wrap" id="resultsWrap"></div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1rem">
+    <button onclick="location.reload()">Start over</button>
+  </div>
+  <p class="source-note">Source: TOEFL iBT® Teacher Resources — Practice Test 3</p>
+</div>
+
+<!-- FOOTER NAV -->
+<div class="quiz-footer" id="quizFooter" style="display:none">
+  <div class="progress-dots" id="progDots"></div>
+  <button class="primary" id="nextBtn" disabled onclick="handleNext()" style="min-width:120px;font-size:15px;padding:11px 28px">Next →</button>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   DATA
+   ════════════════════════════════════════════════════════════════════ */
+const MODULES = [
+  {
+    label: "Module 1",
+    color: "var(--blue)",
+    fill: {
+      title: "Conservation",
+      blanks: 10,
+      tokens: [
+        "Conservation is the effort to protect plants and animals that are endangered because of human activities. Conservationists ",
+        {prefix:"sa",answer:"ve"}," endangered ",
+        {prefix:"spe",answer:"cies"}," by ",
+        {prefix:"crea",answer:"ting"}," areas ",
+        {prefix:"wh",answer:"ere"}," they ",
+        {prefix:"c",answer:"an"}," live ",
+        {prefix:"saf",answer:"ely"},". Conservationists ",
+        {prefix:"al",answer:"so"}," educate ",
+        {prefix:"t",answer:"he"}," public ",
+        {prefix:"ab",answer:"out"}," the ",
+        {prefix:"impor",answer:"tance"}," of preserving the natural world. Conservation is based on research about wildlife and ecosystems that aims to understand their needs and the threats they face. By taking care of the environment, conservationists help ensure a healthy planet for future generations."
+      ]
+    },
+    tasks: [
+      {
+        type: "daily",
+        label: "Read an email",
+        text: {
+          kind: "email",
+          subject: "Maintenance Notice",
+          to: "Mr. Brown",
+          body: `Dear Mr. Brown,\n\nWe are pleased that you are considering our facility for your mother's birthday party.\n\nOur maintenance team is scheduled to paint your apartment's living room on March 11 starting at 9:00 a.m. We ask that you leave the apartment and not return until one hour after the painters have finished at 12:00 p.m.\n\nBest regards,\nAnna Davis`
+        },
+        questions: [
+          {
+            q: "What room in the apartment will be painted?",
+            opts: ["The kitchen","The dining room","The living room","The bedroom"],
+            ans: 2,
+            exp: "The email clearly states: \"paint your apartment's living room.\" Options A, B, and D are not mentioned anywhere in the text."
+          },
+          {
+            q: "When can Mr. Brown return to the apartment?",
+            opts: ["At 9:00 AM","At 11:00 AM","At 12:00 PM","At 1:00 PM"],
+            ans: 3,
+            exp: "The painters finish at 12:00 PM and Mr. Brown must wait one hour after — so he can return at 1:00 PM."
+          }
+        ]
+      },
+      {
+        type: "daily",
+        label: "Read a notice",
+        text: {
+          kind: "notice",
+          title: "Welcome to the Library Quiet Zone!",
+          intro: "This area is specifically designated for quiet reading and study to ensure a peaceful environment for all patrons. Please adhere to the following guidelines:",
+          items: [
+            "Noise Levels: Please keep noise to a minimum. This includes refraining from loud conversations and phone calls.",
+            "Electronic Devices: Ensure that all electronic devices, such as phones and laptops, are set to silent mode. The volume on headphones must be kept low.",
+            "Conversations: If you need to have a conversation, please conduct it quietly or proceed to another area of the library.",
+            "Music and Media: Listening to music or watching videos without headphones is not allowed. Please keep the volume of headphones at a level that only you can hear.",
+            "Respect for Others: Be mindful of those around you who are studying or reading. Your cooperation helps maintain a serene environment for everyone."
+          ]
+        },
+        questions: [
+          {
+            q: "What can be concluded about the library?",
+            opts: [
+              "It has areas that are not specifically designated as quiet zones.",
+              "It has received numerous complaints about noise levels.",
+              "It is located on the campus of a university.",
+              "It holds a large collection of film and music recordings."
+            ],
+            ans: 0,
+            exp: "Guideline 3 says to \"proceed to another area of the library\" for conversations, implying non-quiet zones exist. Nothing in the notice supports B, C, or D."
+          },
+          {
+            q: "The phrase \"adhere to\" in the opening paragraph is closest in meaning to",
+            opts: ["notice","read","follow","admire"],
+            ans: 2,
+            type: "Vocabulary",
+            exp: "\"Adhere to\" means to stick to or comply with rules. \"Follow\" is the closest synonym here. Admire, notice, and read do not match this meaning."
+          },
+          {
+            q: "What is indicated about headphones?",
+            opts: [
+              "They are not permitted in the library's quiet zone.",
+              "They are only allowed for use with smartphones and laptop computers.",
+              "They may not be shared between two users.",
+              "They should be kept at a low volume."
+            ],
+            ans: 3,
+            exp: "Guidelines 2 and 4 both state that headphone volume must be kept low. The notice does not ban headphones, restrict them to specific devices, or mention sharing."
+          }
+        ]
+      }
+    ],
+    passage: {
+      title: "Jet Stream Dynamics",
+      body: [
+        "The jet stream is a fast-moving ribbon of air high in the atmosphere that affects global weather. Flowing west to east at speeds of up to 200 miles per hour, it forms due to the temperature contrast between cold polar air and warm tropical air, which creates pressure differences that generate strong winds. In the northern hemisphere, when the jet stream dips southward, it brings cold air and storms to lower latitudes.",
+        "The jet stream also influences cyclones and anticyclones, affecting precipitation and wind patterns. The jet stream's dynamics are influenced by factors like the Earth's rotation and uneven heating of its surface. Seasonal changes play a role; it's stronger in winter due to the greater temperature contrast between the poles and the equator. Understanding the jet stream's behavior helps meteorologists predict weather and plan for climate events.",
+        "Recent research shows that climate change is impacting the jet stream. The warming Arctic reduces the temperature difference between polar and tropical air masses, which may weaken the jet stream. A weaker jet stream can lead to slower-moving weather systems, resulting in prolonged periods of extreme weather, such as heatwaves or heavy rainfall."
+      ],
+      questions: [
+        {
+          type: "Factual Information",
+          q: "What causes the formation of the jet stream?",
+          opts: [
+            "The behavior of cyclones",
+            "The uneven heating of the Earth's surface",
+            "The difference in temperature between air masses",
+            "The temperature changes that occur seasonally"
+          ],
+          ans: 2,
+          exp: "Paragraph 1 states it forms due to \"the temperature contrast between cold polar air and warm tropical air.\" Uneven heating (B) influences the jet stream's behavior but is not cited as the cause of its formation."
+        },
+        {
+          type: "Factual Information",
+          q: "How does the jet stream affect weather systems in the northern hemisphere when it dips southward?",
+          opts: [
+            "It brings warmer air to lower latitudes.",
+            "It leads to more stable conditions.",
+            "It brings storms to places further south.",
+            "It brings cyclones to higher latitudes."
+          ],
+          ans: 2,
+          exp: "Paragraph 1 says when the jet stream dips southward, \"it brings cold air and storms to lower latitudes\" — i.e., further south."
+        },
+        {
+          type: "Factual Information",
+          q: "What is one of the main factors influencing the jet stream's behavior?",
+          opts: [
+            "The Earth's rotation",
+            "The presence of cyclones",
+            "The amount of precipitation",
+            "The direction of wind patterns"
+          ],
+          ans: 0,
+          exp: "Paragraph 2 lists \"the Earth's rotation and uneven heating of its surface\" as factors. The other options are effects of the jet stream, not causes."
+        },
+        {
+          type: "Author's Purpose",
+          q: "What does the author suggest about the impact of climate change on the jet stream?",
+          opts: [
+            "It will have no significant effect on the jet stream.",
+            "It is reducing the temperature difference between polar and tropical air masses.",
+            "It is causing the jet stream to move faster.",
+            "It is increasing the temperature contrast between the poles and the equator."
+          ],
+          ans: 1,
+          exp: "Paragraph 3 states: \"The warming Arctic reduces the temperature difference between polar and tropical air masses.\" Option C and D contradict this; A contradicts the whole paragraph."
+        },
+        {
+          type: "Vocabulary",
+          q: "The word \"prolonged\" in the passage is closest in meaning to",
+          opts: ["extended","seasonal","rapid","short-term"],
+          ans: 0,
+          exp: "\"Prolonged\" means lasting a long time — \"extended\" is the correct synonym. \"Short-term\" is the opposite; \"rapid\" and \"seasonal\" don't match."
+        }
+      ]
+    }
+  },
+
+  // ── MODULE 2 ──────────────────────────────────────────────────────────
+  {
+    label: "Module 2",
+    color: "var(--purple)",
+    fill: {
+      title: "Economics",
+      blanks: 10,
+      tokens: [
+        "Economics is the study of how societies allocate resources and make decisions about production, distribution, and consumption. It ",
+        {prefix:"exam",answer:"ines"}," the behavior ",
+        {prefix:"o",answer:"f"}," governments, ",
+        {prefix:"busin",answer:"esses"},", and ",
+        {prefix:"indiv",answer:"iduals"}," in ",
+        {prefix:"t",answer:"he"}," marketplace. ",
+        {prefix:"Stud",answer:"ying"}," economics ",
+        {prefix:"i",answer:"s"}," not ",
+        {prefix:"ju",answer:"st"}," for ",
+        {prefix:"th",answer:"ose"}," who ",
+        {prefix:"asp",answer:"ire"}," to become economists or bankers. Gaining a basic understanding of economic concepts, like supply and demand, inflation, and employment, benefits everyone. It enables us to make informed decisions and understand the broader economic forces that shape our daily lives."
+      ]
+    },
+    tasks: [
+      {
+        type: "daily",
+        label: "Read an email",
+        text: {
+          kind: "email",
+          subject: "Medical appointment",
+          to: "Ms. Patel",
+          body: `Dear Ms. Patel,\n\nYour appointment at Lakeside Medical Center is scheduled for May 10 at 3:00 P.M. Please arrive 15 minutes early for paperwork. You will be seen by Dr. Liu. Click the link below to confirm. To reschedule or cancel, call us at 756-8793.\n\nRegards,\nBrittany Jones`
+        },
+        questions: [
+          {
+            q: "What time should Ms. Patel arrive for her appointment?",
+            opts: ["10:00 AM","2:45 PM","3:00 PM","3:15 PM"],
+            ans: 1,
+            exp: "The appointment is at 3:00 PM but she must arrive 15 minutes early — so 2:45 PM. Option C is the appointment time, not the arrival time."
+          },
+          {
+            q: "How can Ms. Patel cancel her appointment?",
+            opts: ["By replying to the e-mail","By clicking a link","By calling a phone number","By sending a text message"],
+            ans: 2,
+            exp: "The email says \"To reschedule or cancel, call us at 756-8793.\" Clicking the link is for confirming, not cancelling."
+          }
+        ]
+      },
+      {
+        type: "daily",
+        label: "Read an advertisement",
+        text: {
+          kind: "ad",
+          title: "Riverdale Parks Department",
+          subtitle: "Riverdale Parks Department seeks dedicated volunteers to assist with weekend nature programs for families.",
+          body: `The programs will begin on May 1.\nVolunteers must be available Saturdays or Sundays, 9 A.M. to 4 P.M., and complete a four-hour training session before starting.\nTraining sessions are scheduled for the week of April 15.\nPrevious experience with children preferred but not required.\nResponsibilities include leading nature walks, supervising craft activities, and helping with educational demonstrations.\nApplication deadline: March 15.\nBackground check required for all accepted volunteers.\nContact Sarah Mitchell at 555-0199 for more information.`
+        },
+        questions: [
+          {
+            q: "What is this poster mainly advertising?",
+            opts: [
+              "Career opportunities at the Riverdale Parks Department",
+              "Educational programs for children",
+              "Volunteer opportunities for community members",
+              "Training courses for nature guides"
+            ],
+            ans: 2,
+            exp: "The ad is seeking \"dedicated volunteers\" — this is a call for volunteers, not paid careers (A), programs for children to attend (B), or training courses open to the public (D)."
+          },
+          {
+            q: "What must volunteers do before they can start working?",
+            opts: [
+              "Submit references from previous employers",
+              "Complete training and pass a background check",
+              "Demonstrate experience working with children",
+              "Commit to working both Saturday and Sunday"
+            ],
+            ans: 1,
+            exp: "The ad says volunteers must complete a training session AND a background check is required. Experience with children is preferred but not required (C). Volunteers work Saturday OR Sunday, not both (D)."
+          },
+          {
+            q: "When is the latest someone can apply for this program?",
+            opts: ["March 15th","April 15th","May 1st","May 9th"],
+            ans: 0,
+            exp: "The ad clearly states: \"Application deadline: March 15.\" April 15 is when training sessions begin, and May 1 is when programs start."
+          }
+        ]
+      }
+    ],
+    passage: {
+      title: "The Golden Age of Television",
+      body: [
+        "The Golden Age of Television is often considered to have occurred during the 1950s and 1960s, when TV became a dominant cultural force. This era was marked by groundbreaking shows that experimented with new formats and storytelling techniques.",
+        "During this time period, TV saw the rise of anthology series, which presented different stories and characters in each episode, in contrast to traditional ongoing narratives. One influential anthology series was The Twilight Zone, which blended science fiction, horror, and drama in thought-provoking ways. Sitcoms reflecting everyday life, like I Love Lucy, became a cultural phenomenon. Despite its simple format, the show tackled complex social issues including gender roles and family dynamics. There was also a new focus on live broadcasts, providing viewers with real-time coverage of events and entertainers.",
+        "However, the Golden Age was not without challenges. TV networks navigated the balance between artistic innovation and commercial pressures. Advertisers sought to influence content to appeal to mass audiences, which sometimes clashed with creative visions. Nonetheless, the period left an indelible mark on the television industry, setting standards for future programming and contributing to the medium's evolution."
+      ],
+      questions: [
+        {
+          type: "Vocabulary",
+          q: "The word \"dominant\" in the passage is closest in meaning to",
+          opts: ["relevant","favorite","leading","entertaining"],
+          ans: 2,
+          exp: "\"Dominant\" means most powerful or influential — \"leading\" is the closest match. \"Favorite\" implies personal preference; \"relevant\" and \"entertaining\" don't capture the meaning of dominance."
+        },
+        {
+          type: "Author's Purpose",
+          q: "Why does the author mention The Twilight Zone?",
+          opts: [
+            "To illustrate the popularity of science fiction during the Golden Age",
+            "To highlight the innovative nature of anthology series",
+            "To discuss the impact of horror on television",
+            "To compare different types of TV formats"
+          ],
+          ans: 1,
+          exp: "The Twilight Zone is introduced as an example of an \"influential anthology series\" — its purpose is to illustrate the innovation of that format, not to discuss science fiction or horror specifically."
+        },
+        {
+          type: "Inference",
+          q: "What does the author suggest about sitcoms like I Love Lucy?",
+          opts: [
+            "They made TV less popular during the Golden Age",
+            "They focused on people's daily lives.",
+            "They reduced the influence of advertisers",
+            "They were more popular than anthology series"
+          ],
+          ans: 1,
+          exp: "The passage says sitcoms were \"reflecting everyday life\" — that's what option B paraphrases. Options A and C contradict the passage; D is not supported."
+        },
+        {
+          type: "Paragraph Organization",
+          q: "What is the relationship between paragraphs 2 and 3?",
+          opts: [
+            "Paragraph 3 expands on the challenges mentioned in paragraph 2.",
+            "Paragraph 3 provides examples of the formats discussed in paragraph 2.",
+            "Paragraph 3 introduces a new issue that was not covered in paragraph 2.",
+            "Paragraph 3 contradicts the success of TV shows mentioned in paragraph 2."
+          ],
+          ans: 2,
+          exp: "Paragraph 2 focuses on innovations and successes. Paragraph 3 shifts to challenges (commercial pressure, advertiser influence) — these are new issues not raised in paragraph 2."
+        },
+        {
+          type: "Author's Purpose",
+          q: "Why does the author mention advertisers in the passage?",
+          opts: [
+            "To explain a challenge faced by TV networks",
+            "To point out how TV shows were funded at the time",
+            "To illustrate the role of commercials during live broadcasts",
+            "To criticize the quality of programming during the Golden Age"
+          ],
+          ans: 0,
+          exp: "Paragraph 3 uses advertisers as an example of the commercial pressures that challenged TV networks' artistic vision — not to explain funding (B), commercials (C), or criticize quality (D)."
+        }
+      ]
+    }
+  }
+];
+
+/* ════════════════════════════════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════════════════════════════════ */
+let currentModule = 0;
+let currentPhase = 'fill'; // 'fill' | 'daily-0' | 'daily-1' | 'passage'
+let currentTaskQIdx = 0;
+let currentPassageQIdx = 0;
+let timerInterval = null;
+let secondsLeft = 0;
+let userAnswers = []; // per fill
+let fillScore = null;
+let allResults = []; // {module, phase, q, correct, ans, userAns}
+
+// All MC questions collected for progress dots
+let allMCQuestions = []; // {moduleIdx, phase, qIdx, answered, correct}
+let mcPointer = 0;
+
+/* ════════════════════════════════════════════════════════════════════
+   START
+   ════════════════════════════════════════════════════════════════════ */
+function startTest() {
+  startModule(0);
+}
+
+function startModule(mIdx) {
+  currentModule = mIdx;
+  currentPhase = 'fill';
+  currentTaskQIdx = 0;
+  currentPassageQIdx = 0;
+  userAnswers = [];
+  fillScore = null;
+  // Build MC question list for dots
+  allMCQuestions = [];
+  const mod = MODULES[mIdx];
+  mod.tasks.forEach((task, ti) => {
+    task.questions.forEach((q, qi) => {
+      allMCQuestions.push({phase:`daily-${ti}`, qi, answered:false, correct:null});
+    });
+  });
+  mod.passage.questions.forEach((q, qi) => {
+    allMCQuestions.push({phase:'passage', qi, answered:false, correct:null});
+  });
+  mcPointer = 0;
+
+  secondsLeft = 15 * 60; // 15 min per module, resets each time
+  showGlobalBar(true);
+  updateGlobalBar();
+  startTimer();
+  renderFill();
+  showScreen('quiz');
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   TIMER
+   ════════════════════════════════════════════════════════════════════ */
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimerDisplay();
+    if (secondsLeft <= 0) { clearInterval(timerInterval); timerInterval = null; handleTimeUp(); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
+  const el = document.getElementById('gbTimer');
+  el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'gb-timer' + (secondsLeft <= 180 ? ' warn' : '');
+}
+
+function handleTimeUp() {
+  if (currentPhase === 'fill') { checkFill(true); }
+  else { advanceToResults(); }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   GLOBAL BAR
+   ════════════════════════════════════════════════════════════════════ */
+function showGlobalBar(show) {
+  document.getElementById('globalBar').style.display = show ? 'flex' : 'none';
+}
+
+function updateGlobalBar() {
+  const mod = MODULES[currentModule];
+  document.getElementById('gbSection').textContent = mod.label;
+  let task = '', prog = '';
+  if (currentPhase === 'fill') { task = 'Complete the Words'; prog = '10 blanks'; }
+  else if (currentPhase.startsWith('daily-')) {
+    const ti = parseInt(currentPhase.split('-')[1]);
+    task = mod.tasks[ti].label;
+    prog = `Q${currentTaskQIdx + 1} of ${mod.tasks[ti].questions.length}`;
+  } else if (currentPhase === 'passage') {
+    task = mod.passage.title;
+    prog = `Q${currentPassageQIdx + 1} of ${mod.passage.questions.length}`;
+  }
+  document.getElementById('gbTask').textContent = task;
+  document.getElementById('gbProgress').textContent = prog;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   FILL-IN PHASE
+   ════════════════════════════════════════════════════════════════════ */
+function renderFill() {
+  document.getElementById('quizFooter').style.display = 'none';
+  const mod = MODULES[currentModule];
+  const fill = mod.fill;
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  const sh = document.createElement('div'); sh.className = 'section-header';
+  sh.innerHTML = `<div class="sh-label">Complete the Words</div><h2>${fill.title}</h2><p>Fill in the missing letters. The first letters of each word are shown.</p>`;
+  body.appendChild(sh);
+
+  const instr = document.createElement('div'); instr.className = 'instr-box';
+  instr.innerHTML = 'Fill in the <strong>missing letters</strong>. Each blank shows the exact number of missing letters as underscores. Type only the missing part, then press <strong>Tab</strong> to move to the next blank.';
+  body.appendChild(instr);
+
+  const wrap = document.createElement('div'); wrap.className = 'passage-wrap'; wrap.id = 'fillWrap';
+  renderFillTokens(fill.tokens, wrap);
+  body.appendChild(wrap);
+
+  const actions = document.createElement('div'); actions.className = 'fill-actions';
+  actions.innerHTML = `
+    <button id="fillRevealBtn" onclick="revealFill()">Show answers</button>
+    <button class="primary" id="fillCheckBtn" onclick="checkFill(false)">Check answers</button>
+  `;
+  body.appendChild(actions);
+  updateGlobalBar();
+}
+
+function renderFillTokens(tokens, wrap) {
+  tokens.forEach(tok => {
+    if (typeof tok === 'string') { wrap.appendChild(document.createTextNode(tok)); return; }
+    const len = tok.answer.length;
+    const w = Math.max(len * 15, 28);
+    const wi = document.createElement('span'); wi.className = 'word-item';
+    const pfx = document.createElement('span'); pfx.className = 'word-prefix'; pfx.textContent = tok.prefix;
+    wi.appendChild(pfx);
+    const bw = document.createElement('span'); bw.className = 'blank-wrap'; bw.style.width = w + 'px'; bw.style.display = 'inline-block';
+    const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'blank-input';
+    inp.dataset.answer = tok.answer.toLowerCase(); inp.maxLength = len + 1; inp.style.width = w + 'px';
+    inp.setAttribute('autocomplete','off'); inp.setAttribute('autocorrect','off');
+    inp.setAttribute('autocapitalize','off'); inp.setAttribute('spellcheck','false');
+    inp.placeholder = '_'.repeat(len);
+    inp.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); focusNextBlank(inp); }});
+    bw.appendChild(inp); wi.appendChild(bw); wrap.appendChild(wi);
+  });
+}
+
+function focusNextBlank(current) {
+  const inputs = Array.from(document.querySelectorAll('#fillWrap .blank-input'));
+  const idx = inputs.indexOf(current);
+  if (idx < inputs.length - 1) inputs[idx + 1].focus();
+}
+
+function getBlankInputs() { return Array.from(document.querySelectorAll('#fillWrap .blank-input')); }
+
+function checkFill(autoSubmit) {
+  // Timer keeps running
+  const inputs = getBlankInputs();
+  let correct = 0; userAnswers = [];
+  inputs.forEach(inp => {
+    const user = inp.value.trim().toLowerCase();
+    const ans = inp.dataset.answer;
+    userAnswers.push(user);
+    inp.disabled = true;
+    inp.classList.remove('correct','wrong','revealed');
+    if (user === ans) { inp.classList.add('correct'); correct++; }
+    else { inp.classList.add('wrong'); }
+  });
+  fillScore = correct;
+  document.getElementById('fillCheckBtn').disabled = true;
+  document.getElementById('fillRevealBtn').disabled = true;
+  setTimeout(() => showFillResult(correct, inputs), 300);
+}
+
+function revealFill() {
+  // Timer keeps running
+  const inputs = getBlankInputs();
+  userAnswers = [];
+  inputs.forEach(inp => {
+    const user = inp.value.trim().toLowerCase();
+    userAnswers.push(user);
+    inp.disabled = true;
+    inp.classList.remove('correct','wrong','revealed');
+    if (user === inp.dataset.answer) inp.classList.add('correct');
+    else { inp.value = inp.dataset.answer; inp.classList.add('revealed'); }
+  });
+  document.getElementById('fillCheckBtn').disabled = true;
+  document.getElementById('fillRevealBtn').disabled = true;
+}
+
+function showFillResult(correct, inputs) {
+  const mod = MODULES[currentModule];
+  const fill = mod.fill;
+  const total = fill.blanks;
+  const pct = Math.round(correct / total * 100);
+  const blanks = fill.tokens.filter(t => typeof t !== 'string');
+
+  let title, desc;
+  if (pct === 100) { title = 'Perfect!'; desc = 'Every blank correct. You read context clues and word endings perfectly.'; }
+  else if (pct >= 80) { title = 'Great work!'; desc = 'Almost there. Review the missed blanks — check the word endings in the answer.'; }
+  else if (pct >= 60) { title = 'Good effort!'; desc = 'Getting there! Always read the full sentence before filling each blank.'; }
+  else { title = 'Keep practicing.'; desc = 'Study the answers below. Key tip: read for meaning first, then check the blank.'; }
+
+  const wrap = document.getElementById('fillResultWrap'); wrap.innerHTML = '';
+  const scoreWrap = document.createElement('div'); scoreWrap.className = 'fill-result-wrap'; scoreWrap.style.margin='0';
+  scoreWrap.style.border = 'none'; scoreWrap.style.padding = '0';
+  scoreWrap.innerHTML = `
+    <div class="fill-score-row">
+      <div class="fill-score-circle">
+        <div class="fill-score-num">${correct}/${total}</div>
+        <div class="fill-score-lbl">correct</div>
+      </div>
+      <div class="fill-score-msg"><h3>${title}</h3><p>${desc}</p></div>
+    </div>
+    <h4 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px">Answer breakdown</h4>
+    <div class="answer-grid" id="fillAnswerGrid"></div>
+    <div class="passage-review-box"><h4>Full passage — answers highlighted</h4><div id="fillReviewBody"></div></div>
+  `;
+  wrap.appendChild(scoreWrap);
+
+  const grid = document.getElementById('fillAnswerGrid');
+  blanks.forEach((tok, i) => {
+    const user = userAnswers[i] || '';
+    const ok = user === tok.answer;
+    const item = document.createElement('div'); item.className = 'answer-item';
+    item.innerHTML = `<div class="ai-icon ${ok?'ok':'no'}">${ok?'✓':'✗'}</div>
+      <div class="ai-text">
+        <div class="ai-label">${tok.prefix} + ___</div>
+        ${ok
+          ? `<span class="ai-correct">${tok.prefix}${tok.answer}</span>`
+          : `<span class="ai-wrong">${tok.prefix}${user||'?'}</span><span class="ai-correct"> → ${tok.prefix}${tok.answer}</span>`}
+      </div>`;
+    grid.appendChild(item);
+  });
+
+  const reviewBody = document.getElementById('fillReviewBody');
+  let bi = 0;
+  fill.tokens.forEach(tok => {
+    if (typeof tok === 'string') { reviewBody.appendChild(document.createTextNode(tok)); return; }
+    const user = userAnswers[bi] || '';
+    const ok = user === tok.answer;
+    if (ok) {
+      const s = document.createElement('span'); s.className = 'r-ok'; s.textContent = tok.prefix + tok.answer; reviewBody.appendChild(s);
+    } else {
+      if (user) { const sw = document.createElement('span'); sw.className = 'r-bad'; sw.textContent = tok.prefix + user; reviewBody.appendChild(sw); reviewBody.appendChild(document.createTextNode(' ')); }
+      const sa = document.createElement('span'); sa.className = 'r-fix'; sa.textContent = tok.prefix + tok.answer; reviewBody.appendChild(sa);
+    }
+    bi++;
+  });
+
+  document.getElementById('fillContinueBtn').textContent = 'Continue to Reading →';
+  showScreen('fill-result');
+  showGlobalBar(false);
+}
+
+function continueAfterFill() {
+  showGlobalBar(true);
+  updateTimerDisplay();
+  currentPhase = 'daily-0';
+  currentTaskQIdx = 0;
+  renderDailyTask(0, 0);
+  showScreen('quiz');
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   DAILY LIFE TASKS
+   ════════════════════════════════════════════════════════════════════ */
+function renderDailyTask(taskIdx, qIdx) {
+  currentPhase = `daily-${taskIdx}`;
+  currentTaskQIdx = qIdx;
+  const mod = MODULES[currentModule];
+  const task = mod.tasks[taskIdx];
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  // Section header
+  const sh = document.createElement('div'); sh.className = 'section-header';
+  sh.innerHTML = `<div class="sh-label">${task.label}</div><h2>Questions ${getTaskQRange(taskIdx)}</h2>`;
+  body.appendChild(sh);
+
+  // Text
+  body.appendChild(buildTextDisplay(task));
+
+  // Question
+  renderMCQuestion(task.questions[qIdx], body, 'daily', taskIdx, qIdx);
+  updateGlobalBar();
+  updateFooter();
+}
+
+function getTaskQRange(taskIdx) {
+  const mod = MODULES[currentModule];
+  let start = 11;
+  for (let i = 0; i < taskIdx; i++) start += mod.tasks[i].questions.length;
+  const end = start + mod.tasks[taskIdx].questions.length - 1;
+  return `${start}–${end}`;
+}
+
+function buildTextDisplay(task) {
+  const t = task.text;
+  if (t.kind === 'email') {
+    const box = document.createElement('div'); box.className = 'email-box';
+    const hdr = document.createElement('div'); hdr.className = 'email-header';
+    [['Subject', t.subject], ['To', t.to]].forEach(([lbl, val]) => {
+      const row = document.createElement('div'); row.className = 'email-field';
+      row.innerHTML = `<span class="email-field-label">${lbl}:</span><span>${val}</span>`;
+      hdr.appendChild(row);
+    });
+    box.appendChild(hdr);
+    const bdy = document.createElement('div'); bdy.className = 'email-body'; bdy.textContent = t.body;
+    box.appendChild(bdy); return box;
+  }
+  if (t.kind === 'notice') {
+    const box = document.createElement('div'); box.className = 'notice-box';
+    box.innerHTML = `<div class="notice-title">${t.title}</div><p style="font-size:14px;line-height:1.75">${t.intro}</p>`;
+    const ol = document.createElement('ol'); ol.className = 'notice-list';
+    t.items.forEach(item => { const li = document.createElement('li'); li.textContent = item; ol.appendChild(li); });
+    box.appendChild(ol); return box;
+  }
+  if (t.kind === 'ad') {
+    const box = document.createElement('div'); box.className = 'ad-box';
+    box.innerHTML = `<div class="ad-title">${t.title}</div><div class="ad-body" style="white-space:pre-wrap">${t.body}</div>`;
+    return box;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   PASSAGE PHASE
+   ════════════════════════════════════════════════════════════════════ */
+function renderPassageQuestion(qIdx) {
+  currentPhase = 'passage';
+  currentPassageQIdx = qIdx;
+  const mod = MODULES[currentModule];
+  const passage = mod.passage;
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  const sh = document.createElement('div'); sh.className = 'section-header';
+  sh.innerHTML = `<div class="sh-label">Read an Academic Passage</div><h2>Questions ${getPassageQRange()}</h2>`;
+  body.appendChild(sh);
+
+  const plbl = document.createElement('div'); plbl.className = 'passage-label'; plbl.textContent = 'Read an academic passage.'; body.appendChild(plbl);
+  const ptitle = document.createElement('div'); ptitle.className = 'passage-title'; ptitle.textContent = passage.title; body.appendChild(ptitle);
+  const pbox = document.createElement('div'); pbox.className = 'passage-box';
+  passage.body.forEach(para => { const p = document.createElement('p'); p.textContent = para; pbox.appendChild(p); });
+  body.appendChild(pbox);
+
+  renderMCQuestion(passage.questions[qIdx], body, 'acad', null, qIdx);
+  updateGlobalBar();
+  updateFooter();
+}
+
+function getPassageQRange() {
+  const mod = MODULES[currentModule];
+  let start = 11;
+  mod.tasks.forEach(t => start += t.questions.length);
+  return `${start}–${start + mod.passage.questions.length - 1}`;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   MC QUESTION RENDERER
+   ════════════════════════════════════════════════════════════════════ */
+function renderMCQuestion(qData, container, colorClass, taskIdx, qIdx) {
+  const passageQNum = currentPhase === 'passage' ? currentPassageQIdx : null;
+  const num = getMCNumber(currentPhase, taskIdx, qIdx);
+
+  const qBlock = document.createElement('div'); qBlock.className = 'question-block';
+  const qmeta = document.createElement('div'); qmeta.className = 'q-meta';
+
+  const qnum = document.createElement('div'); qnum.className = `q-num ${colorClass}`;
+  qnum.textContent = `Question ${num}`;
+  qmeta.appendChild(qnum);
+
+  if (qData.type) {
+    const badge = document.createElement('div'); badge.className = 'q-type-badge';
+    badge.textContent = qData.type; qmeta.appendChild(badge);
+  }
+  qBlock.appendChild(qmeta);
+
+  const qtext = document.createElement('div'); qtext.className = 'q-text'; qtext.textContent = qData.q;
+  qBlock.appendChild(qtext);
+
+  const opts = document.createElement('div'); opts.className = 'options';
+  const feedback = document.createElement('div'); feedback.className = 'feedback';
+  const letters = ['A','B','C','D'];
+  qData.opts.forEach((optText, oi) => {
+    const opt = document.createElement('button'); opt.className = 'opt';
+    opt.innerHTML = `<div class="opt-letter">${letters[oi]}</div><div>${optText}</div>`;
+    opt.onclick = () => selectMCAnswer(oi, qData, opt, opts, feedback);
+    opts.appendChild(opt);
+  });
+  qBlock.appendChild(opts); qBlock.appendChild(feedback);
+
+  const hint = document.createElement('p');
+  hint.id = 'answerHint';
+  hint.style.cssText = 'font-size:12px;color:var(--muted);text-align:right;margin-top:10px;font-style:italic';
+  hint.textContent = 'Select an answer to continue →';
+  qBlock.appendChild(hint);
+
+  container.appendChild(qBlock);
+}
+
+function getMCNumber(phase, taskIdx, qIdx) {
+  const mod = MODULES[currentModule];
+  let n = 11;
+  if (phase === 'daily-0') return n + qIdx;
+  n += mod.tasks[0].questions.length;
+  if (phase === 'daily-1') return n + qIdx;
+  n += mod.tasks[1].questions.length;
+  return n + qIdx;
+}
+
+function selectMCAnswer(oi, qData, clickedOpt, optsContainer, feedback) {
+  optsContainer.querySelectorAll('.opt').forEach(o => o.onclick = null);
+  const ok = oi === qData.ans;
+  clickedOpt.classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) optsContainer.querySelectorAll('.opt')[qData.ans].classList.add('reveal');
+
+  // Record
+  allResults.push({ module: currentModule, phase: currentPhase, q: qData.q, correct: ok, ans: qData.ans, userAns: oi, opts: qData.opts, exp: qData.exp });
+
+  // Update dot
+  const mcQ = allMCQuestions[mcPointer];
+  if (mcQ) { mcQ.answered = true; mcQ.correct = ok; }
+  mcPointer++;
+
+  // Feedback — only if wrong
+  if (!ok) {
+    feedback.className = 'feedback show bad';
+    feedback.innerHTML = `<div class="feedback-title">Not quite.</div>${qData.exp}`;
+  } else {
+    feedback.className = 'feedback show good';
+    feedback.innerHTML = `<div class="feedback-title">Correct!</div>`;
+  }
+
+  document.getElementById('nextBtn').disabled = false;
+  const hint = document.getElementById('answerHint');
+  if (hint) hint.style.display = 'none';
+  updateFooter();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   NAVIGATION
+   ════════════════════════════════════════════════════════════════════ */
+function handleNext() {
+  document.getElementById('nextBtn').disabled = true;
+  window.scrollTo(0, 0);
+  const mod = MODULES[currentModule];
+
+  if (currentPhase.startsWith('daily-')) {
+    const ti = parseInt(currentPhase.split('-')[1]);
+    const task = mod.tasks[ti];
+    if (currentTaskQIdx < task.questions.length - 1) {
+      currentTaskQIdx++;
+      renderDailyTask(ti, currentTaskQIdx);
+    } else if (ti < mod.tasks.length - 1) {
+      renderDailyTask(ti + 1, 0);
+    } else {
+      currentPhase = 'passage';
+      currentPassageQIdx = 0;
+      renderPassageQuestion(0);
+    }
+  } else if (currentPhase === 'passage') {
+    if (currentPassageQIdx < mod.passage.questions.length - 1) {
+      currentPassageQIdx++;
+      renderPassageQuestion(currentPassageQIdx);
+    } else {
+      clearInterval(timerInterval);
+      if (currentModule === 0) {
+        showScreen('transition');
+        showGlobalBar(false);
+        document.getElementById('quizFooter').style.display = 'none';
+      } else {
+        advanceToResults();
+      }
+    }
+  }
+}
+
+function advanceToResults() {
+  clearInterval(timerInterval);
+  showGlobalBar(false);
+  document.getElementById('quizFooter').style.display = 'none';
+  buildResults();
+  showScreen('results');
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   PROGRESS FOOTER
+   ════════════════════════════════════════════════════════════════════ */
+function updateFooter() {
+  const footer = document.getElementById('quizFooter');
+  footer.style.display = 'flex';
+  const pd = document.getElementById('progDots');
+  pd.innerHTML = '';
+
+  // Separator between task groups
+  const mod = MODULES[currentModule];
+  let groups = [];
+  mod.tasks.forEach((t, ti) => { groups.push({phase:`daily-${ti}`, count: t.questions.length, colorClass:'daily-type'}); });
+  groups.push({phase:'passage', count: mod.passage.questions.length, colorClass:'acad-type'});
+
+  let dotOffset = 0;
+  groups.forEach((g, gi) => {
+    if (gi > 0) { const sep = document.createElement('div'); sep.className = 'pdot separator'; pd.appendChild(sep); }
+    for (let i = 0; i < g.count; i++) {
+      const globalIdx = dotOffset + i;
+      const mcQ = allMCQuestions[globalIdx];
+      const dot = document.createElement('div');
+      let cls = 'pdot';
+      const isActive = (currentPhase === g.phase) && (
+        g.phase.startsWith('daily-') ? currentTaskQIdx === i : currentPassageQIdx === i
+      );
+      if (isActive) cls += ` active ${g.colorClass}`;
+      else if (mcQ && mcQ.answered) cls += mcQ.correct ? ' correct' : ' wrong';
+      dot.className = cls;
+      pd.appendChild(dot);
+    }
+    dotOffset += g.count;
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  // Check if it's last question of last passage in module 2
+  const isLastQuestion = currentPhase === 'passage' && currentPassageQIdx === mod.passage.questions.length - 1;
+  const isLastModule = currentModule === MODULES.length - 1;
+  if (isLastQuestion && isLastModule) nextBtn.textContent = 'See results';
+  else if (isLastQuestion) nextBtn.textContent = 'Finish Module';
+  else nextBtn.textContent = 'Next';
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   RESULTS
+   ════════════════════════════════════════════════════════════════════ */
+function buildResults() {
+  const wrap = document.getElementById('resultsWrap'); wrap.innerHTML = '';
+  const correct = allResults.filter(r => r.correct).length;
+  const total = allResults.length;
+  const fillCorrect = []; // track fill separately if needed
+
+  const letters = ['A','B','C','D'];
+
+  let title, desc;
+  const pct = Math.round(correct / total * 100);
+  if (pct === 100) { title = 'Excellent!'; desc = 'Perfect score on every question. Outstanding reading performance.'; }
+  else if (pct >= 80) { title = 'Well done!'; desc = 'Strong performance across both modules. Review the questions you missed below.'; }
+  else if (pct >= 60) { title = 'Good effort!'; desc = 'You\'re building solid skills. Focus on the question types you found most challenging.'; }
+  else { title = 'Keep practicing!'; desc = 'Re-read the explanations carefully below — notice which question types are hardest for you.'; }
+
+  wrap.innerHTML = `
+    <div class="results-hero">
+      <div class="score-big">${correct}/${total}</div>
+      <div class="score-out">questions correct</div>
+      <h2>${title}</h2>
+      <p>${desc}</p>
+    </div>
+  `;
+
+  // Module summaries
+  const modSum = document.createElement('div'); modSum.className = 'module-summary';
+  modSum.innerHTML = '<h4>Score by section</h4>';
+  MODULES.forEach((mod, mi) => {
+    const modResults = allResults.filter(r => r.module === mi);
+    const mc = modResults.filter(r => r.correct).length;
+    const mt = modResults.length;
+    const pct = mt > 0 ? Math.round(mc / mt * 100) : 0;
+    const row = document.createElement('div'); row.className = 'mod-row';
+    const color = mi === 0 ? 'var(--blue)' : 'var(--purple)';
+    row.innerHTML = `
+      <span class="mod-label">${mod.label} — MC Questions</span>
+      <div class="mod-bar-wrap"><div class="mod-bar" style="width:${pct}%;background:${color}"></div></div>
+      <span class="mod-score" style="color:${color}">${mc}/${mt}</span>`;
+    modSum.appendChild(row);
+  });
+  wrap.appendChild(modSum);
+
+  // Review
+  const rev = document.createElement('div'); rev.className = 'review-section';
+  rev.innerHTML = '<h4>Question review</h4>';
+  allResults.forEach((r, i) => {
+    const ok = r.correct;
+    const item = document.createElement('div'); item.className = `review-item ${ok ? 'r-ok-item' : 'r-bad-item'}`;
+    const phaseLabel = r.phase.startsWith('daily-') ? 'Daily Life' : 'Academic Passage';
+    const modLabel = `Module ${r.module + 1}`;
+    item.innerHTML = `
+      <div class="ri-icon ${ok ? 'ok' : 'no'}">${ok ? '✓' : '✗'}</div>
+      <div class="ri-content">
+        <div class="ri-section">${modLabel} · ${phaseLabel}</div>
+        <div class="ri-q">${r.q.length > 90 ? r.q.slice(0, 90) + '…' : r.q}</div>
+        <div class="ri-ans">
+          Your answer: <strong>${r.userAns >= 0 ? letters[r.userAns] + '. ' + r.opts[r.userAns] : 'No answer'}</strong>
+          ${!ok ? `<br>Correct: <strong style="color:#0f6e56">${letters[r.ans]}. ${r.opts[r.ans]}</strong>` : ''}
+        </div>
+        ${!ok ? `<div class="ri-exp">${r.exp}</div>` : ''}
+      </div>`;
+    rev.appendChild(item);
+  });
+  wrap.appendChild(rev);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   UTILS
+   ════════════════════════════════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(`screen-${id}`);
+  if (target) { target.classList.add('active'); }
+  else { document.getElementById(id)?.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
