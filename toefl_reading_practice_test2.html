@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL Reading – Practice Test 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1A2744;--teal:#1B7A8C;--gold:#E8A838;
+  --green:#1d9e75;--green-bg:#e1f5ee;--green-border:#9fe1cb;
+  --coral:#d85a30;--coral-bg:#faece7;--coral-border:#f5c4b3;
+  --blue:#185fa5;--blue-bg:#e6f1fb;--blue-border:#b5d4f4;
+  --purple:#534ab7;--purple-bg:#eeedfe;--purple-border:#c4b5f4;
+  --bg:#f5f6fa;--card:#fff;--border:#e8ecf4;
+  --text:#1f2937;--muted:#64748b;
+  --warn-text:#a32d2d;--warn-bg:#fcebeb;--warn-border:#f7c1c1;
+}
+body{font-family:'Trebuchet MS',Trebuchet,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.screen{display:none;max-width:860px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+.screen.active{display:block}
+
+/* HOME */
+.home-hero{text-align:center;padding:3rem 1rem 2rem}
+.home-hero .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--navy);color:#fff;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+.home-hero h1{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.2}
+.home-hero p{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;margin:0 auto}
+.how-it-works{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.6rem;margin:1.5rem 0}
+.how-it-works h2{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.how-it-works ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.how-it-works li{font-size:13.5px;color:#374151;padding-left:22px;position:relative;line-height:1.55}
+.how-it-works li::before{content:"→";position:absolute;left:0;color:var(--teal);font-weight:700}
+.modules-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+@media(max-width:560px){.modules-grid{grid-template-columns:1fr}}
+.module-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem}
+.module-card .mc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.module-card .mc-label.m1{color:var(--blue)}
+.module-card .mc-label.m2{color:var(--purple)}
+.module-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.module-card .mc-rows{display:flex;flex-direction:column;gap:6px}
+.module-card .mc-row{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#374151}
+.mc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mc-dot.fill{background:var(--teal)}
+.mc-dot.daily{background:var(--blue)}
+.mc-dot.acad{background:var(--purple)}
+.start-btn{width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;letter-spacing:.3px}
+.start-btn:hover{background:#243460}
+
+/* GLOBAL BAR */
+.global-bar{position:sticky;top:0;z-index:100;background:var(--navy);padding:10px 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gb-left{display:flex;align-items:center;gap:10px}
+.gb-section{font-size:12px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.7px}
+.gb-task{font-size:13px;font-weight:700;color:#fff}
+.gb-progress{font-size:12px;color:rgba(255,255,255,.5)}
+.gb-timer{font-size:18px;font-weight:700;color:#fff;background:rgba(255,255,255,.12);padding:6px 16px;border-radius:8px;font-variant-numeric:tabular-nums;min-width:80px;text-align:center;transition:background .3s,color .3s}
+.gb-timer.warn{background:var(--warn-bg);color:var(--warn-text)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:1.25rem 1.5rem 5rem}
+.section-header{padding:1rem 0 1.25rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.section-header .sh-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:4px}
+.section-header h2{font-size:18px;font-weight:700;color:var(--navy)}
+.section-header p{font-size:13.5px;color:var(--muted);margin-top:4px}
+.instr-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:13.5px;color:var(--blue);line-height:1.6}
+
+/* FILL */
+.passage-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.75rem;margin-bottom:1.5rem;font-size:16px;line-height:3;color:var(--text)}
+.word-item{display:inline-flex;align-items:baseline;white-space:nowrap}
+.word-prefix{font-size:16px;color:var(--text);font-weight:400}
+.blank-wrap{display:inline-block;position:relative}
+.blank-input{display:block;border:none;border-bottom:2.5px solid #378add;background:transparent;font-size:16px;font-family:'Courier New',monospace;font-weight:700;color:var(--blue);outline:none;padding:0 2px 4px;text-align:center;letter-spacing:5px;transition:border-color .15s}
+.blank-input::placeholder{color:var(--text);font-weight:900;letter-spacing:5px;font-size:16px;opacity:1}
+.blank-input:focus::placeholder{color:#c0c8d4}
+.blank-input.correct{border-bottom-color:var(--green)!important;color:#0f6e56}
+.blank-input.wrong{border-bottom-color:var(--coral)!important;color:#c0392b}
+.blank-input.revealed{border-bottom-color:var(--gold)!important;color:#854f0b}
+.fill-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:.5rem;flex-wrap:wrap}
+
+/* TEXT TYPES */
+.email-box{background:var(--card);border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.email-header{background:#f9fafb;border-bottom:1px solid var(--border);padding:.75rem 1.1rem}
+.email-field{display:flex;gap:8px;font-size:13px;line-height:1.6}
+.email-field-label{font-weight:700;color:var(--muted);min-width:60px}
+.email-body{padding:1rem 1.1rem;font-size:14px;line-height:1.85;white-space:pre-wrap}
+.notice-box{background:var(--card);border:1px solid #d1d5db;border-radius:8px;padding:1.1rem 1.4rem;margin-bottom:1.5rem;font-size:14px;line-height:1.85}
+.textchain-box{background:var(--card);border:1px solid #d1d5db;border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.textchain-header{background:#f9fafb;border-bottom:1px solid var(--border);padding:.6rem 1.1rem;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.textchain-body{padding:.75rem 1rem;display:flex;flex-direction:column;gap:8px}
+.msg{display:flex;gap:10px;align-items:flex-start}
+.msg-sender{font-size:12px;font-weight:700;color:var(--navy);min-width:130px;flex-shrink:0;padding-top:2px;line-height:1.4}
+.msg-time{font-size:11px;color:#9ca3af;font-weight:400}
+.msg-text{font-size:13.5px;color:var(--text);line-height:1.6;flex:1;background:#f5f6fa;border-radius:8px;padding:7px 11px}
+
+/* PASSAGE */
+.passage-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px}
+.passage-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.passage-box{background:var(--card);border:1px solid #d1d5db;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1.25rem;font-size:14.5px;line-height:1.85}
+.passage-box p{margin-bottom:.75rem}
+.passage-box p:last-child{margin-bottom:0}
+.passage-box .insert-marker{font-weight:700;color:var(--purple);background:var(--purple-bg);padding:0 4px;border-radius:3px;font-size:13px;margin:0 2px}
+
+/* QUESTIONS */
+.question-block{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:12px}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.q-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.q-num.daily{color:var(--blue)}
+.q-num.acad{color:var(--purple)}
+.q-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.q-text{font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--card);transition:border-color .15s,background .15s;font-size:14px;color:var(--text);line-height:1.45;text-align:left;width:100%;font-family:inherit}
+.opt:hover:not(:disabled){border-color:#b5d4f4;background:#f5f9ff}
+.opt.selected{border-color:#378add;background:var(--blue-bg)}
+.opt.correct{border-color:#0f6e56;background:var(--green-bg);pointer-events:none}
+.opt.wrong{border-color:#993c1d;background:var(--coral-bg);pointer-events:none}
+.opt.reveal{border-color:#0f6e56;background:var(--green-bg);pointer-events:none}
+.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid #d3d1c7;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);flex-shrink:0;margin-top:1px}
+.opt.selected .opt-letter{background:#378add;border-color:#378add;color:#fff}
+.opt.correct .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.opt.wrong .opt-letter{background:#993c1d;border-color:#993c1d;color:#fff}
+.opt.reveal .opt-letter{background:#0f6e56;border-color:#0f6e56;color:#fff}
+.feedback{margin-top:10px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.good{background:var(--green-bg);color:#085041;border:1px solid var(--green-border)}
+.feedback.bad{background:var(--coral-bg);color:#4a1b0c;border:1px solid var(--coral-border)}
+.feedback-title{font-weight:700;margin-bottom:3px}
+.answer-hint{font-size:12px;color:var(--muted);text-align:right;margin-top:10px;font-style:italic}
+
+/* FOOTER */
+.quiz-footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:12px 1.5rem;display:flex;justify-content:space-between;align-items:center;z-index:90}
+.progress-dots{display:flex;gap:4px;align-items:center;flex-wrap:wrap;max-width:60%}
+.pdot{width:9px;height:9px;border-radius:50%;background:#d3d1c7;transition:background .2s,transform .2s;flex-shrink:0}
+.pdot.active{transform:scale(1.3)}
+.pdot.active.fill-type{background:var(--teal)}
+.pdot.active.daily-type{background:var(--blue)}
+.pdot.active.acad-type{background:var(--purple)}
+.pdot.correct{background:var(--green)}
+.pdot.wrong{background:var(--coral)}
+.pdot.separator{width:1px;height:14px;border-radius:0;background:#d3d1c7;margin:0 4px}
+
+/* BUTTONS */
+button{font-family:'Trebuchet MS',Trebuchet,sans-serif;font-size:14px;padding:9px 22px;border-radius:8px;cursor:pointer;border:1px solid #d3d1c7;background:#fff;color:var(--text);transition:background .12s}
+button:hover:not(:disabled){background:var(--bg)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+button.primary:hover:not(:disabled){background:#243460}
+
+/* FILL RESULTS */
+.fill-result-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.fill-score-row{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.fill-score-circle{width:84px;height:84px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--teal);background:#e1f8f0;flex-shrink:0}
+.fill-score-num{font-size:24px;font-weight:700;color:var(--teal)}
+.fill-score-lbl{font-size:10px;color:var(--teal);font-weight:700}
+.fill-score-msg h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.fill-score-msg p{font-size:13px;color:var(--muted);line-height:1.5;max-width:400px}
+.answer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;margin-top:1rem}
+.answer-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;background:var(--bg);border-radius:8px;padding:8px 10px}
+.ai-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ai-icon.ok{background:var(--green);color:#fff}
+.ai-icon.no{background:var(--coral);color:#fff}
+.ai-text{line-height:1.55;flex:1}
+.ai-label{font-size:11px;color:var(--muted)}
+.ai-correct{color:#0f6e56;font-weight:700}
+.ai-wrong{color:#c0392b;font-weight:700;text-decoration:line-through;margin-right:4px}
+.passage-review-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.25rem;font-size:15.5px;line-height:2.7}
+.passage-review-box h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:14px}
+.r-ok{color:#0f6e56;font-weight:700;background:#d8f3e8;padding:0 3px 1px;border-radius:3px}
+.r-bad{color:#c0392b;font-weight:700;background:#fde8e4;padding:0 3px 1px;border-radius:3px;text-decoration:line-through;font-size:13px;margin-right:2px}
+.r-fix{color:#0f6e56;font-weight:700;background:#d8f3e8;padding:0 3px 1px;border-radius:3px}
+
+/* RESULTS */
+.results-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:2rem;margin:1rem 0}
+.results-hero{text-align:center;margin-bottom:2rem}
+.results-hero .score-big{font-size:52px;font-weight:700;color:var(--navy);line-height:1}
+.results-hero .score-out{font-size:16px;color:var(--muted);margin-top:4px}
+.results-hero h2{font-size:20px;font-weight:700;margin:16px 0 6px}
+.results-hero p{font-size:14px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.6}
+.module-summary{border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.25rem}
+.module-summary h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:12px}
+.mod-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px}
+.mod-label{font-weight:600;min-width:220px;color:var(--text)}
+.mod-bar-wrap{flex:1;background:var(--bg);border-radius:20px;height:8px;overflow:hidden}
+.mod-bar{height:8px;border-radius:20px;transition:width .5s}
+.mod-score{font-size:13px;font-weight:700;min-width:36px;text-align:right}
+.review-section{border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.25rem}
+.review-section h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:12px}
+.review-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
+.review-item.r-ok-item{background:var(--green-bg);border:1px solid var(--green-border)}
+.review-item.r-bad-item{background:var(--coral-bg);border:1px solid var(--coral-border)}
+.ri-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ri-icon.ok{background:var(--green);color:#fff}
+.ri-icon.no{background:var(--coral);color:#fff}
+.ri-content{flex:1;line-height:1.5}
+.ri-section{font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.ri-q{font-weight:600;color:var(--text);margin-bottom:3px}
+.ri-ans{font-size:12px;color:var(--muted)}
+.ri-exp{font-size:12px;color:#374151;margin-top:4px;padding-top:4px;border-top:1px solid rgba(0,0,0,.08)}
+.source-note{font-size:12px;color:var(--muted);text-align:center;margin-top:1rem}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div class="home-hero">
+    <div class="badge">TOEFL iBT® Practice Test 2</div>
+    <h1>Reading Section<br>Full Practice</h1>
+    <p>Two complete modules — fill-in words, daily life texts, and academic passages.</p>
+  </div>
+  <div class="how-it-works">
+    <h2>How it works</h2>
+    <ul>
+      <li>Complete <strong>Module 1</strong> then <strong>Module 2</strong> in order</li>
+      <li>Each module: <strong>Complete the Words</strong> + daily life texts + academic passage</li>
+      <li>Select an answer to get instant feedback and unlock <strong>Next →</strong></li>
+      <li>Each module has its own <strong>15-minute timer</strong> — it resets for Module 2</li>
+      <li>Full score breakdown at the end</li>
+    </ul>
+  </div>
+  <div class="modules-grid">
+    <div class="module-card">
+      <div class="mc-label m1">Module 1</div>
+      <h3>Film & Aqueducts</h3>
+      <div class="mc-rows">
+        <div class="mc-row"><div class="mc-dot fill"></div>Complete the Words · 10 blanks</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Notice (Language Exchange) · 2 Qs</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Email (Server Maintenance) · 3 Qs</div>
+        <div class="mc-row"><div class="mc-dot acad"></div>Aqueducts · 5 Qs</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="mc-label m2">Module 2</div>
+      <h3>Water & Sleep Patterns</h3>
+      <div class="mc-rows">
+        <div class="mc-row"><div class="mc-dot fill"></div>Complete the Words · 10 blanks</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Email (Restaurant) · 2 Qs</div>
+        <div class="mc-row"><div class="mc-dot daily"></div>Text Chain (Marketing) · 3 Qs</div>
+        <div class="mc-row"><div class="mc-dot acad"></div>Sleep Patterns · 5 Qs</div>
+      </div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTest()">Start Full Practice →</button>
+  <p class="source-note" style="margin-top:1rem">Source: TOEFL iBT® Teacher Resources — Practice Test 2</p>
+</div>
+
+<!-- GLOBAL BAR -->
+<div id="globalBar" class="global-bar" style="display:none">
+  <div class="gb-left">
+    <span class="gb-section" id="gbSection"></span>
+    <span class="gb-task" id="gbTask"></span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="gb-progress" id="gbProgress"></span>
+    <div class="gb-timer" id="gbTimer">15:00</div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz" class="screen" style="padding-top:0">
+  <div class="quiz-wrap" id="quizBody"></div>
+</div>
+
+<!-- FILL RESULT -->
+<div id="screen-fill-result" class="screen">
+  <div id="fillResultWrap"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+    <button class="primary" id="fillContinueBtn" onclick="continueAfterFill()">Continue to Reading →</button>
+  </div>
+</div>
+
+<!-- MODULE TRANSITION -->
+<div id="screen-transition" class="screen">
+  <div style="text-align:center;padding:4rem 1rem">
+    <div style="font-size:52px;margin-bottom:1rem">✓</div>
+    <h2 style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:10px">Module 1 Complete!</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:2rem;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.6">Great work! The timer will reset to 15:00 when you start Module 2.</p>
+    <button class="primary" onclick="startModule(1)" style="font-size:15px;padding:14px 32px">Start Module 2 →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="screen-results" class="screen">
+  <div class="results-wrap" id="resultsWrap"></div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1rem">
+    <button onclick="location.reload()">Start over</button>
+  </div>
+  <p class="source-note">Source: TOEFL iBT® Teacher Resources — Practice Test 2</p>
+</div>
+
+<!-- FOOTER NAV -->
+<div class="quiz-footer" id="quizFooter" style="display:none">
+  <div class="progress-dots" id="progDots"></div>
+  <button class="primary" id="nextBtn" disabled onclick="handleNext()" style="min-width:120px;font-size:15px;padding:11px 28px">Next →</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const MODULES = [
+  // ── MODULE 1 ──────────────────────────────
+  {
+    label: "Module 1",
+    fill: {
+      title: "The Film Industry",
+      blanks: 10,
+      // Answer key: ment, und, nd, ects, ires, oration, ny, ple, ctors, ve
+      tokens: [
+        "Early films were quite different from what we are used to today—they were silent and black-and-white. Technological ",
+        {prefix:"develop",answer:"ment"}," introduced ",
+        {prefix:"so",answer:"und"},", color, and special ",
+        {prefix:"eff",answer:"ects"},". Filmmaking ",
+        {prefix:"requ",answer:"ires"}," the ",
+        {prefix:"collab",answer:"oration"}," of ",
+        {prefix:"ma",answer:"ny"}," different ",
+        {prefix:"peo",answer:"ple"},": actors, ",
+        {prefix:"dire",answer:"ctors"},", writers. Films ",
+        {prefix:"ha",answer:"ve"}," the power to entertain, educate, and inspire audiences, shaping popular culture and influencing social trends. The film industry has grown from its early beginnings to become a major cultural and economic force worldwide."
+      ]
+    },
+    tasks: [
+      {
+        type: "daily",
+        label: "Read a notice",
+        text: {
+          kind: "notice-plain",
+          body: "The Community Center will host a free language exchange event on Saturday at 3:00 PM. Learn a new language, meet people from different cultural backgrounds, and swap languages in a fun, flexible, and relaxed way. We will pair you with a fluent speaker of a language of your choice."
+        },
+        questions: [
+          {
+            q: "What is the notice about?",
+            opts: ["A foreign language book drive","A community organization meeting","A language exchange event","A student exchange program"],
+            ans: 2,
+            exp: "The notice explicitly states the Community Center will host a \"language exchange event.\" Options A, B, and D are not mentioned."
+          },
+          {
+            q: "What will participants NOT experience?",
+            opts: ["Learn new languages","Practice relaxation techniques","Pair up with speakers of different languages","Meet people from different cultures"],
+            ans: 1,
+            exp: "The notice says the event is \"fun, flexible, and relaxed\" — but there is no mention of practicing relaxation techniques as an activity. All other options are explicitly mentioned."
+          }
+        ]
+      },
+      {
+        type: "daily",
+        label: "Read an email",
+        text: {
+          kind: "email",
+          subject: "Server Maintenance",
+          to: "University Community",
+          body: `The next university server maintenance is scheduled on May 22 from 2 AM to 6 AM. This is part of a scheduled maintenance that we conduct with our external provider.\n\nDuring this window, access to network drives and cloud storage services will be temporarily unavailable. Please save any important documents and plan your work accordingly. You may also experience disruptions accessing your university email accounts. Online library databases will not be affected.\n\nA reminder: Routine maintenance windows take place on a semi-monthly basis. In the event that maintenance needs arise outside of the scheduled maintenance windows, we will do our best to give the university community advanced notice.\n\nIf you experience issues, contact the IT team. We will send out another notification when maintenance is complete. We appreciate your understanding as we strive to ensure the security and reliability of our IT infrastructure.`
+        },
+        questions: [
+          {
+            q: "The email is most likely sent to",
+            opts: ["IT support team members","university students, faculty, and staff","the external provider of the university server","people who have encountered issues with the university server"],
+            ans: 1,
+            exp: "The email refers to \"the university community\" and asks recipients to plan their work — this fits students, faculty, and staff, not IT (who would write it), the external provider, or only people with issues."
+          },
+          {
+            q: "From 2 AM to 6 AM on May 22, what activity can be done without interruption?",
+            opts: ["Logging onto university network drives","Saving documents onto the university cloud storage service","Sending and receiving emails using university email accounts","Searching for an article in the university library"],
+            ans: 3,
+            exp: "The email states \"Online library databases will not be affected.\" Network drives (A), cloud storage (B), and university email (C) will all be unavailable."
+          },
+          {
+            q: "What can be inferred about the university's server?",
+            opts: ["It is currently offline.","It is managed only by the university IT team.","It sometimes requires emergency maintenance.","It is the subject of many complaints from the university community."],
+            ans: 2,
+            exp: "The email says: \"In the event that maintenance needs arise outside of the scheduled windows\" — this implies unplanned/emergency maintenance can happen. The server is co-managed with an external provider (B is wrong). Nothing supports A or D."
+          }
+        ]
+      }
+    ],
+    passage: {
+      title: "Aqueducts",
+      body: [
+        "Aqueducts were designed to transport water from distant sources into cities and agricultural areas, and they were crucial engineering feats in ancient civilizations. This engineering marvel allowed civilizations to thrive in otherwise inhospitable environments.",
+        "The Romans, in particular, mastered the construction of aqueducts, building extensive networks that supplied water to urban centers. These structures used a combination of gravity and meticulously calculated gradients to ensure a steady flow of water. Some Roman aqueducts, like the Pont du Gard in France, are still standing today, showcasing the Romans' remarkable engineering skills. In addition to providing water for drinking and irrigation, aqueducts were integral to public health and sanitation. They supplied water to public baths, helping to maintain hygiene in densely populated urban areas. The availability of fresh water also supported the growth of cities and the expansion of the Roman Empire.",
+        "Building aqueducts was a complex and labor-intensive process. Workers had to carve channels through mountains and construct bridges over valleys. Despite these challenges, the benefits of aqueducts far outweighed the difficulties. The legacy of Roman aqueducts continues to influence modern water management systems, highlighting the importance of sustainable engineering practices."
+      ],
+      questions: [
+        {
+          type: "Vocabulary",
+          q: "The word \"meticulously\" in the passage is closest in meaning to",
+          opts: ["inaccurately","precisely","vaguely","carelessly"],
+          ans: 1,
+          exp: "\"Meticulously\" means with great attention to detail and accuracy — \"precisely\" is the closest match. The other three options all imply the opposite: inaccuracy or lack of care."
+        },
+        {
+          type: "Inference",
+          q: "What can be inferred about the workers who built the aqueducts?",
+          opts: ["They were not very skilled.","They faced significant physical challenges.","They primarily worked on bridges.","They were not aware of the aqueducts' importance."],
+          ans: 1,
+          exp: "Paragraph 3 says workers had to \"carve channels through mountains and construct bridges over valleys\" — this clearly implies significant physical labor and challenges. Nothing supports the other options."
+        },
+        {
+          type: "Author's Purpose",
+          q: "Why does the author mention the Pont du Gard in France?",
+          opts: ["To illustrate how aqueducts were constructed","To give an example of a well-preserved aqueduct","To explain the importance of aqueducts in France","To describe the engineering techniques used by the Romans"],
+          ans: 1,
+          exp: "The Pont du Gard is mentioned because it is \"still standing today\" — the author uses it as an example of a surviving, well-preserved Roman aqueduct. It is not used to explain construction technique or France specifically."
+        },
+        {
+          type: "Factual Information",
+          q: "What role did aqueducts play in the expansion of the Roman Empire?",
+          opts: ["They facilitated the transportation of goods.","They provided water for drinking and sanitation.","They helped in building bridges over valleys.","They enabled the construction of public baths."],
+          ans: 1,
+          exp: "Paragraph 2 states that fresh water \"supported the growth of cities and the expansion of the Roman Empire\" — this was through drinking water and sanitation. Bridges (C) and public baths (D) were uses, not the role in expansion."
+        },
+        {
+          type: "Inference",
+          q: "What can be inferred about modern water management systems?",
+          opts: ["They no longer use principles from Roman engineering.","They are less efficient than Roman aqueducts.","They are influenced by Roman engineering practices.","They are not as labor-intensive as Roman aqueducts."],
+          ans: 2,
+          exp: "The passage says Roman aqueducts \"continue to influence modern water management systems\" — option C directly paraphrases this. Option A contradicts it; B and D are not supported by the text."
+        }
+      ]
+    }
+  },
+
+  // ── MODULE 2 ──────────────────────────────
+  {
+    label: "Module 2",
+    fill: {
+      title: "Water Beyond Earth",
+      blanks: 10,
+      // Answer key M2 (derived from text): ow, f, n, mes, nd, ve, aces, ay, ans, ering
+      tokens: [
+        "Water is essential for life as we know it, so finding water on other planets and moons is a crucial part of the quest to find life beyond Earth. Mars' riverbeds ",
+        {prefix:"sh",answer:"ow"}," evidence ",
+        {prefix:"o",answer:"f"}," water ",
+        {prefix:"i",answer:"n"}," ancient ",
+        {prefix:"ti",answer:"mes"},". The moons Europa ",
+        {prefix:"a",answer:"nd"}," Enceladus ",
+        {prefix:"ha",answer:"ve"}," ice-covered ",
+        {prefix:"surf",answer:"aces"}," that ",
+        {prefix:"m",answer:"ay"}," hide ",
+        {prefix:"oce",answer:"ans"}," beneath. ",
+        {prefix:"Discov",answer:"ering"}," new extraterrestrial water, whether past or present, liquid or solid, could significantly impact our understanding of life in the universe. Such findings could guide future missions in the search for habitable environments outside of Earth."
+      ]
+    },
+    tasks: [
+      {
+        type: "daily",
+        label: "Read an email",
+        text: {
+          kind: "email",
+          subject: "Table Reservation Confirmation",
+          to: "Mr. Clark",
+          body: `Dear Mr. Clark,\n\nYour table reservation for 2 at La Bella Restaurant is confirmed for November 15th at 5 PM. Please arrive 10 minutes early for seating. We have noted your preference for seating close to a window and will accommodate that as availability permits.\n\nBest regards,\nMaria Lopez`
+        },
+        questions: [
+          {
+            q: "How early should Mr. Clark arrive for seating?",
+            opts: ["5 minutes early","10 minutes early","15 minutes early","20 minutes early"],
+            ans: 1,
+            exp: "The email clearly states: \"Please arrive 10 minutes early for seating.\" The other options are not mentioned."
+          },
+          {
+            q: "What will the restaurant try to provide?",
+            opts: ["A private dining room","Seating near a window","Personalized service","A customized menu"],
+            ans: 1,
+            exp: "The email says the restaurant noted his preference for \"seating close to a window\" and will accommodate it. The other options are not mentioned in the email."
+          }
+        ]
+      },
+      {
+        type: "daily",
+        label: "Read a text chain",
+        text: {
+          kind: "textchain",
+          messages: [
+            {sender:"Larissa Velez",time:"10:00 A.M.",text:"Hey team, just a reminder that the marketing materials for our client's new product launch need to be finalized by tomorrow."},
+            {sender:"Miko Tanaka",time:"10:05 A.M.",text:"Got it. I'll finish the brochure design today."},
+            {sender:"Pedro Alvarez",time:"10:10 A.M.",text:"I'm working on the social media posts. They'll be ready by the end of the day. I think we should generate some real excitement for Grenstar's new smart-tracking water bottle."},
+            {sender:"Sophia Nguyen",time:"10:15 A.M.",text:"I'll review the content when Miko and Pedro have finished and make any adjustments."},
+            {sender:"Larissa Velez",time:"10:20 A.M.",text:"Perfect. Make sure to double-check the dates and contact information. We know what happened last time."},
+            {sender:"Sophia Nguyen",time:"10:21 A.M.",text:"Oh, yes, the client was not pleased. I am glad we started this double-checking process. I will be sure to check the dates extra carefully."},
+            {sender:"Larissa Velez",time:"10:22 A.M.",text:"Great, team! Here's to a smoother launch of the water bottle than of the smart sportswear line!"}
+          ]
+        },
+        questions: [
+          {
+            q: "At 10:20 A.M., what does Ms. Velez imply when she writes, \"We know what happened last time\"?",
+            opts: ["A client was especially pleased with a marketing campaign.","Some errors were made regarding a previous product launch.","A brochure was never sent out.","A marketing team did not complete a project in time."],
+            ans: 1,
+            exp: "Sophia's reply confirms the client \"was not pleased\" with something from before, and they started a double-checking process because of it — implying errors were made in a previous launch. Option A contradicts this; C and D are not supported."
+          },
+          {
+            q: "What product is being launched?",
+            opts: ["A type of water bottle","A line of sportswear","A type of smartphone","A type of software"],
+            ans: 0,
+            exp: "Pedro mentions \"Grenstar's new smart-tracking water bottle\" as the product. The sportswear line (B) was a previous launch mentioned as a comparison, not the current one."
+          },
+          {
+            q: "What does Mr. Alvarez indicate?",
+            opts: ["He will double-check the content of a brochure.","He is the main point of contact for a client.","He helped design a new product.","He will complete some postings by the end of the day."],
+            ans: 3,
+            exp: "Pedro says: \"I'm working on the social media posts. They'll be ready by the end of the day.\" Double-checking (A) is Sophia's role. Nothing supports B or C."
+          }
+        ]
+      }
+    ],
+    passage: {
+      title: "Sleep Patterns",
+      body: [
+        "Sleep patterns vary considerably among different animal species. Some animals, like dolphins, have unique sleep methods. Dolphins practice unihemispheric slow-wave sleep, meaning one half of their brain sleeps while the other remains awake. This adaptation allows them to surface for air and stay alert for predators even while resting.",
+        "Birds also display interesting sleep behaviors. Many bird species can sleep while flying. (A) During long migratory flights, some birds may engage in unihemispheric sleep, similar to dolphins, enabling them to navigate and avoid threats. (B) Additionally, certain birds can sleep with both hemispheres of their brain but in short bursts, allowing them to maintain continuous flight for extended periods.",
+        "(C) Sleep patterns have evolved based on environmental needs. For example, grazing animals like cows and horses sleep minimally, often standing up, which helps them stay vigilant against predators. (D) In contrast, predators such as lions and tigers can afford longer, deeper sleep because they face fewer threats. Understanding these varied sleep patterns provides insight into how animals have adapted to their habitats and survival challenges. The balance between rest and vigilance is crucial for survival, revealing the intricate adaptations across the animal kingdom."
+      ],
+      questions: [
+        {
+          type: "Vocabulary",
+          q: "The word \"considerably\" in the first paragraph is closest in meaning to",
+          opts: ["actively","significantly","predictably","consistently"],
+          ans: 1,
+          exp: "\"Considerably\" means to a great or notable degree — \"significantly\" is the closest synonym. \"Actively,\" \"predictably,\" and \"consistently\" do not match this meaning."
+        },
+        {
+          type: "Factual Information",
+          q: "According to the second paragraph, how do some birds sleep during migratory flights?",
+          opts: ["By flying in short bursts","By practicing unihemispheric sleep","By stopping regularly during flights","By sleeping deeply for long periods"],
+          ans: 1,
+          exp: "Paragraph 2 states: \"some birds may engage in unihemispheric sleep, similar to dolphins.\" Flying in short bursts (A) refers to a different behavior. Stopping (C) and deep sleep (D) are not mentioned."
+        },
+        {
+          type: "Factual Information",
+          q: "Why do grazing animals like cows and horses sleep minimally?",
+          opts: ["To conserve energy","To maintain continuous flight","To stay alert against predators","To surface for air"],
+          ans: 2,
+          exp: "Paragraph 3 explicitly states grazing animals sleep minimally \"which helps them stay vigilant against predators.\" Continuous flight (B) refers to birds; surfacing for air (D) refers to dolphins."
+        },
+        {
+          type: "Author's Purpose",
+          q: "Why does the author mention \"predators such as lions and tigers\"?",
+          opts: ["To illustrate how predators can afford longer sleep due to fewer threats","To highlight the sleep patterns of grazing animals","To emphasize the time it takes for certain animals to adapt their sleep patterns","To show that sleep patterns of predators can vary over time"],
+          ans: 0,
+          exp: "The author uses lions and tigers to contrast with grazing animals — predators \"can afford longer, deeper sleep because they face fewer threats.\" This directly illustrates option A."
+        },
+        {
+          type: "Sentence Insertion",
+          q: "There are four locations (A, B, C, D) marked in the passage. Where would the sentence best fit?\n\n\"But what affects birds' sleep norms?\"",
+          opts: ["Option A","Option B","Option C","Option D"],
+          ans: 2,
+          exp: "The sentence 'But what affects birds' sleep norms?' fits at (C) — it creates a transition between the bird paragraph and the broader discussion of how environmental needs shape sleep patterns, introducing the idea that external factors determine sleep."
+        }
+      ]
+    }
+  }
+];
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let currentModule = 0;
+let currentPhase = 'fill';
+let currentTaskQIdx = 0;
+let currentPassageQIdx = 0;
+let timerInterval = null;
+let secondsLeft = 0;
+let userAnswers = [];
+let fillScore = null;
+let allResults = [];
+let allMCQuestions = [];
+let mcPointer = 0;
+
+/* ═══════════════════════════════════════════
+   START
+═══════════════════════════════════════════ */
+function startTest() { startModule(0); }
+
+function startModule(mIdx) {
+  currentModule = mIdx;
+  currentPhase = 'fill';
+  currentTaskQIdx = 0;
+  currentPassageQIdx = 0;
+  userAnswers = [];
+  fillScore = null;
+
+  allMCQuestions = [];
+  const mod = MODULES[mIdx];
+  mod.tasks.forEach((task, ti) => {
+    task.questions.forEach((q, qi) => {
+      allMCQuestions.push({phase:`daily-${ti}`, qi, answered:false, correct:null});
+    });
+  });
+  mod.passage.questions.forEach((q, qi) => {
+    allMCQuestions.push({phase:'passage', qi, answered:false, correct:null});
+  });
+  mcPointer = 0;
+
+  if (mIdx === 0) {
+    secondsLeft = 15 * 60; // 15 min per module
+    showGlobalBar(true);
+    updateGlobalBar();
+    startTimer();
+  } else {
+    secondsLeft = 15 * 60; // reset for module 2
+    showGlobalBar(true);
+    updateGlobalBar();
+    startTimer();
+  }
+  renderFill();
+  showScreen('quiz');
+}
+
+/* ═══════════════════════════════════════════
+   TIMER
+═══════════════════════════════════════════ */
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimerDisplay();
+    if (secondsLeft <= 0) { clearInterval(timerInterval); timerInterval = null; handleTimeUp(); }
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
+  const el = document.getElementById('gbTimer');
+  el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'gb-timer' + (secondsLeft <= 180 ? ' warn' : '');
+}
+function handleTimeUp() {
+  if (currentPhase === 'fill') checkFill(true);
+  else advanceToResults();
+}
+
+/* ═══════════════════════════════════════════
+   GLOBAL BAR
+═══════════════════════════════════════════ */
+function showGlobalBar(show) {
+  document.getElementById('globalBar').style.display = show ? 'flex' : 'none';
+}
+function updateGlobalBar() {
+  const mod = MODULES[currentModule];
+  document.getElementById('gbSection').textContent = mod.label;
+  let task = '', prog = '';
+  if (currentPhase === 'fill') { task = 'Complete the Words'; prog = '10 blanks'; }
+  else if (currentPhase.startsWith('daily-')) {
+    const ti = parseInt(currentPhase.split('-')[1]);
+    task = mod.tasks[ti].label;
+    prog = `Q${currentTaskQIdx + 1} of ${mod.tasks[ti].questions.length}`;
+  } else if (currentPhase === 'passage') {
+    task = mod.passage.title;
+    prog = `Q${currentPassageQIdx + 1} of ${mod.passage.questions.length}`;
+  }
+  document.getElementById('gbTask').textContent = task;
+  document.getElementById('gbProgress').textContent = prog;
+}
+
+/* ═══════════════════════════════════════════
+   FILL PHASE
+═══════════════════════════════════════════ */
+function renderFill() {
+  document.getElementById('quizFooter').style.display = 'none';
+  const mod = MODULES[currentModule];
+  const fill = mod.fill;
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  const sh = document.createElement('div'); sh.className = 'section-header';
+  sh.innerHTML = `<div class="sh-label">Complete the Words</div><h2>${fill.title}</h2><p>Fill in the missing letters. The first letters of each word are shown.</p>`;
+  body.appendChild(sh);
+
+  const instr = document.createElement('div'); instr.className = 'instr-box';
+  instr.innerHTML = 'Type only the <strong>missing letters</strong>. The first part of each word is already shown. The number of underscores matches the number of missing letters. Press <strong>Tab</strong> to move to the next blank.';
+  body.appendChild(instr);
+
+  const wrap = document.createElement('div'); wrap.className = 'passage-wrap'; wrap.id = 'fillWrap';
+  fill.tokens.forEach(tok => {
+    if (typeof tok === 'string') { wrap.appendChild(document.createTextNode(tok)); return; }
+    const len = tok.answer.length;
+    const w = Math.max(len * 15, 28);
+    const wi = document.createElement('span'); wi.className = 'word-item';
+    const pfx = document.createElement('span'); pfx.className = 'word-prefix'; pfx.textContent = tok.prefix;
+    wi.appendChild(pfx);
+    const bw = document.createElement('span'); bw.className = 'blank-wrap'; bw.style.width = w + 'px'; bw.style.display = 'inline-block';
+    const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'blank-input';
+    inp.dataset.answer = tok.answer.toLowerCase(); inp.maxLength = len + 1; inp.style.width = w + 'px';
+    inp.setAttribute('autocomplete','off'); inp.setAttribute('autocorrect','off');
+    inp.setAttribute('autocapitalize','off'); inp.setAttribute('spellcheck','false');
+    inp.placeholder = '_'.repeat(len);
+    inp.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); focusNextBlank(inp); }});
+    bw.appendChild(inp); wi.appendChild(bw); wrap.appendChild(wi);
+  });
+  body.appendChild(wrap);
+
+  const actions = document.createElement('div'); actions.className = 'fill-actions';
+  actions.innerHTML = `<button id="fillRevealBtn" onclick="revealFill()">Show answers</button>
+    <button class="primary" id="fillCheckBtn" onclick="checkFill(false)">Check answers</button>`;
+  body.appendChild(actions);
+  updateGlobalBar();
+}
+
+function focusNextBlank(current) {
+  const inputs = Array.from(document.querySelectorAll('#fillWrap .blank-input'));
+  const idx = inputs.indexOf(current);
+  if (idx < inputs.length - 1) inputs[idx + 1].focus();
+}
+
+function checkFill(auto) {
+  // Timer keeps running — do not stop it here
+  const inputs = Array.from(document.querySelectorAll('#fillWrap .blank-input'));
+  let correct = 0; userAnswers = [];
+  inputs.forEach(inp => {
+    const user = inp.value.trim().toLowerCase();
+    const ans = inp.dataset.answer;
+    userAnswers.push(user);
+    inp.disabled = true;
+    inp.classList.remove('correct','wrong','revealed');
+    if (user === ans) { inp.classList.add('correct'); correct++; }
+    else inp.classList.add('wrong');
+  });
+  fillScore = correct;
+  document.getElementById('fillCheckBtn').disabled = true;
+  document.getElementById('fillRevealBtn').disabled = true;
+  setTimeout(() => showFillResult(correct, inputs), 300);
+}
+
+function revealFill() {
+  // Timer keeps running — do not stop it here
+  const inputs = Array.from(document.querySelectorAll('#fillWrap .blank-input'));
+  userAnswers = [];
+  inputs.forEach(inp => {
+    const user = inp.value.trim().toLowerCase();
+    userAnswers.push(user);
+    inp.disabled = true;
+    inp.classList.remove('correct','wrong','revealed');
+    if (user === inp.dataset.answer) inp.classList.add('correct');
+    else { inp.value = inp.dataset.answer; inp.classList.add('revealed'); }
+  });
+  document.getElementById('fillCheckBtn').disabled = true;
+  document.getElementById('fillRevealBtn').disabled = true;
+}
+
+function showFillResult(correct) {
+  const fill = MODULES[currentModule].fill;
+  const total = fill.blanks;
+  const pct = Math.round(correct / total * 100);
+  const blanks = fill.tokens.filter(t => typeof t !== 'string');
+  let title, desc;
+  if (pct === 100) { title = 'Perfect!'; desc = 'Every blank correct. Excellent attention to word endings and context.'; }
+  else if (pct >= 80) { title = 'Great work!'; desc = 'Almost there. Review the missed blanks — check the word endings.'; }
+  else if (pct >= 60) { title = 'Good effort!'; desc = 'Getting there! Read the full sentence before filling each blank.'; }
+  else { title = 'Keep practicing.'; desc = 'Study the answers below. Tip: read for meaning first, then fill the blank.'; }
+
+  const wrap = document.getElementById('fillResultWrap'); wrap.innerHTML = '';
+  const box = document.createElement('div'); box.className = 'fill-result-wrap'; box.style.marginBottom = '0';
+  box.innerHTML = `<div class="fill-score-row">
+    <div class="fill-score-circle"><div class="fill-score-num">${correct}/${total}</div><div class="fill-score-lbl">correct</div></div>
+    <div class="fill-score-msg"><h3>${title}</h3><p>${desc}</p></div>
+  </div>
+  <h4 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px">Answer breakdown</h4>
+  <div class="answer-grid" id="fillAnswerGrid"></div>
+  <div class="passage-review-box"><h4>Full passage — answers highlighted</h4><div id="fillReviewBody"></div></div>`;
+  wrap.appendChild(box);
+
+  const grid = document.getElementById('fillAnswerGrid');
+  blanks.forEach((tok, i) => {
+    const user = userAnswers[i] || '';
+    const ok = user === tok.answer;
+    const item = document.createElement('div'); item.className = 'answer-item';
+    item.innerHTML = `<div class="ai-icon ${ok?'ok':'no'}">${ok?'✓':'✗'}</div>
+      <div class="ai-text"><div class="ai-label">${tok.prefix} + ___</div>
+      ${ok ? `<span class="ai-correct">${tok.prefix}${tok.answer}</span>`
+           : `<span class="ai-wrong">${tok.prefix}${user||'?'}</span><span class="ai-correct"> → ${tok.prefix}${tok.answer}</span>`}
+      </div>`;
+    grid.appendChild(item);
+  });
+
+  const rb = document.getElementById('fillReviewBody');
+  let bi = 0;
+  fill.tokens.forEach(tok => {
+    if (typeof tok === 'string') { rb.appendChild(document.createTextNode(tok)); return; }
+    const user = userAnswers[bi] || '';
+    const ok = user === tok.answer;
+    if (ok) { const s = document.createElement('span'); s.className='r-ok'; s.textContent=tok.prefix+tok.answer; rb.appendChild(s); }
+    else {
+      if (user) { const sw=document.createElement('span'); sw.className='r-bad'; sw.textContent=tok.prefix+user; rb.appendChild(sw); rb.appendChild(document.createTextNode(' ')); }
+      const sa=document.createElement('span'); sa.className='r-fix'; sa.textContent=tok.prefix+tok.answer; rb.appendChild(sa);
+    }
+    bi++;
+  });
+
+  showGlobalBar(false);
+  showScreen('fill-result');
+}
+
+function continueAfterFill() {
+  showGlobalBar(true);
+  updateTimerDisplay();
+  currentPhase = 'daily-0';
+  currentTaskQIdx = 0;
+  renderDailyTask(0, 0);
+  showScreen('quiz');
+}
+
+/* ═══════════════════════════════════════════
+   DAILY TASKS
+═══════════════════════════════════════════ */
+function renderDailyTask(ti, qi) {
+  currentPhase = `daily-${ti}`;
+  currentTaskQIdx = qi;
+  const mod = MODULES[currentModule];
+  const task = mod.tasks[ti];
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  const sh = document.createElement('div'); sh.className = 'section-header';
+  sh.innerHTML = `<div class="sh-label">${task.label}</div><h2>Questions ${getTaskQRange(ti)}</h2>`;
+  body.appendChild(sh);
+  body.appendChild(buildTextDisplay(task));
+  renderMCQuestion(task.questions[qi], body, 'daily');
+  updateGlobalBar();
+  updateFooter();
+}
+
+function getTaskQRange(ti) {
+  const mod = MODULES[currentModule];
+  let start = 11;
+  for (let i = 0; i < ti; i++) start += mod.tasks[i].questions.length;
+  return `${start}–${start + mod.tasks[ti].questions.length - 1}`;
+}
+
+function buildTextDisplay(task) {
+  const t = task.text;
+
+  if (t.kind === 'email') {
+    const box = document.createElement('div'); box.className = 'email-box';
+    const hdr = document.createElement('div'); hdr.className = 'email-header';
+    [['Subject', t.subject], ['To', t.to]].forEach(([lbl, val]) => {
+      const row = document.createElement('div'); row.className = 'email-field';
+      row.innerHTML = `<span class="email-field-label">${lbl}:</span><span>${val}</span>`;
+      hdr.appendChild(row);
+    });
+    box.appendChild(hdr);
+    const bdy = document.createElement('div'); bdy.className = 'email-body'; bdy.textContent = t.body;
+    box.appendChild(bdy); return box;
+  }
+
+  if (t.kind === 'notice-plain') {
+    const box = document.createElement('div'); box.className = 'notice-box';
+    box.textContent = t.body; return box;
+  }
+
+  if (t.kind === 'textchain') {
+    const box = document.createElement('div'); box.className = 'textchain-box';
+    const hdr = document.createElement('div'); hdr.className = 'textchain-header'; hdr.textContent = 'Group Chat'; box.appendChild(hdr);
+    const bdy = document.createElement('div'); bdy.className = 'textchain-body';
+    t.messages.forEach(msg => {
+      const row = document.createElement('div'); row.className = 'msg';
+      row.innerHTML = `<span class="msg-sender">${msg.sender}<br><span class="msg-time">${msg.time}</span></span>
+        <span class="msg-text">${msg.text}</span>`;
+      bdy.appendChild(row);
+    });
+    box.appendChild(bdy); return box;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PASSAGE PHASE
+═══════════════════════════════════════════ */
+function renderPassageQuestion(qi) {
+  currentPhase = 'passage';
+  currentPassageQIdx = qi;
+  const mod = MODULES[currentModule];
+  const passage = mod.passage;
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+
+  const sh = document.createElement('div'); sh.className = 'section-header';
+  sh.innerHTML = `<div class="sh-label">Read an Academic Passage</div><h2>Questions ${getPassageQRange()}</h2>`;
+  body.appendChild(sh);
+
+  const plbl = document.createElement('div'); plbl.className = 'passage-label'; plbl.textContent = 'Read the passage carefully. It stays visible while you answer.'; body.appendChild(plbl);
+  const ptitle = document.createElement('div'); ptitle.className = 'passage-title'; ptitle.textContent = passage.title; body.appendChild(ptitle);
+  const pbox = document.createElement('div'); pbox.className = 'passage-box';
+  passage.body.forEach(para => {
+    const p = document.createElement('p');
+    // Render (A) (B) (C) (D) markers with styling
+    p.innerHTML = para.replace(/\(([ABCD])\)/g, '<span class="insert-marker">($1)</span>');
+    pbox.appendChild(p);
+  });
+  body.appendChild(pbox);
+  renderMCQuestion(passage.questions[qi], body, 'acad');
+  updateGlobalBar();
+  updateFooter();
+}
+
+function getPassageQRange() {
+  const mod = MODULES[currentModule];
+  let start = 11;
+  mod.tasks.forEach(t => start += t.questions.length);
+  return `${start}–${start + mod.passage.questions.length - 1}`;
+}
+
+/* ═══════════════════════════════════════════
+   MC QUESTION RENDERER
+═══════════════════════════════════════════ */
+function renderMCQuestion(qData, container, colorClass) {
+  const num = getMCNumber();
+  const qBlock = document.createElement('div'); qBlock.className = 'question-block';
+  const qmeta = document.createElement('div'); qmeta.className = 'q-meta';
+  const qnum = document.createElement('div'); qnum.className = `q-num ${colorClass}`;
+  qnum.textContent = `Question ${num}`; qmeta.appendChild(qnum);
+  if (qData.type) {
+    const badge = document.createElement('div'); badge.className = 'q-type-badge'; badge.textContent = qData.type; qmeta.appendChild(badge);
+  }
+  qBlock.appendChild(qmeta);
+  const qtext = document.createElement('div'); qtext.className = 'q-text'; qtext.textContent = qData.q; qBlock.appendChild(qtext);
+
+  const opts = document.createElement('div'); opts.className = 'options';
+  const feedback = document.createElement('div'); feedback.className = 'feedback';
+  const letters = ['A','B','C','D'];
+  qData.opts.forEach((optText, oi) => {
+    const opt = document.createElement('button'); opt.className = 'opt';
+    opt.innerHTML = `<div class="opt-letter">${letters[oi]}</div><div>${optText}</div>`;
+    opt.onclick = () => selectMCAnswer(oi, qData, opt, opts, feedback);
+    opts.appendChild(opt);
+  });
+  qBlock.appendChild(opts); qBlock.appendChild(feedback);
+
+  const hint = document.createElement('p'); hint.className = 'answer-hint'; hint.id = 'answerHint';
+  hint.textContent = 'Select an answer to continue →'; qBlock.appendChild(hint);
+  container.appendChild(qBlock);
+}
+
+function getMCNumber() {
+  const mod = MODULES[currentModule];
+  let n = 11;
+  if (currentPhase === 'daily-0') return n + currentTaskQIdx;
+  n += mod.tasks[0].questions.length;
+  if (currentPhase === 'daily-1') return n + currentTaskQIdx;
+  n += mod.tasks[1].questions.length;
+  return n + currentPassageQIdx;
+}
+
+function selectMCAnswer(oi, qData, clicked, optsContainer, feedback) {
+  optsContainer.querySelectorAll('.opt').forEach(o => o.onclick = null);
+  const ok = oi === qData.ans;
+  clicked.classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) optsContainer.querySelectorAll('.opt')[qData.ans].classList.add('reveal');
+  allResults.push({module:currentModule, phase:currentPhase, q:qData.q, correct:ok, ans:qData.ans, userAns:oi, opts:qData.opts, exp:qData.exp});
+  const mcQ = allMCQuestions[mcPointer]; if (mcQ) { mcQ.answered = true; mcQ.correct = ok; }
+  mcPointer++;
+  feedback.className = 'feedback show ' + (ok ? 'good' : 'bad');
+  feedback.innerHTML = `<div class="feedback-title">${ok ? 'Correct!' : 'Not quite.'}</div>${ok ? '' : qData.exp}`;
+  const hint = document.getElementById('answerHint'); if (hint) hint.style.display = 'none';
+  document.getElementById('nextBtn').disabled = false;
+  updateFooter();
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+function handleNext() {
+  document.getElementById('nextBtn').disabled = true;
+  window.scrollTo(0, 0);
+  const mod = MODULES[currentModule];
+
+  if (currentPhase.startsWith('daily-')) {
+    const ti = parseInt(currentPhase.split('-')[1]);
+    const task = mod.tasks[ti];
+    if (currentTaskQIdx < task.questions.length - 1) {
+      renderDailyTask(ti, currentTaskQIdx + 1);
+    } else if (ti < mod.tasks.length - 1) {
+      renderDailyTask(ti + 1, 0);
+    } else {
+      currentPhase = 'passage'; currentPassageQIdx = 0;
+      renderPassageQuestion(0);
+    }
+  } else if (currentPhase === 'passage') {
+    if (currentPassageQIdx < mod.passage.questions.length - 1) {
+      renderPassageQuestion(currentPassageQIdx + 1);
+    } else {
+      clearInterval(timerInterval);
+      if (currentModule === 0) {
+        showScreen('transition');
+        showGlobalBar(false);
+        document.getElementById('quizFooter').style.display = 'none';
+      } else {
+        advanceToResults();
+      }
+    }
+  }
+}
+
+function advanceToResults() {
+  clearInterval(timerInterval);
+  showGlobalBar(false);
+  document.getElementById('quizFooter').style.display = 'none';
+  buildResults();
+  showScreen('results');
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS FOOTER
+═══════════════════════════════════════════ */
+function updateFooter() {
+  const footer = document.getElementById('quizFooter'); footer.style.display = 'flex';
+  const pd = document.getElementById('progDots'); pd.innerHTML = '';
+  const mod = MODULES[currentModule];
+  let groups = [];
+  mod.tasks.forEach((t, ti) => groups.push({phase:`daily-${ti}`, count:t.questions.length, colorClass:'daily-type'}));
+  groups.push({phase:'passage', count:mod.passage.questions.length, colorClass:'acad-type'});
+
+  let dotOffset = 0;
+  groups.forEach((g, gi) => {
+    if (gi > 0) { const sep = document.createElement('div'); sep.className='pdot separator'; pd.appendChild(sep); }
+    for (let i = 0; i < g.count; i++) {
+      const globalIdx = dotOffset + i;
+      const mcQ = allMCQuestions[globalIdx];
+      const dot = document.createElement('div');
+      const isActive = (currentPhase === g.phase) && (
+        g.phase.startsWith('daily-') ? currentTaskQIdx === i : currentPassageQIdx === i
+      );
+      let cls = 'pdot';
+      if (isActive) cls += ` active ${g.colorClass}`;
+      else if (mcQ && mcQ.answered) cls += mcQ.correct ? ' correct' : ' wrong';
+      dot.className = cls; pd.appendChild(dot);
+    }
+    dotOffset += g.count;
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  const isLast = currentPhase === 'passage' && currentPassageQIdx === mod.passage.questions.length - 1;
+  nextBtn.textContent = isLast && currentModule === 1 ? 'See results' : isLast ? 'Finish Module' : 'Next →';
+}
+
+/* ═══════════════════════════════════════════
+   RESULTS
+═══════════════════════════════════════════ */
+function buildResults() {
+  const wrap = document.getElementById('resultsWrap'); wrap.innerHTML = '';
+  const correct = allResults.filter(r => r.correct).length;
+  const total = allResults.length;
+  const pct = Math.round(correct / total * 100);
+  const letters = ['A','B','C','D'];
+
+  let title, desc;
+  if (pct === 100) { title = 'Excellent!'; desc = 'Perfect score. Outstanding reading performance across both modules.'; }
+  else if (pct >= 80) { title = 'Well done!'; desc = 'Strong work. Review the questions you missed below.'; }
+  else if (pct >= 60) { title = 'Good effort!'; desc = 'Building solid skills. Focus on the question types you found hardest.'; }
+  else { title = 'Keep practicing!'; desc = 'Re-read the explanations below — note which question types are most challenging.'; }
+
+  wrap.innerHTML = `<div class="results-hero">
+    <div class="score-big">${correct}/${total}</div>
+    <div class="score-out">questions correct</div>
+    <h2>${title}</h2><p>${desc}</p>
+  </div>`;
+
+  const modSum = document.createElement('div'); modSum.className = 'module-summary';
+  modSum.innerHTML = '<h4>Score by module</h4>';
+  MODULES.forEach((mod, mi) => {
+    const mr = allResults.filter(r => r.module === mi);
+    const mc = mr.filter(r => r.correct).length;
+    const mt = mr.length;
+    const color = mi === 0 ? 'var(--blue)' : 'var(--purple)';
+    const row = document.createElement('div'); row.className = 'mod-row';
+    row.innerHTML = `<span class="mod-label">${mod.label} — Reading Questions</span>
+      <div class="mod-bar-wrap"><div class="mod-bar" style="width:${mt>0?Math.round(mc/mt*100):0}%;background:${color}"></div></div>
+      <span class="mod-score" style="color:${color}">${mc}/${mt}</span>`;
+    modSum.appendChild(row);
+  });
+  wrap.appendChild(modSum);
+
+  const rev = document.createElement('div'); rev.className = 'review-section';
+  rev.innerHTML = '<h4>Question review</h4>';
+  allResults.forEach(r => {
+    const ok = r.correct;
+    const item = document.createElement('div'); item.className = `review-item ${ok?'r-ok-item':'r-bad-item'}`;
+    const phaseLabel = r.phase.startsWith('daily-') ? 'Daily Life' : 'Academic Passage';
+    item.innerHTML = `<div class="ri-icon ${ok?'ok':'no'}">${ok?'✓':'✗'}</div>
+      <div class="ri-content">
+        <div class="ri-section">Module ${r.module+1} · ${phaseLabel}</div>
+        <div class="ri-q">${r.q.length>90?r.q.slice(0,90)+'…':r.q}</div>
+        <div class="ri-ans">Your answer: <strong>${r.userAns>=0?letters[r.userAns]+'. '+r.opts[r.userAns]:'No answer'}</strong>
+          ${!ok?`<br>Correct: <strong style="color:#0f6e56">${letters[r.ans]}. ${r.opts[r.ans]}</strong>`:''}
+        </div>
+        ${!ok?`<div class="ri-exp">${r.exp}</div>`:''}
+      </div>`;
+    rev.appendChild(item);
+  });
+  wrap.appendChild(rev);
+}
+
+/* ═══════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(`screen-${id}`);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
