@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build a Sentence — Questions 11–20</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2744;--teal:#2E8B6A;--teal-l:#E8F5EE;--teal-d:#1B6B4A;
+  --gold:#E8A020;--green:#1a9c5b;--green-l:#e3fcef;
+  --red:#c0392b;--red-l:#fef0f0;
+  --bg:#f0f4f8;--card:#fff;--text:#1A2744;--muted:#5a6a7e;
+  --border:#dde3ec;--light:#f5f7fa;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.hdr{width:100%;background:var(--navy);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;flex-shrink:0}
+.hdr-l{display:flex;flex-direction:column}
+.hdr-title{color:#fff;font-size:13px;font-weight:600}
+.hdr-sub{color:rgba(255,255,255,.4);font-size:11px;font-family:'DM Mono',monospace}
+.prog-wrap{display:flex;align-items:center;gap:8px}
+.prog-track{width:130px;height:4px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;background:var(--teal);border-radius:99px;transition:width .4s ease}
+.prog-lbl{color:rgba(255,255,255,.4);font-size:11px;font-family:'DM Mono',monospace;min-width:36px;text-align:right}
+.main{width:100%;max-width:720px;padding:1.75rem 1.25rem 3rem;display:flex;flex-direction:column;gap:1rem}
+.screen{display:none;flex-direction:column;gap:1rem}
+.screen.active{display:flex}
+.start-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem 2rem;text-align:center}
+.start-icon{font-size:2.5rem;margin-bottom:.75rem}
+.start-card h1{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.start-card p{font-size:14px;color:var(--muted);line-height:1.65;max-width:460px;margin:0 auto 1.5rem}
+.rules{display:flex;flex-direction:column;gap:.5rem;text-align:left;background:var(--light);border-radius:10px;padding:.9rem 1.1rem;margin:0 auto 1.5rem;max-width:440px}
+.rule{display:flex;align-items:flex-start;gap:.5rem;font-size:13px;color:var(--text);line-height:1.55}
+.rdot{width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0}
+.q-badge{display:inline-flex;align-items:center;background:var(--teal-l);border:1.5px solid var(--teal);border-radius:8px;padding:.4rem .9rem;font-size:12px;font-weight:600;color:var(--teal-d);font-family:'DM Mono',monospace}
+.exchange{background:var(--navy);border-radius:16px;padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.85rem;position:relative;overflow:hidden}
+.exchange::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:rgba(46,139,106,.1);pointer-events:none}
+.spk{display:flex;align-items:flex-start;gap:.75rem}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:'DM Mono',monospace}
+.av.a1{background:rgba(46,139,106,.25);color:#7ddbb5}
+.av.a2{background:rgba(232,160,32,.2);color:#f5c96e}
+.bbl{background:rgba(255,255,255,.07);border-radius:10px;padding:.65rem .9rem;flex:1}
+.bbl-txt{font-size:14px;color:#fff;line-height:1.55}
+.sent-row{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;min-height:44px}
+.fw{font-size:14px;color:rgba(255,255,255,.85);line-height:1.6;white-space:nowrap}
+.gap{display:inline-flex;align-items:center;justify-content:center;min-width:80px;height:36px;background:rgba(255,255,255,.08);border:1.5px dashed rgba(255,255,255,.3);border-radius:8px;padding:0 .55rem;font-size:13px;color:#fff;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.gap:empty::before{content:'___';color:rgba(255,255,255,.2);font-size:12px}
+.gap.filled{background:rgba(46,139,106,.2);border-color:rgba(46,139,106,.55);border-style:solid}
+.gap.dov{background:rgba(46,139,106,.3);border-color:var(--teal);border-style:solid}
+.gap.correct{background:rgba(26,156,91,.3);border-color:#1a9c5b;border-style:solid}
+.gap.wrong{background:rgba(192,57,43,.3);border-color:var(--red);border-style:solid}
+.gap.locked{cursor:default}
+.blbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.wbank{display:flex;flex-wrap:wrap;gap:.45rem;min-height:44px}
+.chip{display:inline-flex;align-items:center;background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:.5rem .9rem;font-size:13px;font-weight:500;color:var(--text);font-family:'DM Mono',monospace;cursor:grab;user-select:none;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.chip:hover:not(.used):not(.xtra){border-color:var(--teal);background:var(--teal-l);color:var(--teal-d);transform:translateY(-1px)}
+.chip.dragging{opacity:.35;cursor:grabbing}
+.chip.used{opacity:.2;pointer-events:none}
+.chip.xtra{background:var(--red-l);border-color:var(--red);color:var(--red);cursor:default}
+.fb{border-radius:12px;padding:.9rem 1.1rem;font-size:13.5px;line-height:1.65;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--green-l);border:1.5px solid var(--green);color:#136047}
+.fb.bad{background:var(--red-l);border:1.5px solid var(--red);color:#8b1a1a}
+.fb-t{font-weight:700;font-size:14px;margin-bottom:.35rem}
+.fb-a{margin-bottom:.35rem}
+.fb-x{margin-bottom:.3rem}
+.fb-n{padding-top:.5rem;border-top:1px solid rgba(0,0,0,.08);font-size:12.5px}
+.btn-p{padding:.75rem 2rem;background:var(--teal);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-p:hover{background:var(--teal-d)}
+.btn-p:disabled{opacity:.4;cursor:not-allowed}
+.btn-o{padding:.65rem 1.5rem;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-o:hover{background:var(--light)}
+.res-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center}
+.sring{width:96px;height:96px;border-radius:50%;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto .85rem}
+.sn{font-size:28px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace;line-height:1}
+.sp{font-size:11px;color:rgba(255,255,255,.35)}
+.res-card h2{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:.35rem}
+.res-card>p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:1.25rem}
+.rev-list{display:flex;flex-direction:column;gap:.4rem;text-align:left;margin-bottom:1.4rem}
+.ri{display:flex;align-items:flex-start;gap:.55rem;padding:.6rem .85rem;border-radius:9px;font-size:12.5px;line-height:1.55}
+.ri.ok{background:var(--green-l);color:#136047}
+.ri.bad{background:var(--red-l);color:#8b1a1a}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .3s ease}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-title">Build a Sentence</div>
+    <div class="hdr-sub">TOEFL® Writing Practice · Questions 11–20</div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-track"><div class="prog-fill" id="pF" style="width:0%"></div></div>
+    <div class="prog-lbl" id="pL">0 / 10</div>
+  </div>
+</div>
+<div class="main">
+  <div class="screen active" id="s0">
+    <div class="start-card">
+      <div class="start-icon">🧩</div>
+      <h1>Build a Sentence</h1>
+      <p>Drag the word chips into the gaps to complete the second speaker's reply. One chip is always extra — it doesn't fit anywhere.</p>
+      <div class="rules">
+        <div class="rule"><div class="rdot"></div><span>Read Speaker A's sentence for context</span></div>
+        <div class="rule"><div class="rdot"></div><span>Some words are already given — fill only the gaps</span></div>
+        <div class="rule"><div class="rdot"></div><span>Drag chips into gaps, or click a chip to fill the next empty gap</span></div>
+        <div class="rule"><div class="rdot"></div><span>Click a filled gap to return that chip to the bank</span></div>
+        <div class="rule"><div class="rdot"></div><span>One chip is always extra — leave it in the bank</span></div>
+      </div>
+      <button class="btn-p" id="startBtn">Start Practice →</button>
+    </div>
+  </div>
+  <div class="screen" id="s1">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+      <div class="q-badge" id="qBadge">Question 11 of 20</div>
+      <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace" id="qCtr">1 / 10</div>
+    </div>
+    <div class="exchange">
+      <div class="spk">
+        <div class="av a1">A</div>
+        <div class="bbl"><div class="bbl-txt" id="pTxt"></div></div>
+      </div>
+      <div class="spk">
+        <div class="av a2">B</div>
+        <div class="bbl"><div class="sent-row" id="sRow"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="blbl" style="margin-bottom:.5rem">Word bank — drag into the gaps above</div>
+      <div class="wbank" id="wBank"></div>
+    </div>
+    <div class="fb" id="fb">
+      <div class="fb-t" id="fbT"></div>
+      <div class="fb-a" id="fbA"></div>
+      <div class="fb-x" id="fbX"></div>
+      <div class="fb-n" id="fbN"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+      <button class="btn-o" id="clearBtn">Clear gaps</button>
+      <div style="display:flex;gap:.65rem">
+        <button class="btn-p" id="checkBtn" disabled>Check answer</button>
+        <button class="btn-o" id="nextBtn" style="display:none">Next →</button>
+      </div>
+    </div>
+  </div>
+  <div class="screen" id="s2">
+    <div class="res-card">
+      <div class="sring"><div class="sn" id="sN">0/10</div><div class="sp" id="sP">0%</div></div>
+      <h2 id="sMsg"></h2>
+      <p id="sDet"></p>
+      <div class="rev-list" id="rList"></div>
+      <div style="display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap">
+        <button class="btn-o" id="retryBtn">Try again</button>
+        <button class="btn-p" id="backBtn">Back to start</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var QS=[
+  {n:11,prompt:"How did your brother react to taking care of the family business?",
+   parts:[{f:"He"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{g:7},{f:"retired."}],
+   ans:["agreed","to","continue","running","it","after","our parents","had"],
+   chips:["after","running","continue","it","our parents","agreed","to","had","since"],
+   extra:"since",
+   note:"'Agreed to continue running it' — verb + to-infinitive + gerund. 'after our parents had retired' uses past perfect for the earlier action. Extra word: 'since' — 'since' implies causality ('because'), which changes the meaning. 'after' is the correct temporal connector here."},
+  {n:12,prompt:"Was the new system easy to use?",
+   parts:[{f:"I"},{g:0},{g:1},{g:2},{f:"on"},{g:3},{g:4},{g:5},{f:"."}],
+   ans:["wasn't","able to","log in","my","first","attempt"],
+   chips:["able to","wasn't","my","log in","to","attempt","first"],
+   extra:"to",
+   note:"Negative ability: 'wasn't able to log in'. 'On my first attempt' = prepositional phrase. Extra word: 'to' — 'able to' is already one chunk, so the standalone 'to' is redundant."},
+  {n:13,prompt:"Why did the professor assign an extra essay this week?",
+   parts:[{f:"She"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"formal writing."}],
+   ans:["wanted","to give","students","another","chance","to practice"],
+   chips:["wanted","another","chance","students","to practice","to give","for"],
+   extra:"for",
+   note:"Purpose structure: 'wanted + to give + students + another chance + to practice'. Extra word: 'for' — 'to give' already expresses purpose without needing 'for'."},
+  {n:14,prompt:"My friend said she finally finished reading that long novel.",
+   parts:[{g:0},{g:1},{g:2},{f:"whether"},{g:3},{g:4},{g:5},{f:"?"}],
+   ans:["Has","she","mentioned","she","liked","the ending"],
+   chips:["Has","mentioned","she","liked","the ending","she","if"],
+   extra:"if",
+   note:"Present perfect question + embedded clause: 'Has she mentioned whether she liked...' (normal word order, NOT inverted). Extra word: 'if' — both 'if' and 'whether' introduce indirect questions, but 'whether' is already fixed."},
+  {n:15,prompt:"The supervisor said a new policy will take effect soon.",
+   parts:[{f:"Has"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"the employees?"}],
+   ans:["she","explained","how","it","will","affect"],
+   chips:["affect","it","how","explained","will","she","what"],
+   extra:"what",
+   note:"Present perfect question + embedded question: 'Has she explained how it will affect...' Embedded questions keep normal word order. Extra word: 'what' — the sentence asks HOW, not WHAT."},
+  {n:16,prompt:"The professor mentioned there will be a guest speaker tomorrow.",
+   parts:[{f:"Do"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"?"}],
+   ans:["you","remember","what","topic","the lecture","will","cover"],
+   chips:["you","what","will","remember","cover","the lecture","topic","which"],
+   extra:"which",
+   note:"Question + embedded clause: 'Do you remember what topic the lecture will cover' (NOT inverted). Extra word: 'which' — 'what topic' is the correct phrasing for an unspecified topic."},
+  {n:17,prompt:"Did the manager give you feedback on your report?",
+   parts:[{f:"She told"},{g:0},{g:1},{g:2},{g:3},{g:4},{f:"."}],
+   ans:["me","which","sections","needed","more data"],
+   chips:["needed","had","more data","which","sections","me"],
+   extra:"had",
+   note:"Reported speech with 'which': 'told me which sections needed more data'. Simple past 'needed' is correct. Extra word: 'had' — past perfect is not required here since no sequence needs to be emphasised."},
+  {n:18,prompt:"Why did the professor call you after class?",
+   parts:[{f:"He asked"},{g:0},{g:1},{g:2},{g:3},{g:4},{f:"by tomorrow."}],
+   ans:["me","to send","him","my","outline"],
+   chips:["to send","outline","my","me","him","his","class"],
+   extra:"class",
+   note:"'Asked me to send him my outline' — ask + object + to-infinitive. 'him' = indirect object (the professor), 'my outline' = direct object. Extra word: 'class' — it belongs in the prompt sentence but has no grammatical role in the reply."},
+  {n:19,prompt:"Why didn't you join us for dinner yesterday?",
+   parts:[{f:"I would have gone"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
+   ans:["if","I","hadn't","had","so much","work","to do"],
+   chips:["if","had","I","work","to do","not","hadn't","so much"],
+   extra:"not",
+   note:"3rd conditional: 'would have gone + if + past perfect'. 'hadn't had' = had not had (contracted). Extra word: 'not' — 'hadn't' already contains the negation; adding 'not' creates a double negative."},
+  {n:20,prompt:"When will the new employee orientation begin?",
+   parts:[{f:"It"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"."}],
+   ans:["will","start","after","everyone","completes","the registration process"],
+   chips:["completes","start","everyone","will","after","the registration process","begins"],
+   extra:"begins",
+   note:"Future + time clause: 'It will start after everyone completes...' — present simple in the time clause (NOT future). Extra word: 'begins' — the sentence already has 'start' as the main verb."}
+];
+
+var cur=0,score=0,answered=false,results=[];
+var gapC=[],gapEls=[],chipEls={},dragW=null,dragSrc=null;
+
+function upProg(){
+  document.getElementById("pF").style.width=(cur/QS.length*100)+"%";
+  document.getElementById("pL").textContent=cur+" / "+QS.length;
+}
+
+function loadQ(i){
+  answered=false;
+  var q=QS[i];
+  document.getElementById("qBadge").textContent="Question "+q.n+" of 20";
+  document.getElementById("qCtr").textContent=(i+1)+" / "+QS.length;
+  document.getElementById("pTxt").textContent=q.prompt;
+  upProg();
+  document.getElementById("fb").className="fb";
+  document.getElementById("nextBtn").style.display="none";
+  document.getElementById("checkBtn").style.display="inline-flex";
+  document.getElementById("checkBtn").disabled=true;
+  gapC=new Array(q.ans.length).fill(null);
+  gapEls=[];chipEls={};
+  buildRow(q);buildBank(q);
+}
+
+function buildRow(q){
+  var row=document.getElementById("sRow");
+  row.innerHTML="";
+  var gi=0;
+  q.parts.forEach(function(p){
+    if(p.f!==undefined){
+      var s=document.createElement("span");
+      s.className="fw";s.textContent=p.f;row.appendChild(s);
+    } else {
+      var d=document.createElement("div");
+      d.className="gap";d.dataset.gi=gi;
+      var mi=gi;
+      d.addEventListener("dragover",function(e){e.preventDefault();if(!answered)d.classList.add("dov");});
+      d.addEventListener("dragleave",function(){d.classList.remove("dov");});
+      d.addEventListener("drop",function(e){e.preventDefault();d.classList.remove("dov");if(!answered&&dragW)placeW(dragW,dragSrc,mi);});
+      d.addEventListener("click",function(){if(answered)return;if(gapC[mi]){retW(gapC[mi]);gapC[mi]=null;renderGaps();updChk();}});
+      gapEls.push(d);row.appendChild(d);gi++;
+    }
+  });
+}
+
+function buildBank(q){
+  var bk=document.getElementById("wBank");
+  bk.innerHTML="";
+  // chipEls is now an array of {word, el} so duplicate words work fine
+  chipEls=[];
+  shuf(q.chips).forEach(function(w,idx){
+    var c=document.createElement("div");
+    c.className="chip";c.textContent=w;c.draggable=true;c.dataset.w=w;c.dataset.ci=idx;
+    c.addEventListener("dragstart",function(e){dragW=w;dragSrc="bank";c.classList.add("dragging");e.dataTransfer.setData("text/plain",w);});
+    c.addEventListener("dragend",function(){c.classList.remove("dragging");dragW=null;});
+    c.addEventListener("click",function(){if(answered||c.classList.contains("used"))return;var fe=firstEmpty();if(fe!==-1)placeW(w,"bank",fe);});
+    chipEls.push({word:w,el:c});
+    bk.appendChild(c);
+  });
+}
+
+function placeW(w,src,ti){
+  if(answered)return;
+  if(gapC[ti])retW(gapC[ti]);
+  if(src!=="bank"&&typeof src==="number")gapC[src]=null;
+  // Mark first unused chip with this word as used
+  for(var i=0;i<chipEls.length;i++){
+    if(chipEls[i].word===w&&!chipEls[i].el.classList.contains("used")){
+      chipEls[i].el.classList.add("used");break;
+    }
+  }
+  gapC[ti]=w;renderGaps();updChk();
+}
+
+function retW(w){
+  // Return first used chip with this word
+  for(var i=0;i<chipEls.length;i++){
+    if(chipEls[i].word===w&&chipEls[i].el.classList.contains("used")){
+      chipEls[i].el.classList.remove("used");break;
+    }
+  }
+}
+function firstEmpty(){for(var i=0;i<gapC.length;i++)if(!gapC[i])return i;return -1;}
+
+function renderGaps(){
+  gapEls.forEach(function(g,i){
+    var v=gapC[i];g.textContent=v||"";
+    if(v){
+      g.classList.add("filled");g.draggable=true;
+      g.ondragstart=function(e){dragW=v;dragSrc=i;e.dataTransfer.setData("text/plain",v);};
+    } else {
+      g.classList.remove("filled");g.draggable=false;g.ondragstart=null;
+    }
+  });
+}
+
+function updChk(){document.getElementById("checkBtn").disabled=!gapC.every(function(x){return x!==null;});}
+
+document.getElementById("checkBtn").addEventListener("click",function(){
+  if(answered)return;answered=true;
+  var q=QS[cur];
+  var ok=gapC.every(function(w,i){return w&&w.toLowerCase()===q.ans[i].toLowerCase();});
+  if(ok)score++;results.push({ok:ok,q:q});
+  gapEls.forEach(function(g,i){
+    g.classList.add("locked");
+    if(gapC[i]&&gapC[i].toLowerCase()===q.ans[i].toLowerCase())g.classList.add("correct");
+    else g.classList.add("wrong");
+  });
+  // Mark extra chip
+  for(var ei=0;ei<chipEls.length;ei++){
+    if(chipEls[ei].word===q.extra&&!chipEls[ei].el.classList.contains("used")){
+      chipEls[ei].el.classList.remove("used");
+      chipEls[ei].el.classList.add("xtra");
+      chipEls[ei].el.draggable=false;
+      break;
+    }
+  }
+  var fb=document.getElementById("fb");
+  fb.className="fb show fu "+(ok?"ok":"bad");
+  document.getElementById("fbT").textContent=ok?"✓ Correct!":"✗ Not quite";
+  document.getElementById("fbA").innerHTML="<strong>Answer:</strong> "+buildAns(q);
+  document.getElementById("fbX").innerHTML="<strong>Extra word:</strong> <em>"+q.extra+"</em> — this one doesn't fit.";
+  document.getElementById("fbN").innerHTML="<strong>Grammar note:</strong> "+q.note;
+  document.getElementById("checkBtn").style.display="none";
+  document.getElementById("nextBtn").style.display="inline-flex";
+  upProg();
+});
+
+function buildAns(q){
+  var ai=0,r=[];
+  q.parts.forEach(function(p){if(p.f!==undefined)r.push(p.f);else{r.push(q.ans[ai]);ai++;}});
+  return r.join(" ").replace(/\s([?.!,])/g,"$1");
+}
+
+document.getElementById("nextBtn").addEventListener("click",function(){
+  cur++;document.getElementById("fb").className="fb";
+  document.getElementById("nextBtn").style.display="none";
+  document.getElementById("checkBtn").style.display="inline-flex";
+  if(cur>=QS.length)showRes();else loadQ(cur);
+});
+
+document.getElementById("clearBtn").addEventListener("click",function(){
+  if(answered)return;
+  gapC.forEach(function(w,i){if(w){retW(w);gapC[i]=null;}});
+  renderGaps();updChk();
+});
+
+function showRes(){
+  document.getElementById("pF").style.width="100%";
+  document.getElementById("pL").textContent=QS.length+" / "+QS.length;
+  show("s2");
+  var pct=Math.round(score/QS.length*100);
+  document.getElementById("sN").textContent=score+"/"+QS.length;
+  document.getElementById("sP").textContent=pct+"%";
+  var msgs=["Keep practicing!","Getting there.","Good effort.","Nice work!","Strong!","Excellent!","Outstanding!","Perfect!","Perfect!","Perfect!","Perfect!"];
+  var dets=["Focus on embedded question word order — they don't invert like direct questions.","Review the grammar notes for each error. Watch for extra words that look plausible.","Solid base. Pay attention to which temporal connectors fit each context.","Well done. Review the notes to lock in the patterns.","Very strong. Keep this up!"];
+  document.getElementById("sMsg").textContent=msgs[score]||"Perfect!";
+  document.getElementById("sDet").textContent=dets[Math.min(Math.floor(score/3),dets.length-1)];
+  document.getElementById("rList").innerHTML=results.map(function(r,i){
+    return "<div class='ri "+(r.ok?"ok":"bad")+"'><span style='font-weight:600;flex-shrink:0;font-family:\"DM Mono\",monospace;font-size:11px;min-width:28px'>Q"+r.q.n+"</span><span>"+(r.ok?"✓ Correct":"✗ "+buildAns(r.q))+"</span></div>";
+  }).join("");
+}
+
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["s0","s1","s2"].forEach(function(s){document.getElementById(s).classList.remove("active");});document.getElementById(id).classList.add("active");window.scrollTo(0,0);}
+
+document.getElementById("startBtn").addEventListener("click",function(){show("s1");loadQ(0);});
+document.getElementById("retryBtn").addEventListener("click",function(){cur=0;score=0;answered=false;results=[];show("s1");loadQ(0);});
+document.getElementById("backBtn").addEventListener("click",function(){show("s0");});
+</script>
+</body>
+</html>
