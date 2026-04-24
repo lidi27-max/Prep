@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL · Academic Discussion · Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:   #1A7A7A;
+    --teal2:  #0f5a5a;
+    --navy:   #1A2A4A;
+    --gold:   #C8A84B;
+    --gold2:  #a8882b;
+    --white:  #FFFFFF;
+    --offwh:  #F7F9FA;
+    --lt:     #E8EEF2;
+    --muted:  #64748B;
+    --text:   #1E293B;
+    --green:  #217A4A;
+    --red:    #B03A2E;
+    --warn:   #B07A10;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--offwh);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .header { text-align: center; margin-bottom: 2rem; }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: .4rem;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .header h1 em { color: var(--teal); font-style: italic; }
+  .header-sub { font-size: 13px; color: var(--muted); margin-top: .5rem; }
+
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--lt);
+    box-shadow: 0 4px 24px rgba(26,42,74,.07);
+    width: 100%;
+    max-width: 760px;
+    overflow: hidden;
+  }
+
+  .progress-bar { height: 4px; background: var(--lt); position: relative; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    transition: width .4s ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .prompt-switcher {
+    padding: .75rem 1.5rem;
+    background: var(--offwh);
+    border-bottom: 1px solid var(--lt);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+  .switcher-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-family: 'DM Mono', monospace;
+    margin-right: .25rem;
+  }
+  .prompt-tab {
+    font-size: 12px;
+    font-weight: 600;
+    padding: .35rem .9rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--lt);
+    background: var(--white);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .prompt-tab.active   { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .prompt-tab.done-tab { background: #e0f7f6; color: var(--teal2); border-color: #b2e8e6; }
+  .prompt-tab:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+
+  /* Card top */
+  .card-top {
+    padding: 1rem 1.5rem .8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--lt);
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+  .prompt-label { display: flex; align-items: center; gap: .5rem; }
+  .prompt-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    background: var(--navy);
+    color: var(--white);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: .06em;
+  }
+  .prompt-title { font-size: 13px; font-weight: 600; color: var(--navy); }
+
+  .timer-wrap { display: flex; align-items: center; gap: .6rem; }
+  .timer-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: .04em;
+    min-width: 72px;
+    text-align: right;
+    transition: color .3s;
+  }
+  .timer-display.warn   { color: var(--warn); }
+  .timer-display.danger { color: var(--red);  }
+  .timer-label {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* Instructions strip */
+  .instructions-strip {
+    background: #f0f7f6;
+    border-bottom: 1px solid #cce8e6;
+    padding: .6rem 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .instr-item {
+    font-size: 12px;
+    color: var(--teal2);
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    font-weight: 500;
+  }
+  .instr-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  /* Forum layout */
+  .forum-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--lt);
+  }
+  @media (max-width: 600px) {
+    .forum-wrap { grid-template-columns: 1fr; }
+  }
+
+  .professor-post {
+    padding: 1rem 1.25rem;
+    border-right: 1px solid var(--lt);
+    background: var(--white);
+  }
+  .classmates-col {
+    padding: .6rem 1.25rem 1rem;
+    background: var(--offwh);
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+
+  .post-author {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: .4rem;
+  }
+  .post-author.prof  { color: var(--navy); }
+  .post-author.s1    { color: var(--teal); }
+  .post-author.s2    { color: #7A5A1A; }
+
+  .post-text {
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .classmate-card {
+    background: var(--white);
+    border: 1px solid var(--lt);
+    border-radius: 8px;
+    padding: .7rem .9rem;
+  }
+
+  /* Controls */
+  .controls {
+    padding: .85rem 1.5rem;
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--lt);
+  }
+  .btn-group { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: .5rem 1.1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary   { background: var(--teal); color: var(--white); }
+  .btn-primary:hover { background: var(--teal2); }
+  .btn-secondary { background: var(--lt); color: var(--navy); }
+  .btn-secondary:hover { background: #d8e2ea; }
+  .btn-ghost     { background: transparent; color: var(--muted); border: 1px solid var(--lt); }
+  .btn-ghost:hover { background: var(--offwh); color: var(--text); }
+  .btn:disabled  { opacity: .4; cursor: not-allowed; transform: none; }
+
+  .word-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--offwh);
+    padding: .4rem .8rem;
+    border-radius: 6px;
+    border: 1px solid var(--lt);
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .word-count span { font-weight: 600; }
+  .wc-bar {
+    width: 60px;
+    height: 5px;
+    background: var(--lt);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .wc-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--teal);
+    transition: width .3s, background .3s;
+  }
+
+  /* Status banner */
+  .status-banner {
+    margin: 0 1.5rem .75rem;
+    border-radius: 10px;
+    padding: .75rem 1rem;
+    font-size: 13px;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: .6rem;
+  }
+  .status-banner.show    { display: flex; }
+  .status-banner.ready   { background: #e0f7f6; color: var(--teal2); border: 1px solid #b2e8e6; }
+  .status-banner.running { background: #e8f4f0; color: var(--green); border: 1px solid #b8ddd0; }
+  .status-banner.done    { background: #faeeda; color: var(--warn);  border: 1px solid #f0d494; }
+  .status-banner.times-up{ background: #fde8e6; color: var(--red);   border: 1px solid #f4bcb6; }
+
+  /* Textarea */
+  .textarea-wrap { padding: .75rem 1.5rem 1.5rem; }
+  textarea {
+    width: 100%;
+    height: 200px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--white);
+    border: 1.5px solid var(--lt);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s;
+  }
+  textarea:focus { border-color: var(--teal); }
+  textarea::placeholder { color: #aab4be; font-style: italic; font-size: 13px; }
+  textarea:disabled { background: var(--offwh); color: var(--muted); cursor: not-allowed; }
+
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(26,122,122,.25); }
+    70%  { box-shadow: 0 0 0 8px rgba(26,122,122,0); }
+    100% { box-shadow: 0 0 0 0 rgba(26,122,122,0); }
+  }
+  .timer-display.running-pulse { animation: pulse-ring 2s infinite; border-radius: 6px; }
+
+  .footer-tip {
+    margin-top: 1.5rem;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 560px;
+  }
+  .footer-tip strong { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">TOEFL iBT 2026 · Writing Section</div>
+  <h1>Write for an <em>Academic Discussion</em></h1>
+  <p class="header-sub">2 prompts · 10 minutes each · minimum 100 words</p>
+</div>
+
+<div class="card">
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <div class="prompt-switcher">
+    <span class="switcher-label">Prompt</span>
+    <button class="prompt-tab active" id="tab0" onclick="switchPrompt(0)">1 — AI in education</button>
+    <button class="prompt-tab"        id="tab1" onclick="switchPrompt(1)">2 — Music in schools</button>
+  </div>
+
+  <div class="card-top">
+    <div class="prompt-label">
+      <span class="prompt-badge" id="promptBadge">PROMPT 1 / 2</span>
+      <span class="prompt-title"  id="promptTitle">AI in Education</span>
+    </div>
+    <div class="timer-wrap">
+      <div class="timer-label">time left</div>
+      <div class="timer-display" id="timerDisplay">10:00</div>
+    </div>
+  </div>
+
+  <!-- Fixed instructions strip -->
+  <div class="instructions-strip">
+    <div class="instr-item"><div class="instr-dot"></div>Express and support your opinion</div>
+    <div class="instr-item"><div class="instr-dot"></div>Make a contribution to the discussion in your own words</div>
+    <div class="instr-item"><div class="instr-dot"></div>An effective response will contain at least 100 words</div>
+  </div>
+
+  <!-- Forum posts -->
+  <div class="forum-wrap">
+    <div class="professor-post">
+      <div class="post-author prof" id="profName">DR. CHANG</div>
+      <div class="post-text" id="profText"></div>
+    </div>
+    <div class="classmates-col">
+      <div class="classmate-card">
+        <div class="post-author s1" id="s1Name">PRIYA</div>
+        <div class="post-text" id="s1Text"></div>
+      </div>
+      <div class="classmate-card">
+        <div class="post-author s2" id="s2Name">DANIEL</div>
+        <div class="post-text" id="s2Text"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="btn-group">
+      <button class="btn btn-primary"   id="btnStart" onclick="startTimer()">▶ Start timer</button>
+      <button class="btn btn-secondary" id="btnPause" onclick="pauseTimer()" disabled>⏸ Pause</button>
+      <button class="btn btn-ghost"     id="btnReset" onclick="resetTimer()">↺ Reset</button>
+    </div>
+    <div class="word-count">
+      Words: <span id="wordCount">0</span> / 100
+      <div class="wc-bar"><div class="wc-fill" id="wcFill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="status-banner" id="statusBanner"></div>
+
+  <div class="textarea-wrap">
+    <textarea id="responseArea"
+      placeholder="Start your post here — no greeting needed, jump straight to your position…"
+      oninput="updateWordCount()"
+    ></textarea>
+  </div>
+
+</div>
+
+<p class="footer-tip">
+  <strong>Tip:</strong> Read (1 min) → Plan which side (30 sec) → Write (7–8 min) → Proofread (1 min).
+  Aim for <strong>120–130 words</strong>. Reference at least one classmate by name.
+</p>
+
+<script>
+const PROMPTS = [
+  {
+    badge: "PROMPT 1 / 2",
+    title: "AI in Education",
+    profName: "DR. CHANG",
+    profText: "This week we have been exploring how artificial intelligence is changing the way students learn. Some educators believe that AI tools — such as writing assistants and personalized tutoring software — help students learn more effectively by adapting to their individual needs. Others argue that relying on AI in education makes students less independent and undermines the development of critical thinking skills. What is your view? Should schools encourage students to use AI tools as part of their learning?",
+    s1Name: "PRIYA",
+    s1Text: "I think schools should definitely encourage AI tools. These programs can identify exactly where a student is struggling and provide targeted practice, which is something a teacher with thirty students simply cannot do. I have used an AI writing assistant myself and it helped me understand my grammar mistakes much faster than any textbook.",
+    s2Name: "DANIEL",
+    s2Text: "I disagree. When students use AI to help them write or solve problems, they stop practicing those skills themselves. Learning requires struggle — if AI removes that difficulty, students may perform well on assisted tasks but fail when they need to think independently. Schools should focus on building strong foundations before introducing these tools."
+  },
+  {
+    badge: "PROMPT 2 / 2",
+    title: "Music in Schools",
+    profName: "DR. LANGSTON",
+    profText: "This week we have been discussing the impact of music on cognitive development. Research has shown that engaging with music, whether by playing an instrument or listening, can enhance cognitive abilities such as memory, attention, and even language skills. Children who receive musical training often show greater improvements in these areas compared to those who do not. Do you believe schools should integrate more music-focused classes into their curriculum? Why or why not?",
+    s1Name: "ALICE",
+    s1Text: "I strongly support integrating more music classes in schools. Music not only improves cognitive abilities but also nurtures emotional and social skills. Providing children with music education from an early age can foster well-rounded development, equipping them with skills beneficial across various aspects of life.",
+    s2Name: "BEN",
+    s2Text: "It is important to consider the fact that schools have difficulty allocating their limited resources. Many schools struggle with funding and may need to prioritize core academic subjects like math and science. Allocating more resources to music might mean less for these essential areas, which could be detrimental in the long run."
+  }
+];
+
+// ── State ─────────────────────────────────────────────
+let currentPrompt = 0;
+let timeLeft      = 10 * 60;
+let timerInterval = null;
+let isRunning     = false;
+let promptDone    = [false, false];
+let responses     = ["", ""];
+const TOTAL_TIME  = 10 * 60;
+
+// ── Init ──────────────────────────────────────────────
+function init() { loadPrompt(0); }
+
+function loadPrompt(idx) {
+  const p = PROMPTS[idx];
+  document.getElementById('promptBadge').textContent = p.badge;
+  document.getElementById('promptTitle').textContent = p.title;
+  document.getElementById('profName').textContent    = p.profName;
+  document.getElementById('profText').textContent    = p.profText;
+  document.getElementById('s1Name').textContent      = p.s1Name;
+  document.getElementById('s1Text').textContent      = p.s1Text;
+  document.getElementById('s2Name').textContent      = p.s2Name;
+  document.getElementById('s2Text').textContent      = p.s2Text;
+  document.getElementById('responseArea').value      = responses[idx];
+  updateWordCount();
+  updateProgress();
+}
+
+function switchPrompt(idx) {
+  responses[currentPrompt] = document.getElementById('responseArea').value;
+  if (isRunning) pauseTimer();
+  stopTimer();
+  timeLeft = TOTAL_TIME;
+  updateTimerDisplay();
+  currentPrompt = idx;
+  loadPrompt(idx);
+
+  document.querySelectorAll('.prompt-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+    t.classList.toggle('done-tab', promptDone[i]);
+  });
+
+  const done = promptDone[idx];
+  document.getElementById('btnStart').disabled       = done;
+  document.getElementById('btnStart').textContent    = done ? '✓ Done' : '▶ Start timer';
+  document.getElementById('btnPause').disabled       = true;
+  document.getElementById('responseArea').disabled  = done;
+  hideBanner();
+  updateProgress();
+}
+
+// ── Timer ─────────────────────────────────────────────
+function startTimer() {
+  if (isRunning) return;
+  isRunning = true;
+  document.getElementById('btnStart').disabled      = true;
+  document.getElementById('btnPause').disabled      = false;
+  document.getElementById('responseArea').disabled  = false;
+  document.getElementById('responseArea').focus();
+  document.getElementById('timerDisplay').classList.add('running-pulse');
+  showBanner('running', '⏱ Timer running — write your post now!');
+  timerInterval = setInterval(tick, 1000);
+}
+
+function tick() {
+  timeLeft--;
+  updateTimerDisplay();
+  updateProgress();
+  if      (timeLeft <= 0)   timesUp();
+  else if (timeLeft === 60) showBanner('done',    '⚠️ 1 minute left — finish your sentence and proofread!');
+  else if (timeLeft === 120) showBanner('running', '✏️ 2 minutes left — wrap up and check word count.');
+  else if (timeLeft === 300) showBanner('running', '⏱ Halfway — make sure you have your position + at least one classmate cited.');
+}
+
+function pauseTimer() {
+  if (!isRunning) return;
+  isRunning = false;
+  clearInterval(timerInterval); timerInterval = null;
+  document.getElementById('btnStart').disabled   = false;
+  document.getElementById('btnStart').textContent = '▶ Resume';
+  document.getElementById('btnPause').disabled   = true;
+  document.getElementById('timerDisplay').classList.remove('running-pulse');
+  showBanner('ready', '⏸ Paused — press Resume when ready.');
+}
+
+function stopTimer() {
+  isRunning = false;
+  clearInterval(timerInterval); timerInterval = null;
+  document.getElementById('timerDisplay').classList.remove('running-pulse');
+}
+
+function resetTimer() {
+  stopTimer();
+  timeLeft = TOTAL_TIME;
+  updateTimerDisplay();
+  document.getElementById('btnStart').disabled    = false;
+  document.getElementById('btnStart').textContent = '▶ Start timer';
+  document.getElementById('btnPause').disabled    = true;
+  hideBanner();
+}
+
+function timesUp() {
+  stopTimer();
+  promptDone[currentPrompt] = true;
+  responses[currentPrompt]  = document.getElementById('responseArea').value;
+  document.getElementById('responseArea').disabled = true;
+  document.getElementById('btnStart').disabled     = true;
+  document.getElementById('btnStart').textContent  = '✓ Done';
+  document.getElementById('btnPause').disabled     = true;
+  document.getElementById('tab' + currentPrompt).classList.add('done-tab');
+
+  const bothDone = promptDone[0] && promptDone[1];
+  if (bothDone) {
+    showBanner('done', '🎉 Both prompts complete! Great work, Ariana.');
+  } else {
+    const next = currentPrompt === 0 ? 1 : 0;
+    showBanner('times-up', `⏰ Time's up! Switch to Prompt ${next + 1} when you're ready.`);
+  }
+  updateProgress();
+}
+
+// ── Display helpers ───────────────────────────────────
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  const el = document.getElementById('timerDisplay');
+  el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  el.classList.remove('warn','danger');
+  if      (timeLeft <= 60)  el.classList.add('danger');
+  else if (timeLeft <= 120) el.classList.add('warn');
+}
+
+function updateWordCount() {
+  const text  = document.getElementById('responseArea').value.trim();
+  const words = text === '' ? 0 : text.split(/\s+/).filter(w => w.length > 0).length;
+  document.getElementById('wordCount').textContent = words;
+  const pct = Math.min(100, (words / 100) * 100);
+  const fill = document.getElementById('wcFill');
+  fill.style.width = pct + '%';
+  // Color: red <70, amber 70-99, green 100+
+  if      (words >= 100) { fill.style.background = 'var(--green)'; document.getElementById('wordCount').style.color = 'var(--green)'; }
+  else if (words >= 70)  { fill.style.background = 'var(--warn)';  document.getElementById('wordCount').style.color = 'var(--warn)'; }
+  else                   { fill.style.background = 'var(--teal)';  document.getElementById('wordCount').style.color = 'var(--teal)'; }
+}
+
+function updateProgress() {
+  const done       = promptDone.filter(Boolean).length;
+  const timeSpent  = TOTAL_TIME - timeLeft;
+  const timeProgress = (timeSpent / TOTAL_TIME) * 50;
+  const total = Math.min(100, done * 50 + (isRunning ? timeProgress : 0));
+  document.getElementById('progressFill').style.width = total + '%';
+}
+
+function showBanner(type, msg) {
+  const b = document.getElementById('statusBanner');
+  b.className = 'status-banner show ' + type;
+  b.textContent = msg;
+}
+function hideBanner() {
+  document.getElementById('statusBanner').className = 'status-banner';
+}
+
+init();
+</script>
+</body>
+</html>
