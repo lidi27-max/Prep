@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL · Write an Email · Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:   #1A7A7A;
+    --teal2:  #0f5a5a;
+    --navy:   #1A2A4A;
+    --gold:   #C8A84B;
+    --gold2:  #a8882b;
+    --white:  #FFFFFF;
+    --offwh:  #F7F9FA;
+    --lt:     #E8EEF2;
+    --muted:  #64748B;
+    --text:   #1E293B;
+    --green:  #217A4A;
+    --red:    #B03A2E;
+    --warn:   #B07A10;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--offwh);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: .4rem;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .header h1 em {
+    color: var(--teal);
+    font-style: italic;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: .5rem;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--lt);
+    box-shadow: 0 4px 24px rgba(26,42,74,.07);
+    width: 100%;
+    max-width: 720px;
+    overflow: hidden;
+  }
+
+  /* ── Progress bar ── */
+  .progress-bar {
+    height: 4px;
+    background: var(--lt);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    transition: width .4s ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── Card top ── */
+  .card-top {
+    padding: 1.25rem 1.5rem .75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--lt);
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+  .prompt-label {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .prompt-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    background: var(--navy);
+    color: var(--white);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: .06em;
+  }
+  .prompt-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  /* ── Timer ── */
+  .timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .timer-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: .04em;
+    min-width: 72px;
+    text-align: right;
+    transition: color .3s;
+  }
+  .timer-display.warn  { color: var(--warn); }
+  .timer-display.danger{ color: var(--red);  }
+  .timer-label {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* ── Prompt body ── */
+  .prompt-body {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--lt);
+  }
+  .prompt-scenario {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .prompt-tasks {
+    background: var(--offwh);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: .75rem 1rem;
+  }
+  .prompt-tasks p {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: .4rem;
+  }
+  .prompt-tasks ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+  }
+  .prompt-tasks li {
+    font-size: 12.5px;
+    color: var(--text);
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .prompt-tasks li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .prompt-note {
+    margin-top: .75rem;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    padding: 1rem 1.5rem;
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--lt);
+  }
+  .btn-group { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: .55rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all .15s ease;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(.97); }
+
+  .btn-primary {
+    background: var(--teal);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--teal2); }
+
+  .btn-secondary {
+    background: var(--lt);
+    color: var(--navy);
+  }
+  .btn-secondary:hover { background: #d8e2ea; }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--white);
+  }
+  .btn-gold:hover { background: var(--gold2); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--lt);
+  }
+  .btn-ghost:hover { background: var(--offwh); color: var(--text); }
+
+  .btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .word-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--offwh);
+    padding: .4rem .8rem;
+    border-radius: 6px;
+    border: 1px solid var(--lt);
+  }
+  .word-count span { color: var(--teal); font-weight: 600; }
+
+  /* ── Textarea ── */
+  .textarea-wrap {
+    padding: 1rem 1.5rem 1.5rem;
+  }
+  textarea {
+    width: 100%;
+    height: 220px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--white);
+    border: 1.5px solid var(--lt);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s;
+  }
+  textarea:focus { border-color: var(--teal); }
+  textarea::placeholder { color: #aab4be; font-style: italic; font-size: 13px; }
+  textarea:disabled { background: var(--offwh); color: var(--muted); cursor: not-allowed; }
+
+  /* ── Status banner ── */
+  .status-banner {
+    margin: 0 1.5rem 1.5rem;
+    border-radius: 10px;
+    padding: .85rem 1.1rem;
+    font-size: 13px;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: .6rem;
+  }
+  .status-banner.show { display: flex; }
+  .status-banner.ready   { background: #e0f7f6; color: var(--teal2); border: 1px solid #b2e8e6; }
+  .status-banner.running { background: #e8f4f0; color: var(--green); border: 1px solid #b8ddd0; }
+  .status-banner.done    { background: #faeeda; color: var(--warn);  border: 1px solid #f0d494; }
+  .status-banner.times-up{ background: #fde8e6; color: var(--red);   border: 1px solid #f4bcb6; }
+
+  /* ── Pulse ring on timer when running ── */
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(26,122,122,.25); }
+    70%  { box-shadow: 0 0 0 8px rgba(26,122,122,0); }
+    100% { box-shadow: 0 0 0 0 rgba(26,122,122,0); }
+  }
+  .timer-display.running-pulse { animation: pulse-ring 2s infinite; border-radius: 6px; }
+
+  /* ── Divider between prompts ── */
+  .prompt-switcher {
+    padding: .75rem 1.5rem;
+    background: var(--offwh);
+    border-top: 1px solid var(--lt);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+  .switcher-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-family: 'DM Mono', monospace;
+    margin-right: .25rem;
+  }
+  .prompt-tab {
+    font-size: 12px;
+    font-weight: 600;
+    padding: .35rem .9rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--lt);
+    background: var(--white);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .prompt-tab.active {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .prompt-tab.done-tab {
+    background: #e0f7f6;
+    color: var(--teal2);
+    border-color: #b2e8e6;
+  }
+  .prompt-tab:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+
+  /* ── Email header fields ── */
+  .email-fields {
+    padding: .85rem 1.5rem .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    border-bottom: 1px solid var(--lt);
+    background: var(--offwh);
+  }
+  .email-field-row {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .email-field-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    width: 52px;
+    flex-shrink: 0;
+  }
+  .email-field-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--white);
+    border: 1px solid var(--lt);
+    border-radius: 6px;
+    padding: .3rem .75rem;
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── Footer tip ── */
+  .footer-tip {
+    margin-top: 1.5rem;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 520px;
+  }
+  .footer-tip strong { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">TOEFL iBT 2026 · Writing Section</div>
+  <h1>Write an <em>Email</em></h1>
+  <p class="header-sub">2 prompts · 7 minutes each · write in complete sentences</p>
+</div>
+
+<div class="card">
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <!-- Prompt switcher -->
+  <div class="prompt-switcher">
+    <span class="switcher-label">Prompt</span>
+    <button class="prompt-tab active" id="tab0" onclick="switchPrompt(0)">1 — Parking permit</button>
+    <button class="prompt-tab" id="tab1" onclick="switchPrompt(1)">2 — Orientation session</button>
+  </div>
+
+  <!-- Card top: title + timer -->
+  <div class="card-top">
+    <div class="prompt-label">
+      <span class="prompt-badge" id="promptBadge">PROMPT 1 / 2</span>
+      <span class="prompt-title" id="promptTitle">Campus Parking Permit</span>
+    </div>
+    <div class="timer-wrap">
+      <div>
+        <div class="timer-label">time left</div>
+      </div>
+      <div class="timer-display" id="timerDisplay">7:00</div>
+    </div>
+  </div>
+
+  <!-- Prompt body -->
+  <div class="prompt-body">
+    <div class="prompt-scenario" id="promptScenario"></div>
+    <div class="prompt-tasks">
+      <p>In your email, do the following:</p>
+      <ul id="promptTasks"></ul>
+    </div>
+    <p class="prompt-note">Write as much as you can and in complete sentences.</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btnStart" onclick="startTimer()">▶ Start timer</button>
+      <button class="btn btn-secondary" id="btnPause" onclick="pauseTimer()" disabled>⏸ Pause</button>
+      <button class="btn btn-ghost" id="btnReset" onclick="resetTimer()">↺ Reset</button>
+    </div>
+    <div class="word-count">Words: <span id="wordCount">0</span></div>
+  </div>
+
+  <!-- Status banner -->
+  <div class="status-banner" id="statusBanner"></div>
+
+  <!-- Email header fields (pre-filled, read-only) -->
+  <div class="email-fields" id="emailFields">
+    <div class="email-field-row">
+      <span class="email-field-label">To</span>
+      <span class="email-field-value" id="fieldTo"></span>
+    </div>
+    <div class="email-field-row">
+      <span class="email-field-label">Subject</span>
+      <span class="email-field-value" id="fieldSubject"></span>
+    </div>
+  </div>
+
+  <!-- Textarea -->
+  <div class="textarea-wrap">
+    <textarea id="responseArea"
+      placeholder="Dear …"
+      oninput="updateWordCount()"
+    ></textarea>
+  </div>
+
+</div>
+
+<p class="footer-tip">
+  <strong>Tip:</strong> Use 1 min to read the prompt, 5 min to write, 1 min to proofread. Aim for <strong>70–90 words</strong>.
+</p>
+
+<script>
+// ── Prompts data ──────────────────────────────────────
+const PROMPTS = [
+  {
+    badge: "PROMPT 1 / 2",
+    title: "Campus Parking Permit",
+    to: "Campus Parking Office <parking@university.edu>",
+    subject: "Parking Permit Renewal Request",
+    scenario: "Your campus parking permit is about to expire. You need to renew it to continue driving to campus every day.",
+    tasks: [
+      "Describe your situation and why you need the permit",
+      "Explain why renewal is important for you",
+      "Request information about the renewal process"
+    ]
+  },
+  {
+    badge: "PROMPT 2 / 2",
+    title: "Campus Orientation Session",
+    to: "Orientation Office <orientation@university.edu>",
+    subject: "Questions About Upcoming Orientation Session",
+    scenario: "You are planning to attend a campus orientation session but have questions about the schedule and what to expect.",
+    tasks: [
+      "Ask for details about the schedule",
+      "Explain your interest in attending",
+      "Request advice for new students"
+    ]
+  }
+];
+
+// ── State ─────────────────────────────────────────────
+let currentPrompt = 0;
+let timeLeft = 7 * 60;
+let timerInterval = null;
+let isRunning = false;
+let promptDone = [false, false];
+let responses = ["", ""];
+
+const TOTAL_TIME = 7 * 60;
+
+// ── Init ──────────────────────────────────────────────
+function init() {
+  loadPrompt(0);
+}
+
+function loadPrompt(idx) {
+  const p = PROMPTS[idx];
+  document.getElementById('promptBadge').textContent = p.badge;
+  document.getElementById('promptTitle').textContent = p.title;
+  document.getElementById('promptScenario').textContent = p.scenario;
+
+  const ul = document.getElementById('promptTasks');
+  ul.innerHTML = p.tasks.map(t => `<li>${t}</li>`).join('');
+
+  document.getElementById('fieldTo').textContent = p.to;
+  document.getElementById('fieldSubject').textContent = p.subject;
+  document.getElementById('responseArea').value = responses[idx];
+  updateWordCount();
+  updateProgress();
+}
+
+function switchPrompt(idx) {
+  if (isRunning) {
+    pauseTimer();
+    responses[currentPrompt] = document.getElementById('responseArea').value;
+  } else {
+    responses[currentPrompt] = document.getElementById('responseArea').value;
+  }
+
+  // Reset timer for new prompt if it hasn't been started
+  stopTimer();
+  timeLeft = TOTAL_TIME;
+  updateTimerDisplay();
+
+  currentPrompt = idx;
+  loadPrompt(idx);
+
+  // Update tabs
+  document.querySelectorAll('.prompt-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+    if (promptDone[i]) t.classList.add('done-tab');
+    else t.classList.remove('done-tab');
+  });
+
+  // Reset UI
+  document.getElementById('btnStart').disabled = promptDone[idx];
+  document.getElementById('btnStart').textContent = promptDone[idx] ? '✓ Done' : '▶ Start timer';
+  document.getElementById('btnPause').disabled = true;
+  document.getElementById('responseArea').disabled = promptDone[idx];
+
+  hideBanner();
+  updateProgress();
+}
+
+// ── Timer ─────────────────────────────────────────────
+function startTimer() {
+  if (isRunning) return;
+  isRunning = true;
+
+  document.getElementById('btnStart').disabled = true;
+  document.getElementById('btnPause').disabled = false;
+  document.getElementById('responseArea').disabled = false;
+  document.getElementById('responseArea').focus();
+
+  showBanner('running', '⏱ Timer running — write your email now!');
+  document.getElementById('timerDisplay').classList.add('running-pulse');
+
+  timerInterval = setInterval(tick, 1000);
+}
+
+function tick() {
+  timeLeft--;
+  updateTimerDisplay();
+  updateProgress();
+
+  if (timeLeft <= 0) {
+    timesUp();
+  } else if (timeLeft === 60) {
+    showBanner('done', '⚠️ 1 minute left — finish your sentence and proofread!');
+  } else if (timeLeft === 120) {
+    showBanner('running', '✏️ 2 minutes left — wrap up your final paragraph.');
+  }
+}
+
+function pauseTimer() {
+  if (!isRunning) return;
+  isRunning = false;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  document.getElementById('btnStart').disabled = false;
+  document.getElementById('btnStart').textContent = '▶ Resume';
+  document.getElementById('btnPause').disabled = true;
+  document.getElementById('timerDisplay').classList.remove('running-pulse');
+  showBanner('ready', '⏸ Paused — press Resume when ready.');
+}
+
+function stopTimer() {
+  isRunning = false;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  document.getElementById('timerDisplay').classList.remove('running-pulse');
+}
+
+function resetTimer() {
+  stopTimer();
+  timeLeft = TOTAL_TIME;
+  updateTimerDisplay();
+  document.getElementById('btnStart').disabled = false;
+  document.getElementById('btnStart').textContent = '▶ Start timer';
+  document.getElementById('btnPause').disabled = true;
+  hideBanner();
+}
+
+function timesUp() {
+  stopTimer();
+  promptDone[currentPrompt] = true;
+  responses[currentPrompt] = document.getElementById('responseArea').value;
+
+  document.getElementById('responseArea').disabled = true;
+  document.getElementById('btnStart').disabled = true;
+  document.getElementById('btnStart').textContent = '✓ Done';
+  document.getElementById('btnPause').disabled = true;
+
+  // Mark tab as done
+  document.getElementById('tab' + currentPrompt).classList.add('done-tab');
+
+  const bothDone = promptDone[0] && promptDone[1];
+  if (bothDone) {
+    showBanner('done', '🎉 Both prompts complete! Great work, Ariana.');
+  } else {
+    const next = currentPrompt === 0 ? 1 : 0;
+    showBanner('times-up', `⏰ Time's up! Switch to Prompt ${next + 1} when you're ready.`);
+  }
+
+  updateProgress();
+}
+
+// ── Display helpers ───────────────────────────────────
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  const display = document.getElementById('timerDisplay');
+  display.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+
+  display.classList.remove('warn', 'danger');
+  if (timeLeft <= 60)       display.classList.add('danger');
+  else if (timeLeft <= 120) display.classList.add('warn');
+}
+
+function updateWordCount() {
+  const text = document.getElementById('responseArea').value.trim();
+  const words = text === '' ? 0 : text.split(/\s+/).filter(w => w.length > 0).length;
+  const span = document.getElementById('wordCount');
+  span.textContent = words;
+  span.style.color = words >= 70 && words <= 90 ? 'var(--green)' : words > 90 ? 'var(--warn)' : 'var(--teal)';
+}
+
+function updateProgress() {
+  const done = promptDone.filter(Boolean).length;
+  const timeSpent = TOTAL_TIME - timeLeft;
+  const timeProgress = (timeSpent / TOTAL_TIME) * 50;
+  const doneProgress = done * 50;
+  const total = Math.min(100, doneProgress + (isRunning ? timeProgress : 0));
+  document.getElementById('progressFill').style.width = total + '%';
+}
+
+function showBanner(type, msg) {
+  const b = document.getElementById('statusBanner');
+  b.className = 'status-banner show ' + type;
+  b.textContent = msg;
+}
+
+function hideBanner() {
+  document.getElementById('statusBanner').className = 'status-banner';
+}
+
+init();
+</script>
+</body>
+</html>
