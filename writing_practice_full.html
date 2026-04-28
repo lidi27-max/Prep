@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL iBT · Writing Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:#1A7A7A; --teal2:#0f5a5a; --teal-l:#e0f7f6;
+  --navy:#1A2A4A; --navy2:#253d6b;
+  --gold:#C8A84B; --gold2:#a8882b; --gold-l:#faeeda;
+  --white:#FFFFFF; --offwh:#F7F9FA; --lt:#E8EEF2;
+  --muted:#64748B; --text:#1E293B;
+  --green:#217A4A; --green-l:#e3fcef;
+  --red:#B03A2E; --red-l:#fde8e6;
+  --warn:#B07A10; --warn-l:#faeeda;
+  --bg:#f0f4f8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+
+/* ── TOP NAV ── */
+.top-nav{width:100%;background:var(--navy);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:52px;flex-shrink:0;position:sticky;top:0;z-index:100}
+.nav-brand{color:#fff;font-size:13px;font-weight:700;letter-spacing:.02em}
+.nav-brand span{color:var(--gold);font-family:'DM Mono',monospace;font-size:11px;font-weight:400;display:block;margin-top:1px;letter-spacing:.08em}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{background:transparent;border:none;color:rgba(255,255,255,.45);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:.45rem .9rem;border-radius:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.35rem;white-space:nowrap}
+.nav-tab:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
+.nav-tab.active{background:var(--teal);color:#fff}
+.nav-tab .tab-num{font-family:'DM Mono',monospace;font-size:10px;opacity:.7}
+
+/* ── SECTION WRAPPER ── */
+.section{display:none;width:100%;max-width:800px;padding:2rem 1rem 4rem;flex-direction:column;gap:1.5rem}
+.section.active{display:flex}
+
+/* ── SECTION HEADER ── */
+.sec-hdr{text-align:center}
+.sec-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem}
+.sec-hdr h1{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--navy);line-height:1.1}
+.sec-hdr h1 em{color:var(--teal);font-style:italic}
+.sec-sub{font-size:13px;color:var(--muted);margin-top:.4rem}
+
+/* ── CARD ── */
+.card{background:var(--white);border-radius:16px;border:1px solid var(--lt);box-shadow:0 4px 24px rgba(26,42,74,.07);width:100%;overflow:hidden}
+
+/* ── PROGRESS BAR ── */
+.progress-bar{height:4px;background:var(--lt)}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .4s ease;border-radius:0 2px 2px 0}
+
+/* ── PROMPT SWITCHER ── */
+.prompt-switcher{padding:.7rem 1.5rem;background:var(--offwh);border-bottom:1px solid var(--lt);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.switcher-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;margin-right:.25rem}
+.prompt-tab{font-size:12px;font-weight:600;padding:.35rem .9rem;border-radius:20px;border:1.5px solid var(--lt);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
+.prompt-tab.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.prompt-tab.done-tab{background:var(--teal-l);color:var(--teal2);border-color:#b2e8e6}
+.prompt-tab:hover:not(.active){border-color:var(--teal);color:var(--teal)}
+
+/* ── CARD TOP ── */
+.card-top{padding:1rem 1.5rem .8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--lt);flex-wrap:wrap;gap:.5rem}
+.prompt-label{display:flex;align-items:center;gap:.5rem}
+.prompt-badge{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;background:var(--navy);color:var(--white);padding:3px 10px;border-radius:20px;letter-spacing:.06em}
+.prompt-title{font-size:13px;font-weight:600;color:var(--navy)}
+.timer-wrap{display:flex;align-items:center;gap:.5rem}
+.timer-label{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+.timer-display{font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:500;color:var(--teal);letter-spacing:.04em;min-width:72px;text-align:right;transition:color .3s}
+.timer-display.warn{color:var(--warn)}
+.timer-display.danger{color:var(--red)}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(26,122,122,.25)}70%{box-shadow:0 0 0 8px rgba(26,122,122,0)}100%{box-shadow:0 0 0 0 rgba(26,122,122,0)}}
+.timer-display.running-pulse{animation:pulse-ring 2s infinite;border-radius:6px}
+
+/* ── CONTROLS ── */
+.controls{padding:.85rem 1.5rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;justify-content:space-between;border-bottom:1px solid var(--lt)}
+.btn-group{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:.5rem 1.1rem;border-radius:8px;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--teal);color:var(--white)}
+.btn-primary:hover{background:var(--teal2)}
+.btn-secondary{background:var(--lt);color:var(--navy)}
+.btn-secondary:hover{background:#d8e2ea}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--lt)}
+.btn-ghost:hover{background:var(--offwh);color:var(--text)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── STATUS BANNER ── */
+.status-banner{margin:0 1.5rem .75rem;border-radius:10px;padding:.75rem 1rem;font-size:13px;font-weight:500;display:none;align-items:center;gap:.6rem}
+.status-banner.show{display:flex}
+.status-banner.ready{background:var(--teal-l);color:var(--teal2);border:1px solid #b2e8e6}
+.status-banner.running{background:var(--green-l);color:var(--green);border:1px solid #b8ddd0}
+.status-banner.done{background:var(--warn-l);color:var(--warn);border:1px solid #f0d494}
+.status-banner.times-up{background:var(--red-l);color:var(--red);border:1px solid #f4bcb6}
+
+/* ── TEXTAREA ── */
+.textarea-wrap{padding:.75rem 1.5rem 1.5rem}
+textarea{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.7;color:var(--text);background:var(--white);border:1.5px solid var(--lt);border-radius:10px;padding:1rem 1.1rem;resize:vertical;outline:none;transition:border-color .2s}
+textarea:focus{border-color:var(--teal)}
+textarea::placeholder{color:#aab4be;font-style:italic;font-size:13px}
+textarea:disabled{background:var(--offwh);color:var(--muted);cursor:not-allowed}
+
+/* ── WORD COUNT ── */
+.word-count{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);background:var(--offwh);padding:.4rem .8rem;border-radius:6px;border:1px solid var(--lt);display:flex;align-items:center;gap:.4rem}
+.word-count span{font-weight:600}
+.wc-bar{width:60px;height:5px;background:var(--lt);border-radius:3px;overflow:hidden}
+.wc-fill{height:100%;border-radius:3px;background:var(--teal);transition:width .3s,background .3s}
+
+/* ── FOOTER TIP ── */
+.footer-tip{font-size:12px;color:var(--muted);text-align:center;max-width:560px;line-height:1.6}
+.footer-tip strong{color:var(--navy)}
+
+/* ═══════════════════════════════════════════════
+   EMAIL SPECIFIC
+═══════════════════════════════════════════════ */
+.email-fields{padding:.85rem 1.5rem .5rem;display:flex;flex-direction:column;gap:.4rem;border-bottom:1px solid var(--lt);background:var(--offwh)}
+.email-field-row{display:flex;align-items:center;gap:.6rem}
+.email-field-label{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;width:52px;flex-shrink:0}
+.email-field-value{font-size:13px;font-weight:500;color:var(--navy);background:var(--white);border:1px solid var(--lt);border-radius:6px;padding:.3rem .75rem;flex:1}
+.prompt-body{padding:1.25rem 1.5rem;border-bottom:1px solid var(--lt)}
+.prompt-scenario{font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:1rem}
+.prompt-tasks{background:var(--offwh);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:.75rem 1rem}
+.prompt-tasks p{font-size:12.5px;font-weight:600;color:var(--navy);margin-bottom:.4rem}
+.prompt-tasks ul{list-style:none;display:flex;flex-direction:column;gap:.25rem}
+.prompt-tasks li{font-size:12.5px;color:var(--text);padding-left:1.1rem;position:relative}
+.prompt-tasks li::before{content:'→';position:absolute;left:0;color:var(--teal);font-weight:600}
+.prompt-note{margin-top:.75rem;font-size:11.5px;color:var(--muted);font-style:italic}
+.email-wc{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);background:var(--offwh);padding:.4rem .8rem;border-radius:6px;border:1px solid var(--lt)}
+.email-wc span{color:var(--teal);font-weight:600}
+
+/* ═══════════════════════════════════════════════
+   ACADEMIC DISCUSSION SPECIFIC
+═══════════════════════════════════════════════ */
+.instructions-strip{background:#f0f7f6;border-bottom:1px solid #cce8e6;padding:.6rem 1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap}
+.instr-item{font-size:12px;color:var(--teal2);display:flex;align-items:center;gap:.35rem;font-weight:500}
+.instr-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.forum-wrap{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--lt)}
+@media(max-width:600px){.forum-wrap{grid-template-columns:1fr}}
+.professor-post{padding:1rem 1.25rem;border-right:1px solid var(--lt);background:var(--white)}
+.classmates-col{padding:.6rem 1.25rem 1rem;background:var(--offwh);display:flex;flex-direction:column;gap:.75rem}
+.post-author{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;margin-bottom:.4rem}
+.post-author.prof{color:var(--navy)}
+.post-author.s1{color:var(--teal)}
+.post-author.s2{color:#7A5A1A}
+.post-text{font-size:12.5px;line-height:1.65;color:var(--text)}
+.classmate-card{background:var(--white);border:1px solid var(--lt);border-radius:8px;padding:.7rem .9rem}
+
+/* ═══════════════════════════════════════════════
+   BUILD A SENTENCE SPECIFIC
+═══════════════════════════════════════════════ */
+.bas-main{width:100%;max-width:720px;padding:2rem 1rem 4rem;display:flex;flex-direction:column;gap:1rem}
+.bas-screen{display:none;flex-direction:column;gap:1rem}
+.bas-screen.active{display:flex}
+.start-card{background:var(--white);border:1px solid var(--lt);border-radius:16px;padding:2.5rem 2rem;text-align:center}
+.start-icon{font-size:2.5rem;margin-bottom:.75rem}
+.start-card h2{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.start-card p{font-size:14px;color:var(--muted);line-height:1.65;max-width:460px;margin:0 auto 1.5rem}
+.rules{display:flex;flex-direction:column;gap:.5rem;text-align:left;background:var(--offwh);border-radius:10px;padding:.9rem 1.1rem;margin:0 auto 1.5rem;max-width:440px}
+.rule{display:flex;align-items:flex-start;gap:.5rem;font-size:13px;color:var(--text);line-height:1.55}
+.rdot{width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0}
+.q-badge-bas{display:inline-flex;align-items:center;background:var(--teal-l);border:1.5px solid var(--teal);border-radius:8px;padding:.4rem .9rem;font-size:12px;font-weight:600;color:var(--teal2);font-family:'DM Mono',monospace}
+.exchange{background:var(--navy);border-radius:16px;padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.85rem;position:relative;overflow:hidden}
+.exchange::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:rgba(46,139,106,.1);pointer-events:none}
+.spk{display:flex;align-items:flex-start;gap:.75rem}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:'DM Mono',monospace}
+.av.a1{background:rgba(46,139,106,.25);color:#7ddbb5}
+.av.a2{background:rgba(200,168,75,.2);color:#f5c96e}
+.bbl{background:rgba(255,255,255,.07);border-radius:10px;padding:.65rem .9rem;flex:1}
+.bbl-txt{font-size:14px;color:#fff;line-height:1.55}
+.sent-row{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;min-height:44px}
+.fw{font-size:14px;color:rgba(255,255,255,.85);line-height:1.6;white-space:nowrap}
+.gap{display:inline-flex;align-items:center;justify-content:center;min-width:80px;height:36px;background:rgba(255,255,255,.08);border:1.5px dashed rgba(255,255,255,.3);border-radius:8px;padding:0 .55rem;font-size:13px;color:#fff;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.gap:empty::before{content:'___';color:rgba(255,255,255,.2);font-size:12px}
+.gap.filled{background:rgba(26,122,122,.2);border-color:rgba(26,122,122,.55);border-style:solid}
+.gap.dov{background:rgba(26,122,122,.3);border-color:var(--teal);border-style:solid}
+.gap.correct{background:rgba(33,122,74,.3);border-color:var(--green);border-style:solid}
+.gap.wrong{background:rgba(176,58,46,.3);border-color:var(--red);border-style:solid}
+.gap.locked{cursor:default}
+.blbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.wbank{display:flex;flex-wrap:wrap;gap:.45rem;min-height:44px}
+.chip{display:inline-flex;align-items:center;background:var(--white);border:1.5px solid var(--lt);border-radius:9px;padding:.5rem .9rem;font-size:13px;font-weight:500;color:var(--text);font-family:'DM Mono',monospace;cursor:grab;user-select:none;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.chip:hover:not(.used):not(.xtra){border-color:var(--teal);background:var(--teal-l);color:var(--teal2);transform:translateY(-1px)}
+.chip.dragging{opacity:.35;cursor:grabbing}
+.chip.used{opacity:.2;pointer-events:none}
+.chip.xtra{background:var(--red-l);border-color:var(--red);color:var(--red);cursor:default}
+.fb-bas{border-radius:12px;padding:.9rem 1.1rem;font-size:13.5px;line-height:1.65;display:none}
+.fb-bas.show{display:block}
+.fb-bas.ok{background:var(--green-l);border:1.5px solid var(--green);color:#136047}
+.fb-bas.bad{background:var(--red-l);border:1.5px solid var(--red);color:#8b1a1a}
+.fb-t{font-weight:700;font-size:14px;margin-bottom:.35rem}
+.fb-a{margin-bottom:.35rem}
+.fb-x{margin-bottom:.3rem}
+.fb-n{padding-top:.5rem;border-top:1px solid rgba(0,0,0,.08);font-size:12.5px}
+.res-card{background:var(--white);border:1px solid var(--lt);border-radius:16px;padding:2rem 1.5rem;text-align:center}
+.sring{width:96px;height:96px;border-radius:50%;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto .85rem}
+.sn{font-size:28px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace;line-height:1}
+.sp{font-size:11px;color:rgba(255,255,255,.35)}
+.res-card h2{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:.35rem}
+.res-card>p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:1.25rem}
+.rev-list{display:flex;flex-direction:column;gap:.4rem;text-align:left;margin-bottom:1.4rem}
+.ri{display:flex;align-items:flex-start;gap:.55rem;padding:.6rem .85rem;border-radius:9px;font-size:12.5px;line-height:1.55}
+.ri.ok{background:var(--green-l);color:#136047}
+.ri.bad{background:var(--red-l);color:#8b1a1a}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .3s ease}
+.bas-prog-wrap{display:flex;align-items:center;gap:8px;margin-left:auto}
+.bas-prog-track{width:130px;height:4px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
+.bas-prog-fill{height:100%;background:var(--teal);border-radius:99px;transition:width .4s ease}
+.bas-prog-lbl{color:rgba(255,255,255,.5);font-size:11px;font-family:'DM Mono',monospace;min-width:36px;text-align:right}
+/* section 1 uses full width */
+#section-bas{max-width:720px}
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="top-nav">
+  <div class="nav-brand">
+    TOEFL iBT 2026
+    <span>WRITING PRACTICE</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('bas')" id="nav-bas">
+      <span class="tab-num">1</span> Build a Sentence
+    </button>
+    <button class="nav-tab" onclick="showSection('email')" id="nav-email">
+      <span class="tab-num">2</span> Write an Email
+    </button>
+    <button class="nav-tab" onclick="showSection('disc')" id="nav-disc">
+      <span class="tab-num">3</span> Academic Discussion
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1: BUILD A SENTENCE
+═══════════════════════════════════════════════════════ -->
+<div class="section active bas-main" id="section-bas">
+  <div class="sec-hdr">
+    <div class="sec-eyebrow">TOEFL iBT 2026 · Writing Section</div>
+    <h1>Build a <em>Sentence</em></h1>
+    <p class="sec-sub">10 questions · drag word chips into the gaps · 1 extra chip per question</p>
+  </div>
+
+  <div class="bas-screen active" id="bs0">
+    <div class="start-card">
+      <div class="start-icon">🧩</div>
+      <h2>Build a Sentence</h2>
+      <p>Drag the word chips into the gaps to complete Speaker B's reply. One chip is always extra — it doesn't fit anywhere.</p>
+      <div class="rules">
+        <div class="rule"><div class="rdot"></div><span>Read Speaker A's sentence for context</span></div>
+        <div class="rule"><div class="rdot"></div><span>Some words are already given — fill only the gaps</span></div>
+        <div class="rule"><div class="rdot"></div><span>Drag chips into gaps, or click a chip to fill the next empty gap</span></div>
+        <div class="rule"><div class="rdot"></div><span>Click a filled gap to return that chip to the bank</span></div>
+        <div class="rule"><div class="rdot"></div><span>One chip is always extra — leave it in the bank</span></div>
+      </div>
+      <button class="btn btn-primary" id="basStartBtn">Start Practice →</button>
+    </div>
+  </div>
+
+  <div class="bas-screen" id="bs1">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+      <div class="q-badge-bas" id="basBadge">Question 1 of 10</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <!-- 6-min countdown timer -->
+        <div style="display:flex;align-items:center;gap:6px;background:var(--navy);border-radius:8px;padding:4px 10px">
+          <span style="font-size:10px;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.06em">time</span>
+          <span id="basTimer" style="font-family:'DM Mono',monospace;font-size:1.25rem;font-weight:500;color:var(--teal);letter-spacing:.04em;transition:color .3s">6:00</span>
+        </div>
+        <div class="bas-prog-track" style="background:#dde3ec"><div class="bas-prog-fill" style="background:var(--teal)" id="basPF"></div></div>
+        <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace" id="basCtr">1 / 10</div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="spk">
+        <div class="av a1">A</div>
+        <div class="bbl"><div class="bbl-txt" id="basPTxt"></div></div>
+      </div>
+      <div class="spk">
+        <div class="av a2">B</div>
+        <div class="bbl"><div class="sent-row" id="basSRow"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="blbl" style="margin-bottom:.5rem">Word bank — drag into the gaps above</div>
+      <div class="wbank" id="basWBank"></div>
+    </div>
+    <div class="fb-bas" id="basFb">
+      <div class="fb-t" id="basFbT"></div>
+      <div class="fb-a" id="basFbA"></div>
+      <div class="fb-x" id="basFbX"></div>
+      <div class="fb-n" id="basFbN"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+      <button class="btn btn-ghost" id="basClearBtn">Clear gaps</button>
+      <div style="display:flex;gap:.65rem">
+        <button class="btn btn-primary" id="basCheckBtn" disabled>Check answer</button>
+        <button class="btn btn-secondary" id="basNextBtn" style="display:none">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bas-screen" id="bs2">
+    <div class="res-card">
+      <div class="sring"><div class="sn" id="basScoreN">0/10</div><div class="sp" id="basScoreP">0%</div></div>
+      <h2 id="basSMsg"></h2>
+      <p id="basSDet"></p>
+      <div class="rev-list" id="basRList"></div>
+      <div style="display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap">
+        <button class="btn btn-ghost" id="basRetryBtn">Try again</button>
+        <button class="btn btn-primary" id="basBackBtn">Back to start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2: WRITE AN EMAIL
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="section-email">
+  <div class="sec-hdr">
+    <div class="sec-eyebrow">TOEFL iBT 2026 · Writing Section</div>
+    <h1>Write an <em>Email</em></h1>
+    <p class="sec-sub">2 prompts · 7 minutes each · write in complete sentences</p>
+  </div>
+
+  <div class="card">
+    <div class="progress-bar"><div class="progress-fill" id="emailProg" style="width:0%"></div></div>
+
+    <div class="prompt-switcher">
+      <span class="switcher-label">Prompt</span>
+      <button class="prompt-tab active" id="etab0" onclick="emailSwitch(0)">1 — Debate tournament</button>
+      <button class="prompt-tab" id="etab1" onclick="emailSwitch(1)">2 — Library hours</button>
+    </div>
+
+    <div class="card-top">
+      <div class="prompt-label">
+        <span class="prompt-badge" id="eBadge">PROMPT 1 / 2</span>
+        <span class="prompt-title" id="eTitle">Debate Tournament Funding</span>
+      </div>
+      <div class="timer-wrap">
+        <div class="timer-label">time left</div>
+        <div class="timer-display" id="eTimer">7:00</div>
+      </div>
+    </div>
+
+    <div class="prompt-body">
+      <div class="prompt-scenario" id="eScenario"></div>
+      <div class="prompt-tasks">
+        <p>In your email, do the following:</p>
+        <ul id="eTasks"></ul>
+      </div>
+      <p class="prompt-note">Write as much as you can and in complete sentences.</p>
+    </div>
+
+    <div class="controls">
+      <div class="btn-group">
+        <button class="btn btn-primary" id="eBtnStart" onclick="emailStart()">▶ Start timer</button>
+        <button class="btn btn-secondary" id="eBtnPause" onclick="emailPause()" disabled>⏸ Pause</button>
+        <button class="btn btn-ghost" id="eBtnReset" onclick="emailReset()">↺ Reset</button>
+      </div>
+      <div class="email-wc">Words: <span id="eWC">0</span></div>
+    </div>
+
+    <div class="status-banner" id="eBanner"></div>
+
+    <div class="email-fields">
+      <div class="email-field-row">
+        <span class="email-field-label">To</span>
+        <span class="email-field-value" id="eFieldTo"></span>
+      </div>
+      <div class="email-field-row">
+        <span class="email-field-label">Subject</span>
+        <span class="email-field-value" id="eFieldSubj"></span>
+      </div>
+    </div>
+
+    <div class="textarea-wrap">
+      <textarea id="eArea" style="height:230px" placeholder="" oninput="emailWC()"></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+        <button class="btn btn-ghost" onclick="copyText('eArea','eCopyBtn')" id="eCopyBtn" style="font-size:12px;padding:.4rem .9rem">📋 Copy response</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer-tip"><strong>Tip:</strong> Use 1 min to read the prompt, 5 min to write, 1 min to proofread. Aim for <strong>70–90 words</strong>.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3: ACADEMIC DISCUSSION
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="section-disc">
+  <div class="sec-hdr">
+    <div class="sec-eyebrow">TOEFL iBT 2026 · Writing Section</div>
+    <h1>Write for an <em>Academic Discussion</em></h1>
+    <p class="sec-sub">2 prompts · 10 minutes each · minimum 100 words</p>
+  </div>
+
+  <div class="card">
+    <div class="progress-bar"><div class="progress-fill" id="discProg" style="width:0%"></div></div>
+
+    <div class="prompt-switcher">
+      <span class="switcher-label">Prompt</span>
+      <button class="prompt-tab active" id="dtab0" onclick="discSwitch(0)">1 — Music in schools</button>
+      <button class="prompt-tab" id="dtab1" onclick="discSwitch(1)">2 — Space colonization</button>
+    </div>
+
+    <div class="card-top">
+      <div class="prompt-label">
+        <span class="prompt-badge" id="dBadge">PROMPT 1 / 2</span>
+        <span class="prompt-title" id="dTitle">Music in Schools</span>
+      </div>
+      <div class="timer-wrap">
+        <div class="timer-label">time left</div>
+        <div class="timer-display" id="dTimer">10:00</div>
+      </div>
+    </div>
+
+    <div class="instructions-strip">
+      <div class="instr-item"><div class="instr-dot"></div>Express and support your opinion</div>
+      <div class="instr-item"><div class="instr-dot"></div>Make a contribution to the discussion in your own words</div>
+      <div class="instr-item"><div class="instr-dot"></div>An effective response will contain at least 100 words</div>
+    </div>
+
+    <div class="forum-wrap">
+      <div class="professor-post">
+        <div class="post-author prof" id="dProfName">DR. LANGSTON</div>
+        <div class="post-text" id="dProfText"></div>
+      </div>
+      <div class="classmates-col">
+        <div class="classmate-card">
+          <div class="post-author s1" id="dS1Name">ALICE</div>
+          <div class="post-text" id="dS1Text"></div>
+        </div>
+        <div class="classmate-card">
+          <div class="post-author s2" id="dS2Name">BEN</div>
+          <div class="post-text" id="dS2Text"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="btn-group">
+        <button class="btn btn-primary" id="dBtnStart" onclick="discStart()">▶ Start timer</button>
+        <button class="btn btn-secondary" id="dBtnPause" onclick="discPause()" disabled>⏸ Pause</button>
+        <button class="btn btn-ghost" id="dBtnReset" onclick="discReset()">↺ Reset</button>
+      </div>
+      <div class="word-count">
+        Words: <span id="dWC">0</span> / 100
+        <div class="wc-bar"><div class="wc-fill" id="dWCFill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="status-banner" id="dBanner"></div>
+
+    <div class="textarea-wrap">
+      <textarea id="dArea" style="height:200px"
+        placeholder=""
+        oninput="discWC()"></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+        <button class="btn btn-ghost" onclick="copyText('dArea','dCopyBtn')" id="dCopyBtn" style="font-size:12px;padding:.4rem .9rem">📋 Copy response</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer-tip"><strong>Tip:</strong> Read (1 min) → Plan which side (30 sec) → Write (7–8 min) → Proofread (1 min). Aim for <strong>120–130 words</strong>. Reference at least one classmate by name.</p>
+</div>
+
+<script>
+function copyText(areaId, btnId) {
+  const text = document.getElementById(areaId).value;
+  if (!text.trim()) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(btnId);
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   GLOBAL NAV
+═══════════════════════════════════════════ */
+function showSection(id) {
+  ['bas','email','disc'].forEach(s => {
+    document.getElementById('section-'+s).classList.remove('active');
+    document.getElementById('nav-'+s).classList.remove('active');
+  });
+  document.getElementById('section-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 1: BUILD A SENTENCE
+═══════════════════════════════════════════ */
+var BAS_QS = [
+  {n:1, prompt:"Your presentation received a lot of positive feedback from the audience.",
+   parts:[{f:"I'm glad"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"it."}],
+   ans:["they","took","the","time","to","enjoy"],
+   chips:["they","took","the","time","to","enjoy","despite"],
+   extra:"despite",
+   note:"'I'm glad they took the time to enjoy it.' — complement clause after 'glad'; 'took the time to' is a fixed expression meaning made an effort to. Extra word: 'despite' — a preposition that would require a noun phrase after it, breaking the clause structure entirely."},
+  {n:2, prompt:"The workshop ended earlier than expected.",
+   parts:[{f:"I"},{g:0},{f:"disappointed"},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"."}],
+   ans:["wasn't","because","I","was","already","feeling very tired"],
+   chips:["wasn't","because","I","was","already","feeling very tired","hotel room"],
+   extra:"hotel room",
+   note:"'I wasn't disappointed because I was already feeling very tired.' — negated adjective + causal clause with 'because'. Extra word: 'hotel room' — grammatically possible but it belongs to the broader context of the story but has no grammatical role in this sentence."},
+  {n:3, prompt:"Which restaurant did you end up choosing for lunch?",
+   parts:[{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"near campus."}],
+   ans:["we","went","to","the","one","that","just opened"],
+   chips:["just opened","went","one","last semester","the","that","to","we"],
+   extra:"last semester",
+   note:"Relative clause: 'we went to the one that just opened near campus.' — 'that' introduces the defining clause. Extra word: 'last semester' — tempting context, but it doesn't fit grammatically here."},
+  {n:4, prompt:"Why did the company hire a new consultant?",
+   parts:[{g:0},{f:"needed"},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
+   ans:["they","someone","to","improve","the","company","strategy"],
+   chips:["to","the","improve","they","someone","company","strategy","colleague"],
+   extra:"colleague",
+   note:"'They needed someone to improve the company strategy.' — verb + object + to-infinitive. Extra word: 'colleague' — plausible in the topic but has no grammatical role in this reply."},
+  {n:5, prompt:"Did your roommate say anything before leaving?",
+   parts:[{f:"He"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
+   ans:["mentioned","he","would","be","back","by","midnight"],
+   chips:["mentioned","would","he","back","by","midnight","be","told"],
+   extra:"told",
+   note:"'He mentioned he would be back by midnight.' — reported speech with future-in-the-past ('would'). Extra word: 'told' — unlike 'mentioned', 'told' requires a person as object: 'He told *me* he would...' Without it, the sentence is ungrammatical."},
+  {n:6, prompt:"Where did you buy that backpack?",
+   parts:[{f:"I found"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
+   ans:["it","at","a","small","store","near","campus"],
+   chips:["it","at","a","small","store","near","campus","online"],
+   extra:"online",
+   note:"'I found it at a small store near campus.' — prepositional phrase 'near campus' modifies 'store'. Extra word: 'online' — plausible but contradicts 'at a small store near campus'."},
+  {n:7, prompt:"What did you think of the guest lecture?",
+   parts:[{f:"I'd love to hear"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
+   ans:["the","articulate","speaker","present","on","another","topic"],
+   chips:["speaker","the","articulate","on","someday","present","topic","another"],
+   extra:"someday",
+   note:"'I'd love to hear the articulate speaker present on another topic.' — bare infinitive 'present' after perception verb structure ('hear + object + bare infinitive'). Extra word: 'someday' — an adverb of time that doesn't fit any gap once the sentence is grammatically complete."},
+  {n:8, prompt:"Daniel said he's taking evening classes this semester.",
+   parts:[{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"?"}],
+   ans:["does","he","still","have","time","to","study"],
+   chips:["does","still","have","he","time","to","study","manage"],
+   extra:"manage",
+   note:"'Does he still have time to study?' — simple present yes/no question; auxiliary 'does' comes first. Extra word: 'manage' — 'have time to' is the correct idiom; 'manage to' would need the sentence restructured."},
+  {n:9, prompt:"The manager said the meeting was postponed until Friday.",
+   parts:[{f:"Was she"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"?"}],
+   ans:["clear","about","what","time","it","will","start"],
+   chips:["clear","it","will","what","about","time","start","when"],
+   extra:"when",
+   note:"'Was she clear about what time it will start?' — embedded question with normal word order. Extra word: 'when' — 'what time' already covers the temporal meaning."},
+  {n:10, prompt:"What would you change if you could rewrite your essay?",
+   parts:[{f:"I'd"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
+   ans:["definitely","fix","all","the","grammar","mistakes","first"],
+   chips:["definitely","fix","all","the","grammar","mistakes","first","rewrite"],
+   extra:"rewrite",
+   note:"'I'd definitely fix all the grammar mistakes first.' — modal 'would' + adverb + bare infinitive. Extra word: 'rewrite' — echoes the prompt but creates a redundant meaning since 'fix' already covers the action."}
+];
+
+var basCur=0,basScore=0,basAnswered=false,basResults=[];
+var basGapC=[],basGapEls=[],basChipEls=[],basDragW=null,basDragSrc=null;
+var basTimeLeft=6*60,basTimerInterval=null,basTimerStarted=false;
+
+function basUpdTimer(){
+  var m=Math.floor(basTimeLeft/60),s=basTimeLeft%60;
+  var el=document.getElementById("basTimer");
+  el.textContent=m+":"+(s<10?"0":"")+s;
+  el.style.color=basTimeLeft<=60?"var(--red)":basTimeLeft<=120?"var(--warn)":"var(--teal)";
+}
+function basStartTimer(){
+  if(basTimerStarted)return;basTimerStarted=true;
+  basTimerInterval=setInterval(function(){
+    if(basTimeLeft<=0){clearInterval(basTimerInterval);basTimerInterval=null;basTimeUp();return;}
+    basTimeLeft--;basUpdTimer();
+  },1000);
+}
+function basTimeUp(){
+  basAnswered=true;
+  document.getElementById("basCheckBtn").style.display="none";
+  document.getElementById("basNextBtn").style.display="none";
+  // Show a times-up overlay message
+  var fb=document.getElementById("basFb");
+  fb.className="fb-bas show bad fu";
+  document.getElementById("basFbT").textContent="⏰ Time's up!";
+  document.getElementById("basFbA").textContent="6 minutes have elapsed. Tap 'See results' to review your session.";
+  document.getElementById("basFbX").textContent="";
+  document.getElementById("basFbN").innerHTML="<button class='btn btn-primary' onclick='basShowRes()' style='margin-top:.5rem'>See results →</button>";
+}
+function basResetTimer(){
+  clearInterval(basTimerInterval);basTimerInterval=null;
+  basTimeLeft=6*60;basTimerStarted=false;basUpdTimer();
+}
+
+function basUpProg(){
+  document.getElementById("basPF").style.width=(basCur/BAS_QS.length*100)+"%";
+  document.getElementById("basCtr").textContent=(basCur+1)+" / "+BAS_QS.length;
+}
+function basLoadQ(i){
+  basAnswered=false;
+  var q=BAS_QS[i];
+  document.getElementById("basBadge").textContent="Question "+q.n+" of 10";
+  document.getElementById("basPTxt").textContent=q.prompt;
+  basUpProg();
+  document.getElementById("basFb").className="fb-bas";
+  document.getElementById("basNextBtn").style.display="none";
+  document.getElementById("basCheckBtn").style.display="inline-flex";
+  document.getElementById("basCheckBtn").disabled=true;
+  basGapC=new Array(q.ans.length).fill(null);
+  basGapEls=[];basChipEls=[];
+  basBuilRow(q);basBuilBank(q);
+}
+function basBuilRow(q){
+  var row=document.getElementById("basSRow");row.innerHTML="";var gi=0;
+  q.parts.forEach(function(p){
+    if(p.f!==undefined){var s=document.createElement("span");s.className="fw";s.textContent=p.f;row.appendChild(s);}
+    else{var d=document.createElement("div");d.className="gap";d.dataset.gi=gi;var mi=gi;
+      d.addEventListener("dragover",function(e){e.preventDefault();if(!basAnswered)d.classList.add("dov");});
+      d.addEventListener("dragleave",function(){d.classList.remove("dov");});
+      d.addEventListener("drop",function(e){e.preventDefault();d.classList.remove("dov");if(!basAnswered&&basDragW)basPlace(basDragW,basDragSrc,mi);});
+      d.addEventListener("click",function(){if(basAnswered)return;if(basGapC[mi]){basRet(basGapC[mi]);basGapC[mi]=null;basRenderGaps();basUpdChk();}});
+      basGapEls.push(d);row.appendChild(d);gi++;}
+  });
+}
+function basBuilBank(q){
+  var bk=document.getElementById("basWBank");bk.innerHTML="";basChipEls=[];
+  basShuf(q.chips).forEach(function(w){
+    var c=document.createElement("div");c.className="chip";c.textContent=w;c.draggable=true;
+    c.addEventListener("dragstart",function(e){basDragW=w;basDragSrc="bank";c.classList.add("dragging");e.dataTransfer.setData("text/plain",w);});
+    c.addEventListener("dragend",function(){c.classList.remove("dragging");basDragW=null;});
+    c.addEventListener("click",function(){if(basAnswered||c.classList.contains("used"))return;var fe=basFirstEmpty();if(fe!==-1)basPlace(w,"bank",fe);});
+    basChipEls.push({word:w,el:c});bk.appendChild(c);
+  });
+}
+function basPlace(w,src,ti){
+  if(basAnswered)return;
+  if(basGapC[ti])basRet(basGapC[ti]);
+  if(typeof src==="number")basGapC[src]=null;
+  for(var i=0;i<basChipEls.length;i++){if(basChipEls[i].word===w&&!basChipEls[i].el.classList.contains("used")){basChipEls[i].el.classList.add("used");break;}}
+  basGapC[ti]=w;basRenderGaps();basUpdChk();
+}
+function basRet(w){for(var i=0;i<basChipEls.length;i++){if(basChipEls[i].word===w&&basChipEls[i].el.classList.contains("used")){basChipEls[i].el.classList.remove("used");break;}}}
+function basFirstEmpty(){for(var i=0;i<basGapC.length;i++)if(!basGapC[i])return i;return -1;}
+function basRenderGaps(){
+  basGapEls.forEach(function(g,i){
+    var v=basGapC[i];g.textContent=v||"";
+    if(v){g.classList.add("filled");g.draggable=true;g.ondragstart=function(e){basDragW=v;basDragSrc=i;e.dataTransfer.setData("text/plain",v);};}
+    else{g.classList.remove("filled");g.draggable=false;g.ondragstart=null;}
+  });
+}
+function basUpdChk(){document.getElementById("basCheckBtn").disabled=!basGapC.every(function(x){return x!==null;});}
+
+document.getElementById("basCheckBtn").addEventListener("click",function(){
+  if(basAnswered)return;basAnswered=true;
+  var q=BAS_QS[basCur];
+  var ok=basGapC.every(function(w,i){return w&&w.toLowerCase()===q.ans[i].toLowerCase();});
+  if(ok)basScore++;basResults.push({ok:ok,q:q});
+  basGapEls.forEach(function(g,i){
+    g.classList.add("locked");
+    if(basGapC[i]&&basGapC[i].toLowerCase()===q.ans[i].toLowerCase())g.classList.add("correct");
+    else g.classList.add("wrong");
+  });
+  for(var ei=0;ei<basChipEls.length;ei++){
+    if(basChipEls[ei].word===q.extra&&!basChipEls[ei].el.classList.contains("used")){
+      basChipEls[ei].el.classList.remove("used");basChipEls[ei].el.classList.add("xtra");basChipEls[ei].el.draggable=false;break;
+    }
+  }
+  var fb=document.getElementById("basFb");
+  fb.className="fb-bas show fu "+(ok?"ok":"bad");
+  document.getElementById("basFbT").textContent=ok?"✓ Correct!":"✗ Not quite";
+  document.getElementById("basFbA").innerHTML="<strong>Answer:</strong> "+basBuilAns(q);
+  document.getElementById("basFbX").innerHTML="<strong>Extra word:</strong> <em>"+q.extra+"</em> — this one doesn't fit.";
+  document.getElementById("basFbN").innerHTML="<strong>Grammar note:</strong> "+q.note;
+  document.getElementById("basCheckBtn").style.display="none";
+  document.getElementById("basNextBtn").style.display="inline-flex";
+});
+
+function basBuilAns(q){
+  var ai=0,r=[];
+  q.parts.forEach(function(p){if(p.f!==undefined)r.push(p.f);else{r.push(q.ans[ai]);ai++;}});
+  return r.join(" ").replace(/\s([?.!,])/g,"$1");
+}
+
+document.getElementById("basNextBtn").addEventListener("click",function(){
+  basCur++;document.getElementById("basFb").className="fb-bas";
+  if(basCur>=BAS_QS.length)basShowRes();else basLoadQ(basCur);
+});
+document.getElementById("basClearBtn").addEventListener("click",function(){
+  if(basAnswered)return;
+  basGapC.forEach(function(w,i){if(w){basRet(w);basGapC[i]=null;}});
+  basRenderGaps();basUpdChk();
+});
+function basShowRes(){
+  clearInterval(basTimerInterval);basTimerInterval=null;
+  basShow("bs2");
+  var pct=Math.round(basScore/BAS_QS.length*100);
+  document.getElementById("basScoreN").textContent=basScore+"/"+BAS_QS.length;
+  document.getElementById("basScoreP").textContent=pct+"%";
+  var msgs=["Keep practicing!","Getting there.","Good effort.","Nice work!","Strong!","Excellent!","Outstanding!","Perfect!","Perfect!","Perfect!","Perfect!"];
+  var dets=["Focus on embedded question word order — they don't invert like direct questions.","Review the grammar notes for each error. Watch for extra words that look plausible.","Solid base. Pay attention to temporal connectors and subordinating clauses.","Well done. Review the notes to lock in the patterns.","Very strong. Keep this up!"];
+  document.getElementById("basSMsg").textContent=msgs[basScore]||"Perfect!";
+  document.getElementById("basSDet").textContent=dets[Math.min(Math.floor(basScore/3),dets.length-1)];
+  document.getElementById("basRList").innerHTML=basResults.map(function(r,i){
+    return "<div class='ri "+(r.ok?"ok":"bad")+"'><span style='font-weight:600;flex-shrink:0;font-family:\"DM Mono\",monospace;font-size:11px;min-width:24px'>Q"+r.q.n+"</span><span>"+(r.ok?"✓ Correct":"✗ "+basBuilAns(r.q))+"</span></div>";
+  }).join("");
+}
+function basShuf(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function basShow(id){["bs0","bs1","bs2"].forEach(function(s){document.getElementById(s).classList.remove("active");});document.getElementById(id).classList.add("active");window.scrollTo(0,0);}
+
+document.getElementById("basStartBtn").addEventListener("click",function(){basShow("bs1");basResetTimer();basLoadQ(0);basStartTimer();});
+document.getElementById("basRetryBtn").addEventListener("click",function(){basCur=0;basScore=0;basAnswered=false;basResults=[];basResetTimer();basShow("bs1");basLoadQ(0);basStartTimer();});
+document.getElementById("basBackBtn").addEventListener("click",function(){basResetTimer();basShow("bs0");});
+
+/* ═══════════════════════════════════════════
+   SECTION 2: WRITE AN EMAIL
+═══════════════════════════════════════════ */
+const EMAIL_PROMPTS = [
+  {
+    badge:"PROMPT 1 / 2", title:"Debate Tournament Funding",
+    to:"Dean Ramirez <d.ramirez@university.edu>",
+    subject:"Request for Tournament Funding",
+    scenario:"You are the captain of your university's debate team. Your team has been invited to compete in a regional tournament next month, but you need funding from the university to cover travel and accommodation expenses. The deadline to register for the tournament is in two weeks.",
+    tasks:[
+      "Describe the tournament and explain why it is important",
+      "Provide a breakdown of the estimated costs",
+      "Request approval before the registration deadline"
+    ]
+  },
+  {
+    badge:"PROMPT 2 / 2", title:"Library Opening Hours",
+    to:"Ms. Severin <m.severin@university.edu>",
+    subject:"Inquiry About Library Opening Hours",
+    scenario:"You are a university student who usually works on assignments in the campus library in the evenings. Recently, the library has been closing earlier than usual, which has made it difficult for you to complete your assignments.",
+    tasks:[
+      "Explain why the library is important for your studies",
+      "Ask why the opening hours have changed",
+      "Request information about whether the library will stay open later again"
+    ]
+  }
+];
+
+let eCur=0,eTimeLeft=7*60,eInterval=null,eRunning=false,eDone=[false,false],eResp=["",""];
+const E_TOTAL=7*60;
+
+function emailInit(){emailLoad(0);}
+function emailLoad(idx){
+  const p=EMAIL_PROMPTS[idx];
+  document.getElementById("eBadge").textContent=p.badge;
+  document.getElementById("eTitle").textContent=p.title;
+  document.getElementById("eScenario").textContent=p.scenario;
+  document.getElementById("eTasks").innerHTML=p.tasks.map(t=>`<li>${t}</li>`).join("");
+  document.getElementById("eFieldTo").textContent=p.to;
+  document.getElementById("eFieldSubj").textContent=p.subject;
+  document.getElementById("eArea").value=eResp[idx];
+  emailWC();emailUpdProg();
+}
+function emailSwitch(idx){
+  eResp[eCur]=document.getElementById("eArea").value;
+  if(eRunning)emailPause();
+  emailStop();eTimeLeft=E_TOTAL;emailUpdTimer();
+  eCur=idx;emailLoad(idx);
+  document.querySelectorAll('#section-email .prompt-tab').forEach((t,i)=>{
+    t.classList.toggle("active",i===idx);
+    t.classList.toggle("done-tab",eDone[i]);
+  });
+  const done=eDone[idx];
+  document.getElementById("eBtnStart").disabled=done;
+  document.getElementById("eBtnStart").textContent=done?"✓ Done":"▶ Start timer";
+  document.getElementById("eBtnPause").disabled=true;
+  document.getElementById("eArea").disabled=done;
+  emailHideBanner();emailUpdProg();
+}
+function emailStart(){
+  if(eRunning)return;eRunning=true;
+  document.getElementById("eBtnStart").disabled=true;
+  document.getElementById("eBtnPause").disabled=false;
+  document.getElementById("eArea").disabled=false;
+  document.getElementById("eArea").focus();
+  document.getElementById("eTimer").classList.add("running-pulse");
+  emailShowBanner("running","⏱ Timer running — write your email now!");
+  eInterval=setInterval(emailTick,1000);
+}
+function emailTick(){
+  eTimeLeft--;emailUpdTimer();emailUpdProg();
+  if(eTimeLeft<=0)emailTimesUp();
+  else if(eTimeLeft===60)emailShowBanner("done","⚠️ 1 minute left — finish your sentence and proofread!");
+  else if(eTimeLeft===120)emailShowBanner("running","✏️ 2 minutes left — wrap up your final paragraph.");
+}
+function emailPause(){
+  if(!eRunning)return;eRunning=false;clearInterval(eInterval);eInterval=null;
+  document.getElementById("eBtnStart").disabled=false;
+  document.getElementById("eBtnStart").textContent="▶ Resume";
+  document.getElementById("eBtnPause").disabled=true;
+  document.getElementById("eTimer").classList.remove("running-pulse");
+  emailShowBanner("ready","⏸ Paused — press Resume when ready.");
+}
+function emailStop(){
+  eRunning=false;clearInterval(eInterval);eInterval=null;
+  document.getElementById("eTimer").classList.remove("running-pulse");
+}
+function emailReset(){
+  emailStop();eTimeLeft=E_TOTAL;emailUpdTimer();
+  document.getElementById("eBtnStart").disabled=false;
+  document.getElementById("eBtnStart").textContent="▶ Start timer";
+  document.getElementById("eBtnPause").disabled=true;
+  emailHideBanner();
+}
+function emailTimesUp(){
+  emailStop();eDone[eCur]=true;eResp[eCur]=document.getElementById("eArea").value;
+  document.getElementById("eArea").disabled=true;
+  document.getElementById("eBtnStart").disabled=true;
+  document.getElementById("eBtnStart").textContent="✓ Done";
+  document.getElementById("eBtnPause").disabled=true;
+  document.getElementById("etab"+eCur).classList.add("done-tab");
+  const both=eDone[0]&&eDone[1];
+  if(both)emailShowBanner("done","🎉 Both emails complete! Great work!");
+  else{const next=eCur===0?1:0;emailShowBanner("times-up",`⏰ Time's up! Switch to Prompt ${next+1} when you're ready.`);}
+  emailUpdProg();
+}
+function emailUpdTimer(){
+  const m=Math.floor(eTimeLeft/60),s=eTimeLeft%60;
+  const el=document.getElementById("eTimer");
+  el.textContent=`${m}:${s.toString().padStart(2,"0")}`;
+  el.classList.remove("warn","danger");
+  if(eTimeLeft<=60)el.classList.add("danger");
+  else if(eTimeLeft<=120)el.classList.add("warn");
+}
+function emailWC(){
+  const text=document.getElementById("eArea").value.trim();
+  const w=text===''?0:text.split(/\s+/).filter(x=>x.length>0).length;
+  const sp=document.getElementById("eWC");sp.textContent=w;
+  sp.style.color=w>=70&&w<=90?"var(--green)":w>90?"var(--warn)":"var(--teal)";
+}
+function emailUpdProg(){
+  const done=eDone.filter(Boolean).length;
+  const ts=E_TOTAL-eTimeLeft,tp=(ts/E_TOTAL)*50;
+  document.getElementById("emailProg").style.width=Math.min(100,done*50+(eRunning?tp:0))+"%";
+}
+function emailShowBanner(t,m){const b=document.getElementById("eBanner");b.className="status-banner show "+t;b.textContent=m;}
+function emailHideBanner(){document.getElementById("eBanner").className="status-banner";}
+emailInit();
+
+/* ═══════════════════════════════════════════
+   SECTION 3: ACADEMIC DISCUSSION
+═══════════════════════════════════════════ */
+const DISC_PROMPTS = [
+  {
+    badge:"PROMPT 1 / 2", title:"Music in Schools",
+    profName:"DR. LANGSTON",
+    profText:"This week, we'll be discussing the impact of music on cognitive development. Research has shown that engaging with music, whether by playing an instrument or listening, can enhance cognitive abilities such as memory, attention, and even language skills. Children who receive musical training often show greater improvements in these areas compared to those who do not. Do you believe schools should integrate more music-focused classes into their curriculum? Why or why not?",
+    s1Name:"ALICE", s1Text:"I strongly support integrating more music classes in schools. Music not only improves cognitive abilities but also nurtures emotional and social skills. Providing children with music education from an early age can foster well-rounded development, equipping them with skills beneficial across various aspects of life.",
+    s2Name:"BEN", s2Text:"It is important to consider the fact that schools have difficulty allocating their limited resources. Many schools struggle with funding and may need to prioritize core academic subjects like math and science. Allocating more resources to music might mean less for these essential areas, which could be detrimental in the long run."
+  },
+  {
+    badge:"PROMPT 2 / 2", title:"Space Colonization",
+    profName:"PROFESSOR DIAZ",
+    profText:"This week, we'll be discussing the intriguing concept of space colonization. As technology advances and the Earth faces increasing environmental and resource challenges, some scientists propose establishing human settlements on other planets or moons. Mars and the moon are considered viable options due to their relative proximity to Earth. Do you think space colonization is a feasible solution for humanity's future? Why or why not?",
+    s1Name:"ETHAN", s1Text:"I believe space colonization is a necessary step for humanity. Given the Earth's limited resources and the ongoing environmental degradation, establishing colonies on other planets could serve as a vital backup. It's an ambitious plan, but with the right technology and international cooperation, it could secure the future of human civilization.",
+    s2Name:"OLIVIA", s2Text:"While I understand Ethan's points, I'm skeptical about the feasibility of space colonization. The costs and technological challenges are immense, and the ethical implications of terraforming another planet are complex. Instead of looking to space, we should focus on sustainable solutions on Earth to address our environmental and resource issues."
+  }
+];
+
+let dCur=0,dTimeLeft=10*60,dInterval=null,dRunning=false,dDone=[false,false],dResp=["",""];
+const D_TOTAL=10*60;
+
+function discInit(){discLoad(0);}
+function discLoad(idx){
+  const p=DISC_PROMPTS[idx];
+  document.getElementById("dBadge").textContent=p.badge;
+  document.getElementById("dTitle").textContent=p.title;
+  document.getElementById("dProfName").textContent=p.profName;
+  document.getElementById("dProfText").textContent=p.profText;
+  document.getElementById("dS1Name").textContent=p.s1Name;
+  document.getElementById("dS1Text").textContent=p.s1Text;
+  document.getElementById("dS2Name").textContent=p.s2Name;
+  document.getElementById("dS2Text").textContent=p.s2Text;
+  document.getElementById("dArea").value=dResp[idx];
+  discWC();discUpdProg();
+}
+function discSwitch(idx){
+  dResp[dCur]=document.getElementById("dArea").value;
+  if(dRunning)discPause();
+  discStop();dTimeLeft=D_TOTAL;discUpdTimer();
+  dCur=idx;discLoad(idx);
+  document.querySelectorAll('#section-disc .prompt-tab').forEach((t,i)=>{
+    t.classList.toggle("active",i===idx);
+    t.classList.toggle("done-tab",dDone[i]);
+  });
+  const done=dDone[idx];
+  document.getElementById("dBtnStart").disabled=done;
+  document.getElementById("dBtnStart").textContent=done?"✓ Done":"▶ Start timer";
+  document.getElementById("dBtnPause").disabled=true;
+  document.getElementById("dArea").disabled=done;
+  discHideBanner();discUpdProg();
+}
+function discStart(){
+  if(dRunning)return;dRunning=true;
+  document.getElementById("dBtnStart").disabled=true;
+  document.getElementById("dBtnPause").disabled=false;
+  document.getElementById("dArea").disabled=false;
+  document.getElementById("dArea").focus();
+  document.getElementById("dTimer").classList.add("running-pulse");
+  discShowBanner("running","⏱ Timer running — write your post now!");
+  dInterval=setInterval(discTick,1000);
+}
+function discTick(){
+  dTimeLeft--;discUpdTimer();discUpdProg();
+  if(dTimeLeft<=0)discTimesUp();
+  else if(dTimeLeft===60)discShowBanner("done","⚠️ 1 minute left — finish and proofread!");
+  else if(dTimeLeft===120)discShowBanner("running","✏️ 2 minutes left — wrap up and check word count.");
+  else if(dTimeLeft===300)discShowBanner("running","⏱ Halfway — do you have your position + a classmate cited?");
+}
+function discPause(){
+  if(!dRunning)return;dRunning=false;clearInterval(dInterval);dInterval=null;
+  document.getElementById("dBtnStart").disabled=false;
+  document.getElementById("dBtnStart").textContent="▶ Resume";
+  document.getElementById("dBtnPause").disabled=true;
+  document.getElementById("dTimer").classList.remove("running-pulse");
+  discShowBanner("ready","⏸ Paused — press Resume when ready.");
+}
+function discStop(){
+  dRunning=false;clearInterval(dInterval);dInterval=null;
+  document.getElementById("dTimer").classList.remove("running-pulse");
+}
+function discReset(){
+  discStop();dTimeLeft=D_TOTAL;discUpdTimer();
+  document.getElementById("dBtnStart").disabled=false;
+  document.getElementById("dBtnStart").textContent="▶ Start timer";
+  document.getElementById("dBtnPause").disabled=true;
+  discHideBanner();
+}
+function discTimesUp(){
+  discStop();dDone[dCur]=true;dResp[dCur]=document.getElementById("dArea").value;
+  document.getElementById("dArea").disabled=true;
+  document.getElementById("dBtnStart").disabled=true;
+  document.getElementById("dBtnStart").textContent="✓ Done";
+  document.getElementById("dBtnPause").disabled=true;
+  document.getElementById("dtab"+dCur).classList.add("done-tab");
+  const both=dDone[0]&&dDone[1];
+  if(both)discShowBanner("done","🎉 Both discussions complete! Great work!");
+  else{const next=dCur===0?1:0;discShowBanner("times-up",`⏰ Time's up! Switch to Prompt ${next+1} when you're ready.`);}
+  discUpdProg();
+}
+function discUpdTimer(){
+  const m=Math.floor(dTimeLeft/60),s=dTimeLeft%60;
+  const el=document.getElementById("dTimer");
+  el.textContent=`${m}:${s.toString().padStart(2,"0")}`;
+  el.classList.remove("warn","danger");
+  if(dTimeLeft<=60)el.classList.add("danger");
+  else if(dTimeLeft<=120)el.classList.add("warn");
+}
+function discWC(){
+  const text=document.getElementById("dArea").value.trim();
+  const w=text===''?0:text.split(/\s+/).filter(x=>x.length>0).length;
+  document.getElementById("dWC").textContent=w;
+  const pct=Math.min(100,(w/100)*100);
+  const fill=document.getElementById("dWCFill");
+  fill.style.width=pct+"%";
+  if(w>=100){fill.style.background="var(--green)";document.getElementById("dWC").style.color="var(--green)";}
+  else if(w>=70){fill.style.background="var(--warn)";document.getElementById("dWC").style.color="var(--warn)";}
+  else{fill.style.background="var(--teal)";document.getElementById("dWC").style.color="var(--teal)";}
+}
+function discUpdProg(){
+  const done=dDone.filter(Boolean).length;
+  const ts=D_TOTAL-dTimeLeft,tp=(ts/D_TOTAL)*50;
+  document.getElementById("discProg").style.width=Math.min(100,done*50+(dRunning?tp:0))+"%";
+}
+function discShowBanner(t,m){const b=document.getElementById("dBanner");b.className="status-banner show "+t;b.textContent=m;}
+function discHideBanner(){document.getElementById("dBanner").className="status-banner";}
+discInit();
+</script>
+</body>
+</html>
