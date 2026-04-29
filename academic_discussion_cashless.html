@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academic Discussion · Cashless Society</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1A2A4A; --teal:#1A7A7A; --teal2:#0f5a5a;
+    --teal-l:#e0f7f6; --gold:#C8A84B; --gold-l:#faeeda;
+    --white:#fff; --offwh:#F7F9FA; --lt:#E2EAF0;
+    --muted:#64748B; --text:#1E293B;
+    --green:#1a7a4a; --green-l:#e3fcef;
+    --warn:#b07010; --warn-l:#fff3cd;
+    --red:#B03030; --red-l:#fde8e6;
+    --bg:#EEF2F7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  /* HEADER */
+  .hdr{background:var(--navy);padding:0 2rem;height:56px;display:flex;align-items:center;
+    justify-content:space-between;position:sticky;top:0;z-index:100;
+    box-shadow:0 2px 12px rgba(0,0,0,.2)}
+  .hdr-l{display:flex;flex-direction:column}
+  .hdr-title{font-size:13px;font-weight:600;color:#fff;letter-spacing:.04em;text-transform:uppercase}
+  .hdr-sub{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);
+    letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+  .timer-wrap{display:flex;align-items:center;gap:10px}
+  .timer-lbl{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);
+    text-transform:uppercase;letter-spacing:.1em}
+  .timer{font-family:'DM Mono',monospace;font-size:2rem;font-weight:500;
+    color:var(--teal);letter-spacing:.05em;transition:color .4s;min-width:80px;text-align:right}
+  .timer.warn{color:var(--gold)}
+  .timer.danger{color:var(--red)}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .timer.danger{animation:pulse 1s infinite}
+
+  /* PROGRESS */
+  .prog{height:3px;background:var(--lt);overflow:hidden}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));
+    transition:width 1s linear}
+
+  /* MAIN */
+  .main{max-width:900px;margin:0 auto;padding:1.5rem 1rem 4rem;
+    display:flex;flex-direction:column;gap:1.25rem}
+
+  /* CARD */
+  .card{background:var(--white);border-radius:14px;border:1px solid var(--lt);
+    box-shadow:0 4px 20px rgba(26,42,74,.08);overflow:hidden}
+
+  /* PROMPT HEADER */
+  .card-hdr{background:var(--teal);padding:.7rem 1.5rem}
+  .card-hdr-txt{font-size:13.5px;font-weight:700;color:#fff;letter-spacing:.01em}
+
+  /* INSTRUCTIONS */
+  .instr{padding:.9rem 1.5rem;border-bottom:1px solid var(--lt);background:var(--offwh)}
+  .instr p{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:.35rem}
+  .instr p strong{color:var(--navy)}
+  .instr ul{list-style:none;margin:.3rem 0 .5rem;display:flex;flex-direction:column;gap:.2rem}
+  .instr li{font-size:13px;color:var(--text);padding-left:1.1rem;position:relative}
+  .instr li::before{content:'•';position:absolute;left:0;color:var(--teal);font-weight:700}
+  .instr-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:.4rem}
+
+  /* PROF POST */
+  .prof-post{padding:1.2rem 1.5rem;border-bottom:1px solid var(--lt)}
+  .author-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.65rem}
+  .av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:600;flex-shrink:0}
+  .av.prof{background:var(--navy);color:var(--gold)}
+  .av.s1{background:var(--teal-l);color:var(--teal2)}
+  .av.s2{background:var(--gold-l);color:#7a5a1a}
+  .aname{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase}
+  .aname.prof{color:var(--navy)}
+  .aname.s1{color:var(--teal2)}
+  .aname.s2{color:#7a5a1a}
+  .post-txt{font-size:13.5px;line-height:1.7;color:var(--text)}
+
+  /* CLASSMATES */
+  .classmates{display:grid;grid-template-columns:1fr 1fr}
+  @media(max-width:580px){.classmates{grid-template-columns:1fr}}
+  .cm-post{padding:1rem 1.25rem;background:var(--offwh)}
+  .cm-post:first-child{border-right:1px solid var(--lt)}
+  .cm-post .post-txt{font-size:13px;line-height:1.65;color:#334155;font-style:italic}
+
+  /* WRITING CARD */
+  .w-top{padding:.7rem 1.25rem;background:var(--offwh);border-bottom:1px solid var(--lt);
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+  .w-lbl{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.08em}
+  .wc-wrap{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);
+    display:flex;align-items:center;gap:.5rem}
+  .wc-n{font-weight:600;color:var(--teal);transition:color .3s}
+  .wc-bar{width:80px;height:5px;background:var(--lt);border-radius:3px;overflow:hidden}
+  .wc-fill{height:100%;background:var(--teal);border-radius:3px;transition:width .3s,background .3s}
+
+  .banner{padding:.65rem 1.25rem;font-size:13px;font-weight:500;
+    border-bottom:1px solid var(--lt);display:none;align-items:center;gap:.6rem}
+  .banner.show{display:flex}
+  .banner.run{background:var(--green-l);color:var(--green)}
+  .banner.warn{background:var(--warn-l);color:var(--warn)}
+  .banner.up{background:var(--red-l);color:var(--red)}
+
+  textarea{width:100%;min-height:260px;font-family:'Source Sans 3',sans-serif;
+    font-size:14.5px;line-height:1.8;color:var(--text);border:none;outline:none;
+    padding:1.25rem 1.5rem;resize:vertical;background:var(--white)}
+  textarea:disabled{background:var(--offwh);color:var(--muted);cursor:not-allowed}
+
+  .w-foot{padding:.65rem 1.25rem;border-top:1px solid var(--lt);
+    display:flex;justify-content:flex-end;background:var(--offwh)}
+  .btn-copy{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:600;
+    padding:.45rem 1rem;border-radius:8px;border:none;cursor:pointer;
+    background:var(--lt);color:var(--navy);transition:all .15s;
+    display:flex;align-items:center;gap:.4rem}
+  .btn-copy:hover{background:#d0dde8}
+  .btn-copy.copied{background:var(--green-l);color:var(--green)}
+
+  @keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  .main>*{animation:fi .3s ease both}
+  .main>*:nth-child(1){animation-delay:.05s}
+  .main>*:nth-child(2){animation-delay:.1s}
+  .main>*:nth-child(3){animation-delay:.15s}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-title">Writing &nbsp;›&nbsp; Write for an Academic Discussion</div>
+    <div class="hdr-sub">TOEFL iBT 2026 · Question 1 of 1</div>
+  </div>
+  <div class="timer-wrap">
+    <div class="timer-lbl">time left</div>
+    <div class="timer" id="timer">10:00</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="prog"><div class="prog-fill" id="pf" style="width:100%"></div></div>
+
+  <!-- PROMPT CARD -->
+  <div class="card">
+
+    <div class="card-hdr">
+      <div class="card-hdr-txt">LET'S PRACTICE &nbsp; Writing &nbsp;›&nbsp; Write for an Academic Discussion</div>
+    </div>
+
+    <div class="instr">
+      <p>Your professor is teaching a class on business. Write a post responding to the professor's question.</p>
+      <p><strong>In your response, you should do the following.</strong></p>
+      <ul>
+        <li>Express and support your opinion.</li>
+        <li>Make a contribution to the discussion in your own words.</li>
+      </ul>
+      <p class="instr-note">An effective response will contain at least 100 words.</p>
+    </div>
+
+    <div class="prof-post">
+      <div class="author-row">
+        <div class="av prof">DA</div>
+        <div class="aname prof">Dr. Amin</div>
+      </div>
+      <div class="post-txt">
+        In recent years, many countries have moved toward a cashless economy, where digital transactions through credit cards, mobile payments, and online banking have replaced physical cash. Some believe this shift makes transactions more convenient and secure, while others argue that a cashless society has drawbacks, such as privacy concerns and the exclusion of those without digital access. To what extent do you believe that a cashless society is the best way forward?
+      </div>
+    </div>
+
+    <div class="classmates">
+      <div class="cm-post">
+        <div class="author-row">
+          <div class="av s1">P</div>
+          <div class="aname s1">Priya</div>
+        </div>
+        <div class="post-txt">
+          A fully cashless society is the best way forward because it simplifies transactions and reduces crime. Digital payments are faster, more secure, and eliminate risks associated with carrying cash, such as theft or loss. Many countries, like Sweden, have already embraced digital payments with great success, making everyday transactions more efficient for both businesses and consumers.
+        </div>
+      </div>
+      <div class="cm-post">
+        <div class="author-row">
+          <div class="av s2">D</div>
+          <div class="aname s2">David</div>
+        </div>
+        <div class="post-txt">
+          Relying entirely on digital payments could create serious problems, particularly for people who lack access to banking services or who have poor digital literacy. I strongly believe that cash is still essential for those in rural areas. It is also useful for elderly populations and lower-income groups who may not have smartphones or credit cards. Additionally, a cashless society increases dependence on technology, which could be a problem during system failures or cyberattacks.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WRITING CARD -->
+  <div class="card">
+    <div class="w-top">
+      <span class="w-lbl">Your Response</span>
+      <div class="wc-wrap">
+        Words: <span class="wc-n" id="wcn">0</span> / 100
+        <div class="wc-bar"><div class="wc-fill" id="wcf" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="banner run show" id="banner">⏱ Timer is running — write your post now.</div>
+    <textarea id="ta" oninput="wc()"></textarea>
+    <div class="w-foot">
+      <button class="btn-copy" id="copyBtn" onclick="copy()">📋 Copy response</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 600;
+let left = TOTAL, iv;
+
+function fmt(s){ return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
+
+function tick(){
+  left--;
+  document.getElementById('timer').textContent = fmt(left);
+  document.getElementById('pf').style.width = (left/TOTAL*100)+'%';
+
+  const t = document.getElementById('timer');
+  t.className = 'timer' + (left<=60?' danger':left<=120?' warn':'');
+
+  const b = document.getElementById('banner');
+  if(left===300){ b.className='banner run show'; b.textContent='⏱ Halfway — do you have your position and at least one classmate cited?'; }
+  else if(left===120){ b.className='banner warn show'; b.textContent='⚠️ 2 minutes left — finish your argument.'; }
+  else if(left===60){ b.className='banner warn show'; b.textContent='⚠️ 1 minute left — proofread now.'; }
+  else if(left<=0){
+    clearInterval(iv);
+    b.className='banner up show'; b.textContent='⏰ Time\'s up! Copy your response using the button below.';
+    document.getElementById('ta').disabled=true;
+  }
+}
+
+function wc(){
+  const w = document.getElementById('ta').value.trim().split(/\s+/).filter(x=>x).length;
+  document.getElementById('wcn').textContent = w;
+  document.getElementById('wcf').style.width = Math.min(100,(w/100*100))+'%';
+  const c = w>=100?'#1a7a4a':w>=70?'#C8A84B':'#1A7A7A';
+  document.getElementById('wcf').style.background = c;
+  document.getElementById('wcn').style.color = c;
+}
+
+function copy(){
+  const txt = document.getElementById('ta').value;
+  if(!txt.trim()) return;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const b = document.getElementById('copyBtn');
+    b.textContent='✓ Copied!'; b.classList.add('copied');
+    setTimeout(()=>{ b.textContent='📋 Copy response'; b.classList.remove('copied'); }, 2000);
+  });
+}
+
+window.addEventListener('load',()=>{
+  document.getElementById('ta').focus();
+  iv = setInterval(tick, 1000);
+});
+</script>
+</body>
+</html>
