@@ -354,7 +354,7 @@
   <div class="prompt-switcher">
     <span class="switcher-label">Prompt</span>
     <button class="prompt-tab active" id="tab0" onclick="switchPrompt(0)">1 — AI in education</button>
-    <button class="prompt-tab"        id="tab1" onclick="switchPrompt(1)">2 — Music in schools</button>
+    <button class="prompt-tab"        id="tab1" onclick="switchPrompt(1)">2 — Price controls</button>
   </div>
 
   <div class="card-top">
@@ -436,13 +436,13 @@ const PROMPTS = [
   },
   {
     badge: "PROMPT 2 / 2",
-    title: "Music in Schools",
-    profName: "DR. LANGSTON",
-    profText: "This week we have been discussing the impact of music on cognitive development. Research has shown that engaging with music, whether by playing an instrument or listening, can enhance cognitive abilities such as memory, attention, and even language skills. Children who receive musical training often show greater improvements in these areas compared to those who do not. Do you believe schools should integrate more music-focused classes into their curriculum? Why or why not?",
-    s1Name: "ALICE",
-    s1Text: "I strongly support integrating more music classes in schools. Music not only improves cognitive abilities but also nurtures emotional and social skills. Providing children with music education from an early age can foster well-rounded development, equipping them with skills beneficial across various aspects of life.",
-    s2Name: "BEN",
-    s2Text: "It is important to consider the fact that schools have difficulty allocating their limited resources. Many schools struggle with funding and may need to prioritize core academic subjects like math and science. Allocating more resources to music might mean less for these essential areas, which could be detrimental in the long run."
+    title: "Price Controls",
+    profName: "PROFESSOR DOUGLAS",
+    profText: "Today, we're going to discuss whether the government should impose price controls on essential goods, such as housing, food, and medicine. On one hand, price controls can make necessities more affordable for everyone. On the other hand, critics argue that price controls can lead to shortages and inefficiencies. If you had to choose, would you support or oppose price controls? Why?",
+    s1Name: "SAM",
+    s1Text: "I support price controls because they ensure basic needs like housing and medicine remain affordable. For example, rent control prevents excessive rents in expensive cities, which helps low-income families a lot. While critics worry about shortages of apartments and houses, the government can address this by subsidizing new construction so that there is a balance between affordability and availability.",
+    s2Name: "TANYA",
+    s2Text: "I oppose price controls because they often harm quality. Rent control, for instance, can discourage landlords from maintaining properties because of the cost. Instead of controlling prices, I think it is better to provide subsidies or targeted financial aid so that people can more easily afford essentials. If we give help only to people that actually need it, there is less chance that our actions will lead to unexpected and undesirable outcomes."
   }
 ];
 
@@ -558,7 +558,7 @@ function timesUp() {
 
   const bothDone = promptDone[0] && promptDone[1];
   if (bothDone) {
-    showBanner('done', '🎉 Both prompts complete! Great work, Ariana.');
+    showBanner('done', '🎉 Both prompts complete! Great work.');
   } else {
     const next = currentPrompt === 0 ? 1 : 0;
     showBanner('times-up', `⏰ Time's up! Switch to Prompt ${next + 1} when you're ready.`);
