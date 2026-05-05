@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL · Write an Email · Practice</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Trebuchet MS', sans-serif; background: #F7F9FA; display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem 3rem; min-height: 100vh; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #1A7A7A; margin-bottom: 4px; text-align: center; }
+.main-title { font-size: 26px; font-weight: 700; color: #1A2A4A; text-align: center; }
+.sub { font-size: 13px; color: #64748B; text-align: center; margin-bottom: 1.25rem; margin-top: 4px; }
+.card { background: #fff; border-radius: 14px; border: 1px solid #E8EEF2; box-shadow: 0 4px 20px rgba(26,42,74,.07); width: 100%; max-width: 640px; overflow: hidden; }
+.prog { height: 4px; background: #E8EEF2; }
+.prog-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#1A7A7A,#C8A84B); transition: width 1s linear; }
+.top { padding: 1rem 1.25rem .75rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E8EEF2; }
+.badge { font-size: 10px; background: #1A2A4A; color: #fff; padding: 3px 10px; border-radius: 20px; letter-spacing: .06em; margin-right: 8px; font-family: monospace; }
+.ptitle { font-size: 13px; font-weight: 700; color: #1A2A4A; }
+.timer-label { font-size: 10px; color: #64748B; text-transform: uppercase; letter-spacing: .06em; text-align: right; font-family: monospace; }
+#timerDisplay { font-family: monospace; font-size: 2rem; font-weight: 700; color: #1A7A7A; text-align: right; line-height: 1; transition: color .3s; }
+.body { padding: 1rem 1.25rem; border-bottom: 1px solid #E8EEF2; }
+.scenario { font-size: 13.5px; color: #1E293B; line-height: 1.65; margin-bottom: .85rem; }
+.tasks { background: #F7F9FA; border-left: 3px solid #1A7A7A; border-radius: 0 8px 8px 0; padding: .65rem 1rem; }
+.tasks-lbl { font-size: 12px; font-weight: 700; color: #1A2A4A; margin-bottom: 5px; }
+.task-item { font-size: 12.5px; color: #1E293B; padding-left: 1.1rem; position: relative; margin-bottom: 3px; }
+.task-item::before { content: 'to'; position: absolute; left: 0; color: #1A7A7A; font-weight: 700; }
+.note { margin-top: 8px; font-size: 11.5px; color: #64748B; font-style: italic; }
+.controls { padding: .85rem 1.25rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E8EEF2; flex-wrap: wrap; gap: 8px; }
+.btn { font-size: 13px; font-weight: 600; padding: .45rem 1.1rem; border-radius: 8px; border: 1px solid #E8EEF2; cursor: pointer; font-family: inherit; }
+.btn-gray { background: #E8EEF2; color: #1A2A4A; }
+.btn-ghost { background: transparent; color: #64748B; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.wc { font-family: monospace; font-size: 12px; color: #64748B; background: #F7F9FA; padding: .35rem .8rem; border-radius: 6px; border: 1px solid #E8EEF2; }
+.banner { margin: 10px 1.25rem 6px; border-radius: 8px; padding: .65rem 1rem; font-size: 13px; font-weight: 600; }
+.b-run   { background: #e8f4f0; color: #1A5C3A; border: 1px solid #b8ddd0; }
+.b-pause { background: #e0f0f7; color: #0f4a6a; border: 1px solid #b2d8e6; }
+.b-warn  { background: #faeeda; color: #7a4e00; border: 1px solid #f0d494; }
+.b-done  { background: #fde8e6; color: #8a1a1a; border: 1px solid #f4bcb6; }
+.fields { padding: .7rem 1.25rem .4rem; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid #E8EEF2; background: #F7F9FA; }
+.field-row { display: flex; align-items: center; gap: 10px; }
+.field-lbl { font-family: monospace; font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: .07em; width: 52px; flex-shrink: 0; }
+.field-val { font-size: 13px; font-weight: 600; color: #1A2A4A; background: #fff; border: 1px solid #E8EEF2; border-radius: 6px; padding: .25rem .7rem; flex: 1; }
+.ta-wrap { padding: .85rem 1.25rem 1.25rem; }
+textarea { width: 100%; height: 200px; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; line-height: 1.7; color: #1E293B; background: #fff; border: 1.5px solid #E8EEF2; border-radius: 10px; padding: .85rem 1rem; resize: vertical; outline: none; }
+textarea:focus { border-color: #1A7A7A; }
+textarea:disabled { background: #F7F9FA; color: #64748B; cursor: not-allowed; }
+.footer { margin-top: 1rem; font-size: 12px; color: #64748B; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="eyebrow">TOEFL iBT 2026 · Writing Section</div>
+<div class="main-title">Write an Email</div>
+<div class="sub">1 prompt · 7 minutes · timer starts automatically</div>
+
+<div class="card">
+  <div class="prog"><div class="prog-fill" id="fill"></div></div>
+
+  <div class="top">
+    <div>
+      <span class="badge">PROMPT</span>
+      <span class="ptitle">New Campus Dining Option</span>
+    </div>
+    <div>
+      <div class="timer-label">time left</div>
+      <div id="timerDisplay">7:00</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <p class="scenario">You read about a new dining option in the campus newspaper. Write an email to a friend describing what you learned, explaining why you think they would enjoy it, and suggesting a time to try it together.</p>
+    <div class="tasks">
+      <div class="tasks-lbl">In your email, do the following:</div>
+      <div class="task-item">Describe what you read about the new dining option</div>
+      <div class="task-item">Explain why you think your friend would enjoy it</div>
+      <div class="task-item">Suggest a specific time to try it together</div>
+    </div>
+    <p class="note">Write as much as you can and in complete sentences.</p>
+  </div>
+
+  <div class="controls">
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-gray" id="pauseBtn" onclick="togglePause()">Pause</button>
+      <button class="btn btn-ghost" onclick="doReset()">Reset</button>
+    </div>
+    <div class="wc">Words: <span id="wc" style="color:#1A7A7A;font-weight:700;">0</span></div>
+  </div>
+
+  <div class="banner b-run" id="banner">Timer running — write your email now!</div>
+
+  <div class="fields">
+    <div class="field-row">
+      <span class="field-lbl">To</span>
+      <span class="field-val">Your friend</span>
+    </div>
+    <div class="field-row">
+      <span class="field-lbl">Subject</span>
+      <span class="field-val">Have you heard about the new place on campus?</span>
+    </div>
+  </div>
+
+  <div class="ta-wrap">
+    <textarea id="ta" placeholder="Dear ..." oninput="updateWC()"></textarea>
+  </div>
+</div>
+
+<p class="footer"><strong>Tip:</strong> 1 min to plan · 5 min to write · 1 min to proofread · aim for <strong>70-90 words</strong></p>
+
+<script>
+var TOTAL = 420;
+var t = TOTAL;
+var running = false;
+var done = false;
+var iv = null;
+
+function fmt(s) {
+  var m = Math.floor(s / 60);
+  var sec = s % 60;
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function setDisplay() {
+  var el = document.getElementById('timerDisplay');
+  el.textContent = fmt(t);
+  el.style.color = t <= 60 ? '#B03A2E' : t <= 120 ? '#B07A10' : '#1A7A7A';
+  var pct = (TOTAL - t) / TOTAL * 100;
+  document.getElementById('fill').style.width = pct + '%';
+}
+
+function setBanner(cls, msg) {
+  var b = document.getElementById('banner');
+  b.className = 'banner ' + cls;
+  b.textContent = msg;
+}
+
+function tick() {
+  t--;
+  setDisplay();
+  if (t <= 0) {
+    clearInterval(iv); iv = null;
+    running = false; done = true;
+    document.getElementById('ta').disabled = true;
+    document.getElementById('pauseBtn').disabled = true;
+    document.getElementById('fill').style.width = '100%';
+    setBanner('b-done', "Time's up! Great work, Ariana.");
+    return;
+  }
+  if (t === 60)  setBanner('b-warn', '1 minute left — finish up and proofread!');
+  if (t === 120) setBanner('b-warn', '2 minutes left — wrap up your final paragraph.');
+}
+
+function togglePause() {
+  if (done) return;
+  if (running) {
+    clearInterval(iv); iv = null; running = false;
+    document.getElementById('pauseBtn').textContent = 'Resume';
+    setBanner('b-pause', 'Paused — press Resume when ready.');
+  } else {
+    iv = setInterval(tick, 1000); running = true;
+    document.getElementById('pauseBtn').textContent = 'Pause';
+    setBanner('b-run', 'Timer running — write your email now!');
+  }
+}
+
+function doReset() {
+  clearInterval(iv); iv = null;
+  running = false; done = false;
+  t = TOTAL;
+  setDisplay();
+  document.getElementById('ta').disabled = false;
+  document.getElementById('ta').value = '';
+  document.getElementById('pauseBtn').disabled = false;
+  document.getElementById('pauseBtn').textContent = 'Start';
+  document.getElementById('wc').textContent = '0';
+  setBanner('b-pause', 'Reset — press Start when ready.');
+}
+
+function updateWC() {
+  var txt = document.getElementById('ta').value.trim();
+  var w = txt === '' ? 0 : txt.split(/\s+/).length;
+  var sp = document.getElementById('wc');
+  sp.textContent = w;
+  sp.style.color = w >= 70 && w <= 90 ? '#217A4A' : w > 90 ? '#B07A10' : '#1A7A7A';
+}
+
+window.onload = function() {
+  running = true;
+  iv = setInterval(tick, 1000);
+  document.getElementById('ta').focus();
+};
+</script>
+</body>
+</html>
