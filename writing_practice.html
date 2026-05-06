@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL · Writing Practice</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Trebuchet MS',sans-serif;background:#F7F9FA;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:1.2rem 1rem 2.5rem}
+.tabs{display:flex;gap:8px;margin-bottom:1rem}
+.tab{padding:.45rem 1.2rem;border-radius:8px;border:2px solid #E8EEF2;background:#fff;font-size:12px;font-weight:700;color:#64748B;cursor:pointer;font-family:inherit}
+.tab.on{background:#1A2A4A;color:#fff;border-color:#1A2A4A}
+.card{background:#fff;border-radius:14px;border:1px solid #E8EEF2;box-shadow:0 4px 20px rgba(26,42,74,.07);width:100%;max-width:900px;overflow:hidden}
+.prog{height:4px;background:#E8EEF2}
+.prog-fill{height:100%;background:linear-gradient(90deg,#1A7A7A,#C8A84B);transition:width 1s linear;width:0%}
+.chdr{background:#1A2A4A;padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between}
+.chdr-left{font-size:14px;font-weight:700;color:#fff}
+.chdr-sub{font-size:10px;font-family:monospace;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:2px}
+.timer-lbl{font-size:9px;font-family:monospace;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);text-align:right}
+.timer-val{font-family:monospace;font-size:2rem;font-weight:700;color:#4AE3B5;line-height:1;transition:color .3s;text-align:right}
+.timer-val.warn{color:#F5C842}
+.timer-val.danger{color:#F07070}
+.banner{padding:.6rem 1.25rem;font-size:12px;font-weight:600;display:none}
+.banner.show{display:block}
+.b-run{background:#e8f4f0;color:#1A5C3A;border-bottom:1px solid #b8ddd0}
+.b-warn{background:#faeeda;color:#7a4e00;border-bottom:1px solid #f0d494}
+.b-done{background:#fde8e6;color:#8a1a1a;border-bottom:1px solid #f4bcb6}
+.body-split{display:flex;min-height:400px}
+.left-col{width:42%;border-right:1px solid #E8EEF2;padding:1.1rem 1.2rem;font-size:13px;color:#1E293B;line-height:1.65;overflow-y:auto;max-height:520px}
+.left-col ul{padding-left:1.3rem;margin:.5rem 0}
+.left-col li{margin-bottom:.3rem}
+.field-row{display:flex;align-items:center;gap:8px;margin-bottom:.35rem}
+.field-lbl{font-family:monospace;font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:.06em;width:52px;flex-shrink:0}
+.field-val{font-size:12.5px;font-weight:600;color:#1A2A4A;background:#F7F9FA;border:1px solid #E8EEF2;border-radius:5px;padding:.22rem .65rem;flex:1}
+.email-fields{padding:.65rem 1.1rem;background:#F7F9FA;border-bottom:1px solid #E8EEF2}
+.right-col{flex:1;display:flex;flex-direction:column}
+.right-header{padding:.5rem 1rem;background:#F7F9FA;border-bottom:1px solid #E8EEF2;font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.06em}
+textarea{flex:1;width:100%;border:none;outline:none;padding:.9rem 1.1rem;font-family:'Trebuchet MS',sans-serif;font-size:13.5px;line-height:1.75;color:#1E293B;background:#fff;resize:none;min-height:360px}
+textarea:disabled{background:#F7F9FA;color:#9CA3AF;cursor:not-allowed}
+.disc-prompt-box{background:#1A2A4A;padding:.6rem 1.2rem;font-size:12.5px;color:#C5D8F8;font-style:italic;line-height:1.55;border-bottom:1px solid #E8EEF2}
+.disc-section{padding:.7rem 1.2rem;border-bottom:1px solid #E8EEF2;font-size:13px;color:#1E293B;line-height:1.65}
+.disc-section strong{font-weight:700;color:#1A2A4A;display:block;margin-bottom:.2rem}
+.footer{padding:.7rem 1.25rem;border-top:1px solid #E8EEF2;display:flex;align-items:center;justify-content:space-between;background:#F7F9FA}
+.wc{font-family:monospace;font-size:12px;color:#64748B;background:#fff;padding:.3rem .75rem;border-radius:6px;border:1px solid #E8EEF2}
+.wc span{font-weight:700;color:#1A7A7A}
+.btn-ctrl{font-size:12.5px;font-weight:700;padding:.42rem 1.1rem;border-radius:8px;border:1px solid #E8EEF2;cursor:pointer;font-family:inherit;background:#fff;color:#1A2A4A}
+.btn-ctrl:hover{background:#E8EEF2}
+.btn-ctrl:disabled{opacity:.35;cursor:not-allowed}
+</style>
+</head>
+<body>
+
+<div class="tabs">
+  <button class="tab on" id="tab1" onclick="switchTask(0)">Write an Email</button>
+  <button class="tab" id="tab2" onclick="switchTask(1)">Academic Discussion</button>
+</div>
+
+<div class="card">
+  <div class="prog"><div class="prog-fill" id="pf"></div></div>
+  <div class="chdr">
+    <div>
+      <div class="chdr-left" id="hTitle">Writing — Write an Email</div>
+      <div class="chdr-sub">TOEFL iBT 2026 · Writing Section</div>
+    </div>
+    <div>
+      <div class="timer-lbl">time left</div>
+      <div class="timer-val" id="tval">7:00</div>
+    </div>
+  </div>
+  <div class="banner" id="banner"></div>
+
+  <!-- EMAIL -->
+  <div id="taskEmail">
+    <div class="body-split">
+      <div class="left-col">
+        <p>You are a member of the student environmental club at your university. The club is planning to meet on Monday to discuss a campus cleanup event, but you have a scheduling conflict and will not be able to attend the meeting. You want to write to the club leader, Sarah, to suggest an alternative date and share your availability.</p>
+        <br>
+        <p>Write an email to Sarah. In your email, do the following:</p>
+        <ul>
+          <li>Explain your scheduling conflict.</li>
+          <li>Suggest a new date or time for the meeting.</li>
+          <li>Offer to help with planning in another way if needed.</li>
+        </ul>
+        <br>
+        <p>Write as much as you can and in complete sentences.</p>
+      </div>
+      <div class="right-col">
+        <div class="email-fields">
+          <div class="field-row"><span class="field-lbl">To</span><span class="field-val">Sarah</span></div>
+          <div class="field-row"><span class="field-lbl">Subject</span><span class="field-val">Suggestion for rescheduling the cleanup event</span></div>
+        </div>
+        <div class="right-header">Your response</div>
+        <textarea id="taEmail"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCUSSION -->
+  <div id="taskDisc" style="display:none">
+    <div class="disc-prompt-box">Your professor, Dr. Moreno, is teaching a class on sports economics. Write a post responding to the professor's question. Express and support your opinion. Make a contribution to the discussion in your own words. An effective response will contain at least 100 words.</div>
+    <div class="disc-section">
+      <strong>Dr. Moreno</strong>
+      <p>We've been discussing the economics of college athletics. In many universities, student athletes generate significant revenue through ticket sales, merchandise, and broadcasting deals. Some argue that college athletes should receive financial compensation beyond their scholarships, since they contribute substantially to their universities' income. Others believe that a scholarship is sufficient compensation and that paying athletes would undermine the amateur nature of college sports. What is your opinion?</p>
+    </div>
+    <div class="disc-section">
+      <strong>Lena</strong>
+      <p>I think college athletes deserve to be paid. They spend countless hours training and competing, often at the expense of their academic and social lives. Meanwhile, their universities earn millions from their efforts. A scholarship covers tuition, but it doesn't account for the time and physical demands these athletes face. Fair compensation would acknowledge their true contribution.</p>
+    </div>
+    <div class="disc-section">
+      <strong>Sam</strong>
+      <p>I don't think college athletes should be paid beyond their scholarships. A full scholarship is already a significant benefit that many students would love to have. Paying athletes could create inequalities between sports and take away from the team spirit and educational mission that college athletics is supposed to represent.</p>
+    </div>
+    <div class="right-header">Your response</div>
+    <textarea id="taDisc" style="min-height:200px"></textarea>
+  </div>
+
+  <div class="footer">
+    <div class="wc">Words: <span id="wc">0</span></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-ctrl" id="btnPause" onclick="togglePause()">Pause</button>
+      <button class="btn-ctrl" onclick="doReset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var TASKS = [
+  {title:"Writing — Write an Email", total:420, ta:"taEmail", el:"taskEmail"},
+  {title:"Writing — Academic Discussion", total:600, ta:"taDisc", el:"taskDisc"}
+];
+var curTask = 0;
+var t = 420;
+var running = true;
+var done = false;
+var iv = null;
+
+function switchTask(n) {
+  stopTimer();
+  curTask = n;
+  done = false;
+  running = true;
+  document.getElementById('tab1').className = 'tab'+(n===0?' on':'');
+  document.getElementById('tab2').className = 'tab'+(n===1?' on':'');
+  document.getElementById('hTitle').textContent = TASKS[n].title;
+  document.getElementById('taskEmail').style.display = n===0?'block':'none';
+  document.getElementById('taskDisc').style.display = n===1?'block':'none';
+  document.getElementById('taEmail').disabled = false;
+  document.getElementById('taDisc').disabled = false;
+  document.getElementById('btnPause').textContent = 'Pause';
+  document.getElementById('btnPause').disabled = false;
+  hideBanner();
+  t = TASKS[n].total;
+  setDisplay();
+  document.getElementById('pf').style.width = '0%';
+  updateWC();
+  startTimer();
+}
+
+function startTimer() {
+  stopTimer();
+  iv = setInterval(tick, 1000);
+}
+
+function stopTimer() {
+  if (iv) { clearInterval(iv); iv = null; }
+}
+
+function tick() {
+  if (!running || done) return;
+  t--;
+  setDisplay();
+  var total = TASKS[curTask].total;
+  document.getElementById('pf').style.width = ((total-t)/total*100)+'%';
+  if (t <= 0) { timesUp(); return; }
+  if (t === 60) showBanner('warn','1 minute left.');
+  else if (curTask===0 && t===120) showBanner('run','2 minutes left.');
+  else if (curTask===1 && t===180) showBanner('run','3 minutes left.');
+}
+
+function timesUp() {
+  stopTimer();
+  done = true;
+  running = false;
+  document.getElementById('taEmail').disabled = true;
+  document.getElementById('taDisc').disabled = true;
+  document.getElementById('btnPause').disabled = true;
+  document.getElementById('pf').style.width = '100%';
+  showBanner('done',"Time's up!");
+  setTimerClass('danger');
+}
+
+function togglePause() {
+  if (done) return;
+  if (running) {
+    stopTimer();
+    running = false;
+    document.getElementById('btnPause').textContent = 'Resume';
+    showBanner('run','Paused.');
+  } else {
+    running = true;
+    document.getElementById('btnPause').textContent = 'Pause';
+    hideBanner();
+    startTimer();
+  }
+}
+
+function doReset() {
+  document.getElementById('taEmail').value = '';
+  document.getElementById('taDisc').value = '';
+  switchTask(curTask);
+}
+
+function setDisplay() {
+  var m = Math.floor(t/60), s = t%60;
+  document.getElementById('tval').textContent = m+':'+(s<10?'0':'')+s;
+  setTimerClass(t<=60?'danger':t<=120?'warn':'');
+}
+
+function setTimerClass(cls) {
+  document.getElementById('tval').className = 'timer-val'+(cls?' '+cls:'');
+}
+
+function showBanner(type, msg) {
+  var b = document.getElementById('banner');
+  b.className = 'banner show b-'+type;
+  b.textContent = msg;
+}
+
+function hideBanner() {
+  document.getElementById('banner').className = 'banner';
+}
+
+function updateWC() {
+  var ta = document.getElementById(TASKS[curTask].ta);
+  var txt = ta ? ta.value.trim() : '';
+  var w = txt===''?0:txt.split(/\s+/).length;
+  var sp = document.getElementById('wc');
+  sp.textContent = w;
+  sp.style.color = w>=70?'#217A4A':'#1A7A7A';
+}
+
+document.getElementById('taEmail').oninput = updateWC;
+document.getElementById('taDisc').oninput = updateWC;
+
+window.onload = function() { switchTask(0); };
+</script>
+</body>
+</html>
