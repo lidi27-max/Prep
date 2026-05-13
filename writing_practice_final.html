@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing Practice</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, 'Times New Roman', serif; background: #f9f8f5; color: #1a1a1a; padding: 2rem 1rem; }
+.container { max-width: 760px; margin: 0 auto; }
+.header { margin-bottom: 2rem; }
+.header h1 { font-size: 26px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; font-family: Georgia, serif; }
+.header p { font-size: 14px; color: #666; font-family: Arial, sans-serif; }
+.task-card { background: #fff; border: 1px solid #e0ddd6; border-radius: 12px; padding: 1.75rem; margin-bottom: 1.75rem; }
+.task-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 0.5rem; font-family: Arial, sans-serif; }
+.task-title { font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 1.25rem; font-family: Georgia, serif; }
+.timer-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: #f4f3ef; border-radius: 8px; }
+.timer-display { font-size: 24px; font-weight: 600; font-family: 'Courier New', monospace; color: #1a1a1a; min-width: 68px; }
+.timer-display.warning { color: #b45309; }
+.timer-display.danger { color: #991b1b; }
+.timer-label { font-size: 13px; color: #666; flex: 1; font-family: Arial, sans-serif; }
+.timer-status { font-size: 12px; color: #999; font-style: italic; font-family: Arial, sans-serif; }
+.prompt-box { background: #f4f3ef; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.prompt-box p { font-size: 15px; color: #1a1a1a; line-height: 1.75; margin-bottom: 0.5rem; font-family: Arial, sans-serif; }
+.prompt-box p:last-child { margin-bottom: 0; }
+.instructions { margin-bottom: 1rem; }
+.instruction-item { display: flex; gap: 10px; font-size: 14px; color: #1a1a1a; line-height: 1.65; margin-bottom: 0.4rem; font-family: Arial, sans-serif; }
+.instruction-item .bullet { color: #bbb; flex-shrink: 0; }
+.address-line { display: flex; align-items: center; gap: 10px; padding: 0.65rem 1rem; border: 1px solid #e0ddd6; border-radius: 8px; margin-bottom: 0.75rem; background: #f9f8f5; }
+.address-label { font-size: 13px; color: #666; font-weight: 600; min-width: 24px; font-family: Arial, sans-serif; }
+.address-value { font-size: 14px; color: #1a1a1a; font-family: Arial, sans-serif; }
+textarea { width: 100%; min-height: 200px; padding: 0.875rem 1rem; font-size: 15px; font-family: Arial, sans-serif; color: #1a1a1a; border: 1px solid #e0ddd6; border-radius: 8px; resize: vertical; background: #fff; line-height: 1.75; outline: none; }
+textarea:focus { border-color: #999; }
+.word-count { font-size: 13px; color: #999; margin-top: 0.5rem; text-align: right; font-family: Arial, sans-serif; }
+.word-count.ok { color: #3b6d11; }
+.word-count.warning { color: #b45309; }
+.divider { border: none; border-top: 1px solid #e0ddd6; margin: 2rem 0; }
+.discussion-students { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+.student-card { background: #f4f3ef; border-radius: 8px; padding: 0.875rem 1rem; }
+.student-name { font-size: 11px; font-weight: 600; color: #888; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: Arial, sans-serif; }
+.student-card p { font-size: 14px; color: #1a1a1a; line-height: 1.65; font-style: italic; font-family: Arial, sans-serif; }
+@media (max-width: 520px) {
+  .discussion-students { grid-template-columns: 1fr; }
+  body { padding: 1rem 0.75rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Writing practice</h1>
+    <p>Both timers run automatically — task 2 starts when task 1 ends.</p>
+  </div>
+
+  <!-- TASK 1: WRITE AN EMAIL -->
+  <div class="task-card">
+    <div class="task-label">Task 1</div>
+    <div class="task-title">Write an email</div>
+
+    <div class="timer-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="timer-label">7 minutes</span>
+      <span class="timer-display" id="timer1">07:00</span>
+      <span class="timer-status" id="status1">running</span>
+    </div>
+
+    <div class="address-line">
+      <span class="address-label">To:</span>
+      <span class="address-value">Professor Miller &lt;p.miller@university.edu&gt;</span>
+    </div>
+
+    <div class="prompt-box">
+      <p>You are a student in a History class. Last class, your professor gave a pop quiz, but you could not attend because you were sick.</p>
+      <p>Write an email to your professor in which you:</p>
+    </div>
+
+    <div class="instructions">
+      <div class="instruction-item"><span class="bullet">—</span><span>Explain why you were absent and that you heard there was a pop quiz</span></div>
+      <div class="instruction-item"><span class="bullet">—</span><span>Ask if there is a way to make up for the missed grade</span></div>
+      <div class="instruction-item"><span class="bullet">—</span><span>Request information about what material the quiz covered so you can study it</span></div>
+    </div>
+
+    <textarea id="email-text" placeholder="Write your email here..." oninput="countWords('email-text','wc-email')"></textarea>
+    <div class="word-count" id="wc-email">0 words</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TASK 2: ACADEMIC DISCUSSION -->
+  <div class="task-card">
+    <div class="task-label">Task 2</div>
+    <div class="task-title">Write for an academic discussion</div>
+
+    <div class="timer-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="timer-label">10 minutes</span>
+      <span class="timer-display" id="timer2">10:00</span>
+      <span class="timer-status" id="status2">waiting...</span>
+    </div>
+
+    <div class="prompt-box">
+      <p><strong>Professor Chen:</strong> Many cities and countries have started banning single-use plastics such as bags, straws, and bottles. Do you think these bans are an effective solution to plastic pollution, or are there better approaches we should consider? Explain your position.</p>
+    </div>
+
+    <div class="discussion-students">
+      <div class="student-card">
+        <div class="student-name">Marcus</div>
+        <p>"Banning single-use plastics is a great first step, but companies need to be held responsible for the packaging they produce — not just consumers."</p>
+      </div>
+      <div class="student-card">
+        <div class="student-name">Sophie</div>
+        <p>"I'm not sure bans are realistic everywhere. In many developing countries, single-use plastics are affordable and accessible. We need solutions that work for everyone."</p>
+      </div>
+    </div>
+
+    <textarea id="disc-text" placeholder="Write your response here..." oninput="countWords('disc-text','wc-disc')"></textarea>
+    <div class="word-count" id="wc-disc">0 words</div>
+  </div>
+
+</div>
+
+<script>
+let s1 = 420, s2 = 600;
+let t1 = null, t2 = null;
+
+function fmt(s) {
+  const m = Math.floor(s / 60), sec = s % 60;
+  return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function setDisplay(id, secs, status) {
+  const el = document.getElementById('timer' + id);
+  el.textContent = fmt(secs);
+  el.className = 'timer-display' + (secs <= 60 ? ' danger' : secs <= 180 ? ' warning' : '');
+  document.getElementById('status' + id).textContent = status;
+}
+
+function startTask2() {
+  document.getElementById('status2').textContent = 'running';
+  t2 = setInterval(() => {
+    if (s2 <= 0) {
+      clearInterval(t2);
+      setDisplay(2, 0, 'done ✓');
+      return;
+    }
+    s2--;
+    setDisplay(2, s2, 'running');
+  }, 1000);
+}
+
+function startTask1() {
+  setDisplay(1, s1, 'running');
+  t1 = setInterval(() => {
+    if (s1 <= 0) {
+      clearInterval(t1);
+      setDisplay(1, 0, 'done ✓');
+      startTask2();
+      return;
+    }
+    s1--;
+    setDisplay(1, s1, 'running');
+  }, 1000);
+}
+
+function countWords(tid, cid) {
+  const text = document.getElementById(tid).value.trim();
+  const count = text === '' ? 0 : text.split(/\s+/).length;
+  const el = document.getElementById(cid);
+  el.textContent = count + ' word' + (count !== 1 ? 's' : '');
+  el.className = 'word-count' + (count >= 100 ? ' ok' : count >= 50 ? ' warning' : '');
+}
+
+startTask1();
+</script>
+</body>
+</html>
