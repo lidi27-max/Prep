@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Tinder — Facilitator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0a2c5e;--ink:#1d2740;--pink:#ff4d6d;--pink-d:#e83b5a;--green:#16a06a;--slate:#7a8194;
+    --bg1:#fff1f3;--bg2:#eef2fb;--card:#fff;--line:#ece8f0;
+    --disp:'Poppins',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;
+    --shadow:0 24px 50px -20px rgba(20,30,60,.4);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{font-family:var(--body);color:var(--ink);
+    background:radial-gradient(900px 500px at 15% 0%,var(--bg1) 0,transparent 55%),radial-gradient(900px 600px at 100% 100%,var(--bg2) 0,transparent 55%),linear-gradient(160deg,#fbfbfe,#f3f5fb);
+    min-height:100%;display:flex;flex-direction:column;align-items:center;padding:22px 14px 30px;}
+  .wrap{width:100%;max-width:440px;display:flex;flex-direction:column;flex:1}
+  header.brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:6px}
+  header.brand .logo{font-family:var(--disp);font-weight:800;font-size:26px;color:var(--navy);letter-spacing:-.02em;display:flex;align-items:center;gap:6px}
+  header.brand .logo .fire{background:linear-gradient(135deg,var(--pink),#ff8a5b);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline{text-align:center;font-size:12.5px;color:var(--slate);margin-bottom:18px;font-weight:500}
+  .tagline b{color:var(--navy)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:26px 24px}
+  h2.scr{font-family:var(--disp);font-weight:700;font-size:21px;color:var(--navy);margin:0 0 4px}
+  p.sub{font-size:14px;color:var(--slate);margin:0 0 18px;line-height:1.5}
+  .btn{font-family:var(--disp);font-weight:600;font-size:15px;border:none;border-radius:14px;cursor:pointer;padding:14px 22px;transition:transform .12s,box-shadow .12s,opacity .12s;width:100%}
+  .btn-pink{background:linear-gradient(135deg,var(--pink),var(--pink-d));color:#fff;box-shadow:0 8px 18px -6px rgba(232,59,90,.6)}
+  .btn-pink:hover{transform:translateY(-1px)}.btn-pink:active{transform:translateY(1px)}
+  .btn-ghost{background:#fff;color:var(--navy);border:1.6px solid var(--navy)}
+  .btn-ghost:hover{background:var(--navy);color:#fff}
+  .btn+.btn{margin-top:10px}
+  textarea{width:100%;min-height:130px;border:1.6px solid var(--line);border-radius:14px;padding:13px 14px;font-family:var(--body);font-size:14.5px;color:var(--ink);resize:vertical;line-height:1.6}
+  textarea:focus{outline:none;border-color:var(--pink)}
+  .hint{font-size:12px;color:var(--slate);margin:8px 2px 16px}
+  .group-card{border:1.6px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:11px;background:linear-gradient(135deg,#fff,#fff7f9);animation:pop .4s cubic-bezier(.2,1.3,.4,1) both}
+  @keyframes pop{from{opacity:0;transform:scale(.85) translateY(10px)}to{opacity:1;transform:none}}
+  .group-card .gh{font-family:var(--disp);font-weight:700;font-size:13px;color:var(--pink-d);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .group-card .names{display:flex;flex-wrap:wrap;gap:7px}
+  .group-card .name{background:var(--navy);color:#fff;font-weight:600;font-size:13.5px;padding:5px 12px;border-radius:99px}
+  .deck-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;width:100%}
+  .deck-top .count{font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.06em;color:var(--slate)}
+  .deck-top .hearts{font-size:13px;color:var(--pink-d);font-weight:700}
+  .deck{position:relative;width:100%;height:460px;margin:0 auto}
+  .swipe-card{position:absolute;inset:0;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;cursor:grab;user-select:none;touch-action:none;overflow:hidden}
+  .swipe-card:active{cursor:grabbing}
+  .swipe-card .tag{align-self:flex-start;font-family:var(--disp);font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--navy);padding:5px 11px;border-radius:99px}
+  .swipe-card .promptq{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--pink-d);margin:18px 0 8px}
+  .swipe-card .ptext{font-size:20px;line-height:1.45;color:var(--ink);font-weight:500;flex:1}
+  .swipe-card .ptext .stim{display:block;margin-top:12px;font-size:14px;color:var(--slate);font-style:italic;line-height:1.5}
+  .swipe-card .foot{font-size:12px;color:var(--slate);text-align:center;margin-top:8px}
+  .stamp{position:absolute;top:26px;font-family:var(--disp);font-weight:800;font-size:34px;letter-spacing:.04em;padding:6px 16px;border-radius:12px;border:4px solid;opacity:0;transform:rotate(-18deg);transition:opacity .08s}
+  .stamp.like{left:22px;color:var(--green);border-color:var(--green)}
+  .stamp.nope{right:22px;color:var(--pink-d);border-color:var(--pink-d);transform:rotate(18deg)}
+  .controls{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:20px}
+  .cbtn{width:66px;height:66px;border-radius:50%;cursor:pointer;background:#fff;box-shadow:0 10px 22px -8px rgba(20,30,60,.35);font-size:28px;display:grid;place-items:center;transition:transform .12s;border:1.5px solid var(--line)}
+  .cbtn:hover{transform:scale(1.08)}.cbtn:active{transform:scale(.94)}
+  .cbtn.nope{color:var(--pink-d)}
+  .cbtn.like{color:#fff;background:linear-gradient(135deg,var(--pink),var(--pink-d));border:none;width:74px;height:74px;font-size:32px}
+  .swipekey{text-align:center;font-size:11.5px;color:var(--slate);margin-top:14px}
+  .swipekey b{color:var(--navy)}
+  .result h2{font-family:var(--disp);font-weight:800;font-size:24px;color:var(--navy);margin:0 0 2px}
+  .profile{font-family:var(--disp);font-weight:600;font-size:16px;color:var(--pink-d);margin:0 0 16px}
+  .matched-list{margin:14px 0 4px}
+  .matched-list .ml-h{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin-bottom:9px}
+  .ml-item{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;color:var(--ink)}
+  .ml-item:last-child{border-bottom:none}.ml-item .hh{color:var(--pink);flex:none}
+  .bridge{margin-top:16px;background:linear-gradient(135deg,#fff7f9,#eef2fb);border:1px solid var(--line);border-radius:14px;padding:15px 16px;font-size:14px;color:var(--ink);line-height:1.55}
+  .bridge b{color:var(--navy)}
+  .small{font-size:11.5px;color:var(--slate);text-align:center;margin-top:16px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand"><div class="logo"><span class="fire">&#128293;</span> Prompt Tinder</div></header>
+  <p class="tagline">Swipe right if it&#8217;s a <b>good prompt</b> &#183; left if it&#8217;s not. Trust your gut.</p>
+  <main id="stage"></main>
+</div>
+<script>
+const CARDS=[
+  {tag:"English I &#183; Review", good:true,
+   text:"You used a new study-notes app all term. Write a 120-word review for the class blog so next year&#8217;s students know whether it&#8217;s worth downloading."},
+  {tag:"English V &#183; Persuasive essay", good:false,
+   text:"Write an essay about the environment."},
+  {tag:"English II &#183; Email of complaint", good:true,
+   text:"Your online laptop order arrived with a cracked screen. Write a formal email to the store manager: explain what happened, how it affects you, and what you want done (120 words)."},
+  {tag:"English III &#183; Cover letter", good:false,
+   text:"Write a cover letter for a job you&#8217;d like."},
+  {tag:"English IV &#183; Problem report", good:true,
+   text:"Evening students say the library closes too early. Write a report to the library director: describe the problem, its impact, and recommend a solution."},
+  {tag:"English IV &#183; Research report", good:false,
+   text:"Write a research report about the economy.", stim:"(For English II.)"},
+  {tag:"English V &#183; Persuasive essay", good:true,
+   text:"Should attendance be optional at your university? Write a 250-word argument for the student council.", stim:"Attendance-and-grades data provided with the prompt."},
+  {tag:"English II &#183; Academic post", good:false,
+   text:"Share your opinion about education."},
+  {tag:"English III &#183; Application letter", good:true,
+   text:"Using the programme details below, write an application letter to the admissions office for the summer exchange in Montreal.", stim:"Programme dates, courses and requirements provided."},
+  {tag:"English I &#183; Review", good:false,
+   text:"Write a review about your favourite thing."}
+];
+let groups=[], deck=[], idx=0, results=[];
+const stage=document.getElementById('stage');
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function start(){
+  stage.innerHTML=`
+   <div class="panel">
+     <h2 class="scr">Ready to play?</h2>
+     <p class="sub">First, sort the room into trios &#8212; or jump straight in if your groups are already set.</p>
+     <button class="btn btn-pink" onclick="matchmaker()">&#128149; Make groups of 3</button>
+     <button class="btn btn-ghost" onclick="beginDeck()">Skip &#8212; just swipe</button>
+   </div>
+   <p class="small">An opener for the writing-prompts workshop &#183; ESPOL AWC</p>`;
+}
+function matchmaker(){
+  stage.innerHTML=`
+   <div class="panel">
+     <h2 class="scr">&#128149; Find your match</h2>
+     <p class="sub">Type the participants&#8217; names &#8212; one per line, or separated by commas.</p>
+     <textarea id="names" placeholder="Ana&#10;Luis&#10;Mar&#237;a&#10;Diego&#10;Sof&#237;a&#10;&#8230;"></textarea>
+     <div class="hint">We&#8217;ll shuffle them into trios. Odd numbers get a 4 or a 2.</div>
+     <button class="btn btn-pink" onclick="makeMatches()">It&#8217;s a match! &#128293;</button>
+     <button class="btn btn-ghost" onclick="start()">Back</button>
+   </div>`;
+}
+function makeMatches(){
+  let raw=document.getElementById('names').value;
+  let names=raw.split(/[\n,]+/).map(s=>s.trim()).filter(Boolean);
+  if(names.length<2){alert("Add at least two names \u{1F605}");return;}
+  names=shuffle(names);
+  let g=[];for(let i=0;i<names.length;i+=3)g.push(names.slice(i,i+3));
+  if(g.length>1&&g[g.length-1].length===1){g[g.length-2]=g[g.length-2].concat(g.pop());}
+  groups=g;
+  let cards=g.map((grp,i)=>`
+     <div class="group-card" style="animation-delay:${i*90}ms">
+       <div class="gh">&#128149; Group ${i+1} &#8212; it&#8217;s a match!</div>
+       <div class="names">${grp.map(n=>`<span class="name">${escapeHtml(n)}</span>`).join('')}</div>
+     </div>`).join('');
+  stage.innerHTML=`
+   <div class="panel">
+     <h2 class="scr">${g.length} matches made &#128293;</h2>
+     <p class="sub">Sit with your group. Then start swiping together &#8212; one device per trio.</p>
+     ${cards}
+     <button class="btn btn-pink" style="margin-top:14px" onclick="beginDeck()">Start swiping &#8594;</button>
+     <button class="btn btn-ghost" onclick="matchmaker()">Re-shuffle</button>
+   </div>`;
+}
+function beginDeck(){deck=shuffle(CARDS);idx=0;results=[];renderDeck();}
+function renderDeck(){
+  if(idx>=deck.length){return showResults();}
+  const liked=results.filter(r=>r.liked).length;
+  const cur=deck[idx], nxt=deck[idx+1];
+  stage.innerHTML=`
+   <div class="deck-top"><span class="count">CARD ${idx+1} / ${deck.length}</span><span class="hearts">&#10084;&#65039; ${liked}</span></div>
+   <div class="deck" id="deck">${nxt?cardHtml(nxt,true):''}${cardHtml(cur,false)}</div>
+   <div class="controls">
+     <button class="cbtn nope" onclick="decide(false)" aria-label="Weak prompt">&#10006;</button>
+     <button class="cbtn like" onclick="decide(true)" aria-label="Good prompt">&#10084;</button>
+   </div>
+   <div class="swipekey">Drag the card, tap a button, or use <b>&#8592;</b> / <b>&#8594;</b></div>`;
+  attachDrag();
+}
+function cardHtml(c,behind){
+  return `<div class="swipe-card" ${behind?'style="transform:scale(.95) translateY(10px);filter:saturate(.9);pointer-events:none"':''} data-front="${behind?0:1}">
+     <span class="stamp like">LIKE</span><span class="stamp nope">NOPE</span>
+     <span class="tag">${c.tag}</span>
+     <div class="promptq">Would you give this to your students?</div>
+     <div class="ptext">${c.text}${c.stim?`<span class="stim">${c.stim}</span>`:''}</div>
+     <div class="foot">${behind?'':'good prompt? swipe right &#10084;&#65039;'}</div>
+   </div>`;
+}
+function attachDrag(){
+  const card=document.querySelector('.swipe-card[data-front="1"]');if(!card)return;
+  const like=card.querySelector('.stamp.like'),nope=card.querySelector('.stamp.nope');
+  let startX=0,startY=0,dx=0,active=false;
+  const down=e=>{active=true;startX=e.clientX;startY=e.clientY;card.style.transition='none';};
+  const move=e=>{if(!active)return;dx=e.clientX-startX;const dy=e.clientY-startY;
+    card.style.transform=`translate(${dx}px,${dy*.25}px) rotate(${dx/18}deg)`;
+    const k=Math.min(Math.abs(dx)/120,1);
+    if(dx>0){like.style.opacity=k;nope.style.opacity=0;}else{nope.style.opacity=k;like.style.opacity=0;}};
+  const up=()=>{if(!active)return;active=false;card.style.transition='transform .35s ease, opacity .35s ease';
+    if(Math.abs(dx)>110){fly(card,dx>0);}else{card.style.transform='';like.style.opacity=0;nope.style.opacity=0;}dx=0;};
+  card.addEventListener('pointerdown',e=>{card.setPointerCapture(e.pointerId);down(e);});
+  card.addEventListener('pointermove',move);
+  card.addEventListener('pointerup',up);card.addEventListener('pointercancel',up);
+}
+function fly(card,liked){card.style.transform=`translate(${liked?700:-700}px,40px) rotate(${liked?35:-35}deg)`;card.style.opacity=0;setTimeout(()=>commit(liked),200);}
+function decide(liked){
+  const card=document.querySelector('.swipe-card[data-front="1"]');
+  if(card){const s=card.querySelector(liked?'.stamp.like':'.stamp.nope');if(s)s.style.opacity=1;
+    card.style.transition='transform .35s ease, opacity .35s ease';
+    card.style.transform=`translate(${liked?700:-700}px,40px) rotate(${liked?35:-35}deg)`;card.style.opacity=0;
+    setTimeout(()=>commit(liked),190);}else commit(liked);
+}
+function commit(liked){results.push({good:deck[idx].good,liked,card:deck[idx]});idx++;renderDeck();}
+document.addEventListener('keydown',e=>{if(!document.querySelector('.swipe-card[data-front="1"]'))return;
+  if(e.key==='ArrowRight')decide(true);if(e.key==='ArrowLeft')decide(false);});
+function showResults(){
+  const liked=results.filter(r=>r.liked);
+  const hits=results.filter(r=>r.liked===r.good).length;
+  const lovedWeak=results.filter(r=>r.liked&&!r.good).length;
+  const pct=Math.round(hits/results.length*100);
+  let profile;
+  if(pct>=85)profile="Sharp eye \u2014 you can already tell a real task from an empty topic. \u{1F496}";
+  else if(pct>=60)profile="Good instinct \u2014 you can smell a weak prompt.";
+  else if(lovedWeak>=3)profile="You fall for a pretty topic. We&#8217;ll work on that. \u{1F605}";
+  else profile="Mixed feelings \u2014 perfect. That&#8217;s exactly what today is for.";
+  const list=liked.length?liked.map(r=>`<div class="ml-item"><span class="hh">&#10084;</span><span>${r.card.text}</span></div>`).join(''):`<div class="ml-item"><span>You ghosted them all \u{1F910} \u2014 a tough room.</span></div>`;
+  stage.innerHTML=`
+   <div class="panel result">
+     <h2>It&#8217;s a wrap &#128293;</h2>
+     <p class="profile">${profile}</p>
+     <div class="matched-list"><div class="ml-h">You swiped right on (${liked.length})</div>${list}</div>
+     <div class="bridge"><b>Good instinct!</b> Today we&#8217;re going to learn exactly what makes a prompt good &#8212; and why the ones you swiped left didn&#8217;t work.</div>
+     <button class="btn btn-pink" style="margin-top:16px" onclick="beginDeck()">Swipe again</button>
+     <button class="btn btn-ghost" onclick="start()">Back to start</button>
+   </div>`;
+}
+start();
+</script>
+</body>
+</html>
