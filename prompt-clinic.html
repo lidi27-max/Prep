@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prompt Clinic — Diagnose the Writing Task</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=Spline+Sans+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#13233f;
+    --navy:#0a2c5e;
+    --blue:#1e5bc6;
+    --paper:#f5f3ec;
+    --paper-edge:#e7e2d4;
+    --card:#fffdf8;
+    --amber:#c8881c;
+    --green:#2c7a52;
+    --rust:#b8472b;
+    --rule:#d8d2c2;
+    --muted:#6a7385;
+    --shadow:0 18px 40px -22px rgba(10,44,94,.45);
+    --serif:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'Spline Sans Mono',ui-monospace,'Courier New',monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:var(--sans);color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #eef1f7 0, transparent 60%),
+      linear-gradient(180deg,#eaedf3 0,#e4e8ef 100%);
+    line-height:1.5;-webkit-font-smoothing:antialiased;padding:28px 16px 56px;
+  }
+  .wrap{max-width:780px;margin:0 auto}
+
+  .masthead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+    border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:22px;flex-wrap:wrap}
+  .brand-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--blue);font-weight:600;margin:0 0 4px}
+  h1.title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,6vw,46px);line-height:.98;
+    margin:0;color:var(--navy);letter-spacing:-.01em}
+  h1.title em{font-style:italic;font-weight:500;color:var(--amber)}
+  .masthead-meta{text-align:right;font-family:var(--mono);font-size:11px;color:var(--muted);
+    letter-spacing:.06em;line-height:1.7}
+
+  .legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+  .legend .chip{background:var(--card);border:1px solid var(--paper-edge);border-radius:10px;
+    padding:11px 8px 9px;text-align:center;box-shadow:0 2px 0 var(--paper-edge)}
+  .legend .lt{font-family:var(--serif);font-weight:900;font-size:20px;color:var(--navy);line-height:1}
+  .legend .lw{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-top:5px;display:block}
+  .legend-note{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--muted);
+    text-align:center;margin:0 0 24px}
+  .legend-note b{color:var(--amber)}
+
+  .panel{background:var(--card);border:1px solid var(--paper-edge);border-radius:16px;
+    box-shadow:var(--shadow);overflow:hidden}
+
+  .intro{padding:30px 30px 28px}
+  .intro p{font-size:16px;margin:0 0 16px;color:#39435a}
+  .intro .lead{font-family:var(--serif);font-size:20px;line-height:1.35;color:var(--navy);font-weight:500;margin-bottom:16px}
+  .how{display:flex;gap:14px;margin:22px 0 4px;flex-wrap:wrap}
+  .how-step{flex:1;min-width:150px;border-left:3px solid var(--amber);padding:2px 0 2px 12px}
+  .how-step b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
+  .how-step span{font-size:13.5px;color:#39435a}
+
+  .btn{font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer;border:none;border-radius:11px;
+    padding:13px 26px;transition:transform .12s ease,box-shadow .12s ease}
+  .btn-primary{background:var(--navy);color:#fff;box-shadow:0 4px 0 #06203f}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 0 #06203f}
+  .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 #06203f}
+  .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy);box-shadow:none}
+  .btn-ghost:hover{background:var(--navy);color:#fff}
+  .start-row{margin-top:26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .start-row .note{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+
+  .progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:14px}
+  .progress .track{flex:1;height:6px;background:#dfe3ec;border-radius:99px;overflow:hidden}
+  .progress .fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--navy));width:0;
+    transition:width .45s cubic-bezier(.3,.8,.3,1);border-radius:99px}
+  .progress .count,.progress .score{font-family:var(--mono);font-size:11px;letter-spacing:.08em;white-space:nowrap}
+  .progress .count{color:var(--muted)}
+  .progress .score{color:var(--navy);font-weight:600}
+
+  .case-head{display:flex;align-items:center;gap:10px;padding:16px 22px;background:var(--navy);color:#fff;flex-wrap:wrap}
+  .case-head .lvl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    background:rgba(255,255,255,.16);padding:4px 9px;border-radius:6px}
+  .case-head .genre{font-family:var(--serif);font-style:italic;font-size:17px;font-weight:500}
+
+  .manuscript{position:relative;padding:26px 26px 26px 56px;
+    background:repeating-linear-gradient(var(--card) 0 31px, var(--rule) 31px 32px);background-position:0 8px}
+  .manuscript::before{content:"";position:absolute;top:0;bottom:0;left:40px;width:1.5px;background:rgba(184,71,43,.35)}
+  .ms-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .prompt-text{font-size:15.5px;line-height:2.06;color:var(--ink)}
+  .prompt-text .stim{display:block;margin-top:8px;font-size:13.5px;color:var(--muted);line-height:1.9;font-style:italic}
+
+  .annot{position:absolute;left:-2px;top:18px;transform:rotate(-7deg) scale(.6);opacity:0;
+    transition:transform .4s cubic-bezier(.2,1.3,.4,1),opacity .3s ease;
+    font-family:var(--serif);font-weight:900;font-size:22px;color:var(--rust);pointer-events:none}
+  .annot.show{opacity:1;transform:rotate(-7deg) scale(1)}
+  .annot .ring{display:inline-block;border:2.4px solid var(--rust);border-radius:50% 46% 52% 48%;
+    min-width:38px;height:38px;line-height:34px;text-align:center;padding:0 5px}
+
+  .ask{padding:20px 22px 6px;font-family:var(--serif);font-size:18px;color:var(--navy);font-weight:600}
+  .options{padding:4px 22px 22px;display:grid;gap:9px}
+  .opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:#fff;
+    border:1.5px solid var(--paper-edge);border-radius:11px;padding:12px 14px;cursor:pointer;
+    font-family:var(--sans);font-size:14.5px;color:var(--ink);transition:border-color .12s,background .12s,transform .08s}
+  .opt:hover:not(:disabled){border-color:var(--blue);transform:translateX(2px)}
+  .opt:disabled{cursor:default}
+  .opt .tag{font-family:var(--serif);font-weight:900;font-size:16px;color:var(--navy);width:30px;height:30px;
+    flex:none;display:grid;place-items:center;border:1.5px solid var(--paper-edge);border-radius:8px;background:var(--paper)}
+  .opt.special .tag{font-size:12px;font-weight:700;font-family:var(--mono)}
+  .opt.correct{border-color:var(--green);background:#eef6f0}
+  .opt.correct .tag{border-color:var(--green);background:var(--green);color:#fff}
+  .opt.wrong{border-color:var(--rust);background:#fbefec}
+  .opt.wrong .tag{border-color:var(--rust);background:var(--rust);color:#fff}
+  .opt.dim{opacity:.5}
+
+  .feedback{padding:0 22px 22px;display:none}
+  .feedback.show{display:block;animation:rise .35s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .verdict{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;font-weight:600;margin-bottom:10px}
+  .verdict.ok{color:var(--green)}
+  .verdict.no{color:var(--rust)}
+  .diag{background:var(--paper);border:1px solid var(--paper-edge);border-left:4px solid var(--amber);
+    border-radius:0 12px 12px 0;padding:16px 18px}
+  .diag .dx{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--navy);margin:0 0 8px}
+  .diag p{margin:0 0 10px;font-size:14px;color:#36405a;line-height:1.62}
+  .diag .fix{font-size:14px;color:var(--ink)}
+  .diag .fix b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:3px}
+  .diag .src{margin-top:11px;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--muted);
+    border-top:1px dashed var(--rule);padding-top:9px}
+  .feedback .next-row{display:flex;justify-content:flex-end;margin-top:16px}
+
+  .result{padding:34px 30px}
+  .result .grade{font-family:var(--serif);font-weight:900;font-size:clamp(40px,9vw,64px);color:var(--navy);line-height:1;margin:0}
+  .result .grade small{font-size:24px;color:var(--muted);font-weight:500}
+  .result .verdict-line{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--amber);margin:6px 0 22px}
+  .takeaway{background:var(--paper);border:1px solid var(--paper-edge);border-radius:14px;padding:20px 22px;margin-top:8px}
+  .takeaway h3{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+  .craft-row{display:flex;gap:13px;padding:9px 0;border-bottom:1px dashed var(--rule);align-items:baseline}
+  .craft-row:last-child{border-bottom:none}
+  .craft-row .l{font-family:var(--serif);font-weight:900;font-size:22px;color:var(--navy);width:26px;flex:none}
+  .craft-row .d b{color:var(--ink)}
+  .craft-row .d{font-size:13.5px;color:#39435a}
+  .takeaway .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--amber);margin:18px 0 8px}
+  .check-row{display:flex;gap:10px;padding:6px 0;font-size:13px;color:#39435a;align-items:baseline}
+  .check-row .ck{color:var(--green);font-weight:700;flex:none}
+  .result .again{margin-top:24px}
+
+  @media (max-width:560px){
+    .legend .lt{font-size:16px}.legend .lw{font-size:8px}
+    .manuscript{padding-left:48px}.intro,.result{padding:24px 20px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="brand-eyebrow">ESPOL &#183; Academic Writing Center</p>
+      <h1 class="title">The Prompt <em>Clinic</em></h1>
+    </div>
+    <div class="masthead-meta">DIAGNOSE THE TASK<br>STAP + quality check<br>English I &#8211; V</div>
+  </header>
+
+  <section class="legend" aria-label="STAP legend">
+    <div class="chip"><span class="lt">S</span><span class="lw">Situation</span></div>
+    <div class="chip"><span class="lt">T</span><span class="lw">Task</span></div>
+    <div class="chip"><span class="lt">A</span><span class="lw">Audience</span></div>
+    <div class="chip"><span class="lt">P</span><span class="lw">Purpose</span></div>
+  </section>
+  <p class="legend-note">STAP builds the task &#183; the <b>quality check</b> controls it (level &#183; fairness &#183; clarity &#183; alignment)</p>
+
+  <main id="stage" class="panel"></main>
+</div>
+
+<script>
+const STAP = {
+  S:{name:"Situation", full:"the context + the content to draw on"},
+  T:{name:"Task", full:"exactly what to write"},
+  A:{name:"Audience", full:"who they write for"},
+  P:{name:"Purpose", full:"why they write"}
+};
+
+const CASES = [
+  {
+    level:"English I", genre:"Food review",
+    prompt:`Write a 100&#8211;120 word food review about one ESPOL food service &#8212; Natur&#237;ssimo, Sweet &amp; Coffee, or an ESPOL bar. Include a topic sentence, 3&#8211;4 supporting sentences and a concluding sentence. Use connectors and correct punctuation.`,
+    answer:"A",
+    dx:"No reader in sight &#8212; Audience (A).",
+    why:`The genre and the mechanics are controlled, but the prompt never says who the review is <em>for</em>. With no reader in view, students slide into describing the food instead of evaluating and recommending it.`,
+    fix:`Name the audience: &#8220;&#8230;for the first-year guide on the ESPOL app, to help new students decide where to eat.&#8221; The reader pulls the writing toward evaluation.`,
+    src:"UConn CETL: a prompt must specify task, purpose &amp; audience"
+  },
+  {
+    level:"English II", genre:"Email of complaint",
+    prompt:`Context: You attend morning classes and the restrooms are often locked when you arrive. Task: Write a formal email (100&#8211;120 words) to the administration.`,
+    answer:"P",
+    dx:"The Purpose is never stated &#8212; Purpose (P).",
+    why:`Fair point: there <em>is</em> a task &#8212; write a formal email, to a named reader (the administration), at a set length. What&#8217;s missing is <em>why</em>. A student could send a polite &#8220;the restrooms are sometimes locked, thank you&#8221; that completes the task but achieves nothing, because the prompt never says the email must <em>complain</em> and <em>request a solution</em>.`,
+    fix:`State the Purpose: &#8220;complain about the locked restrooms and ask that they be opened before the first morning class.&#8221; Once the goal is set, the moves (problem &#8594; impact &#8594; request) follow from it.`,
+    src:"UConn CETL: purpose drives the task &#183; Weigle (2002)"
+  },
+  {
+    level:"English II", genre:"Academic discussion post",
+    prompt:`Read the discussion about technology in college and share your opinion about whether new technology improves college life.`,
+    stim:`Professor: &#8220;Some students find new tech helpful, others distracting &#8212; is it improving college life?&#8221; &#183; Mateo: &#8220;Yes &#8212; apps keep me organised and online lectures help me review.&#8221; &#183; Fatima: &#8220;Not always &#8212; I get distracted, and sometimes tech adds stress.&#8221;`,
+    answer:"T",
+    dx:"The Task is under-described (T).",
+    why:`The Situation (the thread) is rich, but &#8220;share your opinion&#8221; hides what the Task actually is. Students can&#8217;t see that they must take a clear position, support it with reasons, and <em>respond to Mateo or Fatima by name</em> at a set length.`,
+    fix:`Spell out the Task: &#8220;In 120&#8211;150 words, state your position, give two reasons with examples, and respond to one classmate by name.&#8221;`,
+    src:"Kroll &amp; Reid (1994): evaluation variables &#183; UConn"
+  },
+  {
+    level:"English IV", genre:"Research report",
+    prompt:`A study compared online vs. classroom listening (24 students). Group A practised at home with videos and scored 68% but were easily distracted; Group B listened in class and scored 80% with better notes. Using this data, write a research report about the study.`,
+    answer:"P",
+    dx:"The Purpose is never set &#8212; Purpose (P).",
+    why:`There <em>is</em> a task and the data is all there. What&#8217;s missing is <em>why</em> students are writing: to <em>analyse</em> the results, <em>explain</em> the gap, and <em>recommend</em> evidence-based strategies. Told only to &#8220;write a report about the study,&#8221; they simply restate the figures &#8212; nothing gives the report a purpose.`,
+    fix:`State the Purpose: &#8220;analyse the results, evaluate why concentration differed, and recommend evidence-based strategies to improve listening&#8221; &#8212; exactly as your real prompt does.`,
+    src:"UConn CETL: purpose drives the task &#183; Weigle (2002)"
+  },
+  {
+    level:"English IV", genre:"Problem report",
+    prompt:`Campus Wi-Fi is unreliable in classrooms and study areas, making it hard to access resources and finish assignments. Write a report explaining the problem, its impact on academic performance, and possible solutions.`,
+    answer:"A",
+    dx:"No reader for the report &#8212; Audience (A).",
+    why:`The three moves (problem &#8594; impact &#8594; solutions) are clear and the situation is real, but the report has no addressee. A report to <em>whom</em> &#8212; the IT office? the dean? The reader sets the register and decides which solutions count as realistic and actionable.`,
+    fix:`Name the Audience: &#8220;a report for the campus IT committee recommending action.&#8221; Now students pitch solutions to someone who can actually act on them.`,
+    src:"UConn CETL: specify the audience &#183; Weigle (2002): rhetorical specification"
+  },
+  {
+    level:"English V", genre:"Persuasive essay",
+    prompt:`Write a persuasive essay about social media (250 words).`,
+    answer:"S",
+    dx:"No Situation at all (S).",
+    why:`This is a bare topic, not a task. With no Situation &#8212; no scenario, no stance to argue against, no content to draw on &#8212; every student invents their own framing, and weaker writers freeze or drift off-genre.`,
+    fix:`Build a Situation: &#8220;Your university is debating a phone ban in class. Write to the student newspaper arguing for or against.&#8221; Now there is something real to argue.`,
+    src:"Kroll &amp; Reid (1994): the bare vs. framed prompt"
+  },
+  {
+    level:"English V", genre:"Persuasive essay",
+    prompt:`Should Ecuador build nuclear power plants? Write a 250-word persuasive essay for a national newspaper, supporting your argument with the levelized cost of electricity and base-load grid data.`,
+    answer:"QC",
+    dx:"Fails the quality check &#8212; fairness.",
+    why:`STAP is technically complete &#8212; but it rewards the few students who already know energy economics, and gives no input to level the field. Background knowledge, not writing skill, ends up deciding the score.`,
+    fix:`Fairness lens: either choose a topic every student can reason about, or supply a short data set / infographic so everyone argues from the same evidence (as your El Ni&#241;o prompt does).`,
+    src:"Sasayama et al. (2021) &#183; Weigle (2002) &#183; Cambridge: Fairness"
+  },
+  {
+    level:"English I", genre:"Food review (rewritten)",
+    prompt:`Compose an evaluative critique (100&#8211;120 words) articulating a nuanced appraisal of a campus gastronomic establishment, substantiating your assessment with cogent justifications and judicious use of cohesive devices.`,
+    answer:"QC",
+    dx:"Fails the quality check &#8212; level &amp; clarity.",
+    why:`STAP is all there, but the <em>wording</em> &#8212; &#8220;evaluative critique&#8221;, &#8220;cogent justifications&#8221;, &#8220;judicious&#8221; &#8212; is C1, far above the A2/B1 students reading it. When the prompt is harder than the writing it asks for, you&#8217;re testing whether students can decode the prompt.`,
+    fix:`Level &amp; clarity lens: match the prompt&#8217;s language to the level &#8212; &#8220;Write a review (100&#8211;120 words). Give clear reasons for your opinion and use linking words.&#8221;`,
+    src:"Kroll &amp; Reid (1994): linguistic variables &#183; UConn: brevity"
+  },
+  {
+    level:"English V", genre:"Persuasive essay",
+    prompt:`A strong El Ni&#241;o may hit Ecuador&#8217;s coast. Some argue the government should relocate vulnerable communities; others favour investing in flood defences and early-warning systems. Write a 250-word persuasive essay arguing which approach you support, with specific reasons and examples.`,
+    stim:`Provided: a chart of households at flood risk by coastal province (Guayas, Manab&#237;, El Oro, Los R&#237;os).`,
+    answer:"A",
+    dx:"No reader is named &#8212; Audience (A).",
+    why:`Almost everything is here: a real Situation, two positions to choose between, a shared chart that keeps it fair, and a clear Purpose (argue a side). But the prompt never says <em>who</em> the student is writing to &#8212; so the register floats. Audience is the element even strong prompts forget most often.`,
+    fix:`Name the Audience: &#8220;Write a letter to a regional newspaper&#8221; or &#8220;a post for a town-hall forum.&#8221; Now the student knows how formal to be and what will actually persuade this reader.`,
+    src:"UConn CETL: specify the audience &#183; Weigle (2002): rhetorical specification"
+  },
+  {
+    level:"English III", genre:"Cover letter",
+    prompt:`Read the job offer below and write a 180&#8211;200 word cover letter applying for the position.`,
+    stim:`Job Offer: Social Media Assistant &#183; Company: Bright Minds Marketing &#183; Hiring Person: Ms. Laura Evans. A part-time role helping manage the company&#8217;s Instagram and Facebook pages. Requirements: English B1 or higher; basic knowledge of Instagram &amp; Facebook; creative ideas for posts; available 15 hours a week. Main responsibilities: create and schedule posts; answer messages and comments; make simple graphics in Canva; work with the marketing team.`,
+    answer:"OK",
+    dx:"A complete prompt &#8212; it includes everything.",
+    why:`The full job offer gives the Situation; the Task (write a cover letter) is clear; the Purpose (apply for the role) is explicit; and crucially it <em>names the reader</em> &#8212; Ms. Laura Evans. That named Audience is exactly what the essay prompt was missing: it tells students how formal to be and which requirements to answer.`,
+    src:"UConn CETL: task, purpose &amp; audience all specified"
+  }
+];
+
+let idx=0, score=0, answered=false;
+const stage=document.getElementById('stage');
+
+function intro(){
+  stage.innerHTML=`
+    <div class="intro">
+      <p class="lead">A weak prompt doesn&#8217;t reveal weak writers &#8212; it creates them.</p>
+      <p>You&#8217;ll see ${CASES.length} real tasks from across English I&#8211;V. Read each one the way a student would, then make the call: <b>is the rhetorical situation complete (STAP), or does the task pass STAP but fail the quality check?</b> Some prompts are already well made &#8212; say so when they are.</p>
+      <div class="how">
+        <div class="how-step"><b>Read</b><span>the prompt as your students receive it.</span></div>
+        <div class="how-step"><b>Diagnose</b><span>the weak STAP element, a quality-check failure, or &#8220;already strong&#8221;.</span></div>
+        <div class="how-step"><b>Prescribe</b><span>see the fix, then carry it into your own deck.</span></div>
+      </div>
+      <div class="start-row">
+        <button class="btn btn-primary" onclick="begin()">Open the first case</button>
+        <span class="note">${CASES.length} cases &#183; ~8 min</span>
+      </div>
+    </div>`;
+}
+function begin(){ idx=0; score=0; renderCase(); }
+
+function renderCase(){
+  answered=false;
+  const c=CASES[idx];
+  const pct=(idx/CASES.length)*100;
+  const stapHTML=["S","T","A","P"].map(k=>`
+    <button class="opt" data-key="${k}" onclick="choose('${k}')">
+      <span class="tag">${k}</span>
+      <span><b>${STAP[k].name}</b> &#8212; ${STAP[k].full}</span>
+    </button>`).join('');
+  stage.innerHTML=`
+    <div style="padding:18px 22px 0">
+      <div class="progress">
+        <span class="count">CASE ${idx+1} / ${CASES.length}</span>
+        <div class="track"><div class="fill" style="width:${pct}%"></div></div>
+        <span class="score">${score} correct</span>
+      </div>
+    </div>
+    <div class="case-head"><span class="lvl">${c.level}</span><span class="genre">${c.genre}</span></div>
+    <div class="manuscript">
+      <div class="annot" id="annot"><span class="ring" id="annotLetter"></span></div>
+      <div class="ms-label">The prompt, as students see it</div>
+      <div class="prompt-text">${c.prompt}${c.stim?`<span class="stim">${c.stim}</span>`:''}</div>
+    </div>
+    <div class="ask">What&#8217;s the weakest link?</div>
+    <div class="options" id="options">
+      ${stapHTML}
+      <button class="opt special" data-key="QC" onclick="choose('QC')">
+        <span class="tag">QC</span>
+        <span><b>Fails the quality check</b> &#8212; level / fairness / clarity / alignment</span>
+      </button>
+      <button class="opt special" data-key="OK" onclick="choose('OK')">
+        <span class="tag">OK</span>
+        <span><b>It&#8217;s already strong</b> &#8212; no weak link</span>
+      </button>
+    </div>
+    <div class="feedback" id="feedback"></div>`;
+  requestAnimationFrame(()=>{ document.querySelector('.fill').style.width=pct+'%'; });
+}
+
+function choose(key){
+  if(answered) return;
+  answered=true;
+  const c=CASES[idx];
+  const correct=(key===c.answer);
+  if(correct) score++;
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    const k=b.dataset.key;
+    if(k===c.answer) b.classList.add('correct');
+    else if(k===key) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  if(["S","T","A","P","QC"].includes(c.answer)){
+    document.getElementById('annotLetter').textContent=c.answer;
+    document.getElementById('annot').classList.add('show');
+  }
+  const verdict=correct
+    ? `<div class="verdict ok">&#10003; Diagnosis confirmed</div>`
+    : (c.answer==="OK"
+        ? `<div class="verdict no">&#10007; Look again &#8212; this one is actually sound</div>`
+        : `<div class="verdict no">&#10007; Closer look &#8212; the weak link is ${c.answer==="QC"?"the quality check":(STAP[c.answer]?STAP[c.answer].name+" ("+c.answer+")":c.answer)}</div>`);
+  const fb=document.getElementById('feedback');
+  fb.innerHTML=`
+    ${verdict}
+    <div class="diag">
+      <p class="dx">${c.dx}</p>
+      <p>${c.why}</p>
+      ${c.fix?`<div class="fix"><b>The fix</b>${c.fix}</div>`:''}
+      <div class="src">${c.src}</div>
+    </div>
+    <div class="next-row">
+      <button class="btn btn-primary" onclick="next()">${idx===CASES.length-1?'See the diagnosis sheet':'Next case'}</button>
+    </div>`;
+  fb.classList.add('show');
+  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function next(){ idx++; if(idx>=CASES.length) result(); else renderCase(); }
+
+function result(){
+  const pctScore=Math.round((score/CASES.length)*100);
+  let line;
+  if(pctScore>=88) line="Resident diagnostician.";
+  else if(pctScore>=63) line="A sharp clinical eye.";
+  else if(pctScore>=38) line="Warming up &#8212; the framework is sticking.";
+  else line="Every expert mis-diagnosed at first.";
+  const stapRows=Object.keys(STAP).map(k=>`
+    <div class="craft-row">
+      <span class="l">${k}</span>
+      <span class="d"><b>${STAP[k].name}</b> &#8212; ${cap(STAP[k].full)}.</span>
+    </div>`).join('');
+  const checks=[
+    "Level &#8212; demand and wording fit the CEFR level; give input so effort goes to language.",
+    "Aligned &#8212; elicits what you taught and what the rubric grades; criteria visible.",
+    "Fair &#8212; equitable content; no background-knowledge advantage.",
+    "Authentic &#8212; mirrors real-world writing of the genre.",
+    "Clear &#8212; unambiguous, brief, not harder to read than the writing it asks for."
+  ].map(t=>`<div class="check-row"><span class="ck">&#10003;</span><span>${t}</span></div>`).join('');
+  stage.innerHTML=`
+    <div class="result">
+      <p class="grade">${score}<small>/${CASES.length}</small></p>
+      <p class="verdict-line">${line}</p>
+      <p style="font-size:15px;color:#39435a;margin:0 0 6px">Build every task with STAP; then run it through the five-point check before students ever see it.</p>
+      <div class="takeaway">
+        <h3>STAP &#8212; build the task</h3>
+        ${stapRows}
+        <p class="sub">The quality check &#8212; control the task</p>
+        ${checks}
+      </div>
+      <button class="btn btn-ghost again" onclick="intro()">Run the cases again</button>
+    </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+intro();
+</script>
+</body>
+</html>
