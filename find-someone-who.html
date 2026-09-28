@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Find Someone Who</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{
+  --bg:#F3F5F9; --paper:#FFFFFF; --ink:#16223A; --muted:#5B6882; --line:#D5DCE8;
+  --navy:#1B3A6B; --blue:#2358A6; --tint:#E7EEF9; --sun:#FFD100; --sun-ink:#3A2E00;
+  --done:#1B3A6B; --done-ink:#FFFFFF; --win:#FFD100;
+  --shadow:0 1px 2px rgba(22,34,58,.08),0 6px 18px rgba(22,34,58,.08);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1524; --paper:#17223A; --ink:#E9EEF7; --muted:#9AA8C2; --line:#2A3858;
+    --navy:#8DB4F2; --blue:#8DB4F2; --tint:#1D2B48; --sun:#FFD84D; --sun-ink:#2A2100;
+    --done:#2F5BA8; --done-ink:#FFFFFF; --win:#FFD84D;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1524; --paper:#17223A; --ink:#E9EEF7; --muted:#9AA8C2; --line:#2A3858;
+  --navy:#8DB4F2; --blue:#8DB4F2; --tint:#1D2B48; --sun:#FFD84D; --sun-ink:#2A2100;
+  --done:#2F5BA8; --done-ink:#FFFFFF; --win:#FFD84D;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,8vw,3rem);line-height:1;margin:0;color:var(--navy);text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--sun);color:var(--sun-ink);padding:0 .18em;border-radius:4px}
+.lede{margin:0;color:var(--muted);max-width:60ch}
+.me{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.me label{font-weight:700;font-size:.9rem}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.me input{flex:1;min-width:0}
+input:focus,textarea:focus,button:focus-visible{outline:3px solid var(--sun);outline-offset:1px}
+.bar{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.stat{flex:1;min-width:130px;background:var(--paper);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.stat b{font-family:var(--display);font-size:1.6rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:.8rem;color:var(--muted)}
+.stat button{margin-top:6px}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:9px 14px;font-weight:700}
+.btn{background:var(--navy);color:var(--paper)}
+.btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--line)}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.rules{background:var(--tint);border-radius:12px;padding:12px 14px;font-size:.92rem}
+.rules summary{font-weight:700;cursor:pointer}
+.rules ol{margin:8px 0 0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cell{position:relative;background:var(--paper);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:8px 6px;min-height:104px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;text-align:left;font-weight:400;font-size:.82rem;line-height:1.25;transition:transform .12s}
+.cell:active{transform:scale(.97)}
+.cell .who{font-weight:700;font-size:.8rem;color:var(--muted)}
+.cell.done{background:var(--done);color:var(--done-ink);border-color:var(--done)}
+.cell.done .who{color:var(--sun)}
+.cell.done::after{content:"✓";position:absolute;top:4px;right:7px;font-weight:700;color:var(--sun)}
+.cell.win{box-shadow:0 0 0 3px var(--win)}
+@media (min-width:560px){.cell{font-size:.92rem;padding:10px;min-height:120px}.grid{gap:8px}}
+.banner{background:var(--sun);color:var(--sun-ink);border-radius:12px;padding:12px 16px;font-family:var(--display);font-weight:800;font-size:1.4rem;text-align:center}
+.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--muted)}
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,16,30,.5);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet{background:var(--paper);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;max-height:92%;overflow:auto}
+@media (min-width:600px){.scrim{align-items:center}.sheet{border-radius:18px}}
+.sheet h3{margin:0;font-family:var(--display);font-size:1.25rem;color:var(--navy);text-wrap:balance}
+.sheet .fsw{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.hint{font-size:.88rem;background:var(--tint);border-radius:10px;padding:8px 12px}
+.hint summary{cursor:pointer;font-weight:700;color:var(--blue)}
+.hint p{margin:6px 0 0}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-weight:700;font-size:.9rem}
+.err{color:#B3261E;font-size:.85rem;font-weight:700}
+:root[data-theme="dark"] .err{color:#FF8A80}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .err{color:#FF8A80}}
+.row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.confirm{background:var(--tint);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+@media (prefers-reduced-motion:reduce){.cell{transition:none}}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">English V · CELEX · First class</div>
+    <h1>Find someone <em>who…</em></h1>
+    <p class="lede">Walk around, ask questions, and find a different classmate for every box. Complete the whole card!</p>
+  </header>
+
+  <div class="me">
+    <label for="myname">My name</label>
+    <input id="myname" type="text" autocomplete="off" placeholder="Write your name">
+  </div>
+
+  <div class="bar">
+    <div class="stat"><b id="count">0/16</b><span>boxes completed</span></div>
+    <div class="stat"><b id="timer">10:00</b><button class="btn-ghost" id="timerBtn" type="button">Start timer</button></div>
+  </div>
+
+  <details class="rules" id="rules" open>
+    <summary>How to play</summary>
+    <ol>
+      <li>Ask complete questions in English. Don't show your phone!</li>
+      <li>When someone says <b>yes</b>, write their name and ask <b>one quick follow-up question</b>. Write a short answer (one or two words).</li>
+      <li>You can use each classmate's name only once.</li>
+      <li>Complete <b>all 16 boxes</b>.</li>
+    </ol>
+  </details>
+
+  <div class="banner" id="banner" hidden>Card complete! Well done! 🏆</div>
+
+  <div class="grid" id="grid" role="list"></div>
+
+
+  <div class="foot">
+    <span>Your answers stay on this phone.</span>
+    <button class="btn-ghost" id="resetBtn" type="button">Start over</button>
+  </div>
+  <div class="confirm" id="confirm" hidden>
+    <span>Delete all your answers and start again?</span>
+    <div class="row"><button class="btn-ghost" id="cancelReset" type="button">Cancel</button><button class="btn" id="doReset" type="button">Yes, start over</button></div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <form class="sheet" id="sheet" autocomplete="off">
+    <div class="fsw">Find someone who…</div>
+    <h3 id="sheetTitle"></h3>
+    <details class="hint">
+      <summary>Need help with the question?</summary>
+      <p id="sheetQ"></p>
+      <p><i>Follow-up idea:</i> <span id="sheetF"></span></p>
+    </details>
+    <div class="field">
+      <label for="who">Classmate's name</label>
+      <input id="who" type="text" placeholder="e.g. Andrea">
+    </div>
+    <div class="field">
+      <label for="detail">Short answer to your follow-up (one or two words)</label>
+      <input id="detail" type="text" maxlength="40" placeholder="e.g. a guitar">
+    </div>
+    <div class="err" id="err" hidden></div>
+    <div class="row">
+      <button class="btn-ghost" type="button" id="clearCell">Clear box</button>
+      <button class="btn-ghost" type="button" id="closeSheet">Cancel</button>
+      <button class="btn" type="submit">Save</button>
+    </div>
+  </form>
+</div>
+
+<script>
+(function(){
+const ITEMS=[
+ ["has bargained for something and got a great deal","Have you ever bargained for something and got a great deal?","What did you buy?"],
+ ["regrets buying something recently","Is there anything you regret buying recently?","What was it?"],
+ ["is saving up to buy something special","Are you saving up to buy something special?","What is it?"],
+ ["would describe themselves as super tidy","Would you describe yourself as a super tidy person?","Why?"],
+ ["is working on a side project","Are you working on a side project (a business, a channel, an app…)?","What is it about?"],
+ ["is planning to learn something new this year","Are you planning to learn something new this year?","What?"],
+ ["wishes they had learned a skill as a child","Do you wish you had learned a skill as a child?","Which skill?"],
+ ["would move abroad if they had the chance","Would you move abroad if you had the chance?","Where would you go?"],
+ ["considers themselves a lucky person","Do you consider yourself a lucky person?","Why?"],
+ ["is good at remembering names","Are you good at remembering names?","What's your trick?"],
+ ["has had their phone screen repaired","Have you ever had your phone screen repaired?","How much did it cost?"],
+ ["is interested in starting their own business","Are you interested in starting your own business?","What kind of business?"],
+ ["has been fooled by fake news online","Have you ever been fooled by fake news online?","What was it about?"],
+ ["was given a nickname they don't like","Were you ever given a nickname you didn't like?","What was it?"],
+ ["has a hidden talent","Do you have a hidden talent?","What is it?"],
+ ["can cook one dish really well","Is there a dish you can cook really well?","Which dish?"]
+];
+const KEY="fsw-english5-v1";
+let state={me:"",cells:Array(16).fill(null),timerEnd:null};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.cells)&&s.cells.length===16)state=Object.assign(state,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+const $=id=>document.getElementById(id);
+const grid=$("grid");
+let lastN=16, current=-1;
+
+function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function render(){
+  grid.innerHTML="";
+  ITEMS.forEach((it,i)=>{
+    const c=state.cells[i];
+    const b=document.createElement("button");
+    b.type="button"; b.className="cell"+(c?" done":"");
+    b.setAttribute("role","listitem");
+    b.setAttribute("aria-label",it[0]+(c?", found: "+c.name:", not found yet"));
+    b.innerHTML='<span>'+esc(it[0])+'</span><span class="who">'+(c?esc(c.name)+(c.detail?' · '+esc(c.detail):''):"Tap to add")+'</span>';
+    b.addEventListener("click",()=>openSheet(i));
+    grid.appendChild(b);
+  });
+  const n=state.cells.filter(Boolean).length;
+  $("count").textContent=n+"/16";
+  const full=n===16;
+  $("banner").hidden=!full;
+  if(full && lastN<16){ $("banner").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"center"}); }
+  lastN=n;
+}
+function openSheet(i){
+  current=i;
+  $("sheetTitle").textContent=ITEMS[i][0];
+  $("sheetQ").textContent="“"+ITEMS[i][1]+"”";
+  $("sheetF").textContent="“"+ITEMS[i][2]+"”";
+  const c=state.cells[i];
+  $("who").value=c?c.name:""; $("detail").value=c?c.detail:"";
+  $("clearCell").hidden=!c; $("err").hidden=true;
+  $("scrim").hidden=false; setTimeout(()=>$("who").focus(),50);
+}
+function closeSheet(){$("scrim").hidden=true;current=-1}
+$("closeSheet").addEventListener("click",closeSheet);
+$("scrim").addEventListener("click",e=>{if(e.target===$("scrim"))closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("scrim").hidden)closeSheet()});
+$("clearCell").addEventListener("click",()=>{state.cells[current]=null;save();closeSheet();render()});
+$("sheet").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("who").value.trim(), detail=$("detail").value.trim();
+  const err=$("err");
+  if(!name){err.textContent="Write your classmate's name.";err.hidden=false;return}
+  const norm=s=>s.toLowerCase().replace(/\s+/g," ").trim();
+  if(state.me && norm(name)===norm(state.me)){err.textContent="You can't use your own name. Find a classmate!";err.hidden=false;return}
+  const dup=state.cells.findIndex((c,j)=>c&&j!==current&&norm(c.name)===norm(name));
+  if(dup>=0){err.textContent=name+" is already in another box (“"+ITEMS[dup][0]+"”). Use each name only once.";err.hidden=false;return}
+  if(!detail){err.textContent="Ask a quick follow-up question and write the answer (one or two words).";err.hidden=false;return}
+  state.cells[current]={name,detail};save();closeSheet();render();
+});
+$("myname").value=state.me||"";
+$("myname").addEventListener("input",e=>{state.me=e.target.value;save()});
+// reset
+$("resetBtn").addEventListener("click",()=>{$("confirm").hidden=false});
+$("cancelReset").addEventListener("click",()=>{$("confirm").hidden=true});
+$("doReset").addEventListener("click",()=>{state={me:state.me,cells:Array(16).fill(null),timerEnd:null};save();$("confirm").hidden=true;render();tick()});
+// timer
+let iv=null;
+function tick(){
+  const el=$("timer"),btn=$("timerBtn");
+  if(!state.timerEnd){el.textContent="10:00";btn.textContent="Start timer";return}
+  const left=Math.max(0,Math.round((state.timerEnd-Date.now())/1000));
+  el.textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
+  btn.textContent=left?"Restart":"Time's up! Restart";
+  if(!left&&iv){clearInterval(iv);iv=null}
+}
+$("timerBtn").addEventListener("click",()=>{state.timerEnd=Date.now()+600000;save();if(!iv)iv=setInterval(tick,1000);tick()});
+if(state.timerEnd&&state.timerEnd>Date.now())iv=setInterval(tick,1000);
+tick(); render();
+})();
+</script>
+</body></html>
