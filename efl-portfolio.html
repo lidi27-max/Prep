@@ -1,0 +1,346 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"></head><body><title>EFL Materials Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; intro, filter bar, then a stack of sample "files", each pairing a rationale with a worksheet-style excerpt */
+:root{
+  --bg:#f5f7f8; --surface:#ffffff; --paper:#fdfdfb;
+  --ink:#16232b; --muted:#5a6b75; --line:#d8e0e4;
+  --accent:#1f5f7a; --accent-soft:#e3eef3; --mark:#ffe58a;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --sheet:"Literata",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10181d; --surface:#172228; --paper:#1b272e;
+  --ink:#e6edf0; --muted:#9aaab3; --line:#2c3b43;
+  --accent:#7fc3de; --accent-soft:#1d3440; --mark:#6b5a12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10181d; --surface:#172228; --paper:#1b272e;
+  --ink:#e6edf0; --muted:#9aaab3; --line:#2c3b43;
+  --accent:#7fc3de; --accent-soft:#1d3440; --mark:#6b5a12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);padding:0 16px}
+.wrap{max-width:860px;margin:0 auto;padding-block:56px 80px;display:flex;flex-direction:column;gap:48px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{display:flex;flex-direction:column;gap:18px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(36px,6vw,56px)/1.02 var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1 .hl{background:linear-gradient(transparent 58%,var(--mark) 58%,var(--mark) 92%,transparent 92%)}
+.lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 24px;margin:0;padding:18px 0 0;border-top:1px solid var(--line)}
+.facts div{min-width:0}
+.facts dt{font:500 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:4px 0 0;font-size:15px}
+.contact{font-family:var(--mono);font-size:14px;user-select:all}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:12px;z-index:2;border-bottom:1px solid var(--line)}
+.filters button{font:500 14px/1 var(--body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.filters .count{font-family:var(--mono);font-size:12px;opacity:.7;margin-left:4px}
+
+.samples{display:flex;flex-direction:column;gap:56px;margin:0;padding:0;list-style:none}
+.sample{display:grid;gap:18px}
+.sample-head{display:flex;flex-direction:column;gap:8px}
+.cat{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h2{font:700 clamp(24px,3.4vw,30px)/1.15 var(--display);margin:0;text-wrap:balance}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.tags li{font:400 12.5px/1 var(--mono);background:var(--accent-soft);color:var(--ink);padding:6px 9px;border-radius:4px}
+.why{margin:0;max-width:65ch}
+.why strong{font-weight:600}
+
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:22px 24px 24px;font:15.5px/1.65 var(--sheet);min-width:0;overflow-x:auto;position:relative}
+.sheet::before{content:"Excerpt";position:absolute;top:-10px;left:16px;background:var(--bg);padding:0 8px;font:500 11px/20px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sheet h3{font:600 15px/1.4 var(--body);margin:0 0 6px;letter-spacing:.02em}
+.sheet p{margin:0 0 10px}
+.sheet ol,.sheet ul{margin:0 0 12px;padding-left:22px}
+.sheet li{margin-bottom:4px}
+.sheet .inst{font:italic 400 14.5px/1.5 var(--sheet);color:var(--muted)}
+.blank{display:inline-block;min-width:7ch;border-bottom:1.5px solid var(--ink);transform:translateY(-3px)}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px 28px}
+.split > div{min-width:0}
+.card-mini{border-left:3px solid var(--accent);padding-left:14px}
+.key{font:400 13px/1.5 var(--mono);color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:6px}
+.good{color:var(--accent);font-weight:600}
+.tool-link{display:inline-flex;gap:8px;align-items:center;font:600 15px/1 var(--body);text-decoration:none;border:1.5px solid var(--accent);border-radius:6px;padding:11px 16px;width:fit-content}
+.tool-link:hover{background:var(--accent-soft)}
+
+
+.rubric-wrap{overflow-x:auto;min-width:0;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.rubric{border-collapse:collapse;width:100%;min-width:760px;font:13.5px/1.45 var(--body)}
+.rubric th,.rubric td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+.rubric thead th{font:500 12px/1.3 var(--mono);letter-spacing:.04em;background:var(--accent-soft);font-variant-numeric:tabular-nums}
+.rubric tbody th{font:600 13.5px/1.35 var(--body);width:150px}
+.rubric tr:last-child th,.rubric tr:last-child td{border-bottom:0}
+.prompt{border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin:0;font:15.5px/1.6 var(--sheet);max-width:68ch}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:0;padding:0;list-style:none}
+.games a{display:flex;flex-direction:column;gap:4px;height:100%;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.games a:hover{border-color:var(--accent)}
+.games .g-t{font-weight:600}
+.games .g-m{font:400 12px/1.3 var(--mono);color:var(--muted)}
+footer{border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:520px){.sheet{padding:20px 16px}}
+@media (prefers-reduced-motion:no-preference){.filters button{transition:background .15s,color .15s}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">EFL materials portfolio · Guayaquil, Ecuador</span>
+  <h1>Lidia designs English materials that get <span class="hl">university students talking</span>.</h1>
+  <p class="lede">I am a university English instructor. I write the speaking tasks, quizzes, reading and writing worksheets, and small digital tools I use with my B1–B2 classes. Every sample below is my own and was used in class before it went here.</p>
+  <dl class="facts">
+    <div><dt>Learners</dt><dd>University students, CEFR B1 to B2 (English V)</dd></div>
+    <div><dt>Also</dt><dd>Assessment reviewer · Academic Writing Center coordination · graduate thesis tutor</dd></div>
+    <div><dt>Tools</dt><dd>Word, PowerPoint, Wordwall, Genially, HTML</dd></div>
+  </dl>
+</header>
+
+<nav class="filters" aria-label="Filter samples by type" id="filters">
+  <button type="button" data-f="all" aria-pressed="true">All<span class="count"></span></button>
+  <button type="button" data-f="speaking" aria-pressed="false">Speaking<span class="count"></span></button>
+  <button type="button" data-f="language" aria-pressed="false">Grammar &amp; vocabulary<span class="count"></span></button>
+  <button type="button" data-f="readwrite" aria-pressed="false">Reading &amp; writing<span class="count"></span></button>
+  <button type="button" data-f="assessment" aria-pressed="false">Assessment &amp; feedback<span class="count"></span></button>
+  <button type="button" data-f="digital" aria-pressed="false">Digital tools<span class="count"></span></button>
+</nav>
+
+<ul class="samples" id="samples">
+
+<li class="sample" data-cat="speaking">
+  <div class="sample-head">
+    <span class="cat">Speaking</span>
+    <h2>What If? World Cup Speaking Corners</h2>
+    <ul class="tags"><li>B1+ to B2</li><li>2nd, 3rd &amp; mixed conditionals</li><li>Station rotation</li><li>40–50 min</li></ul>
+  </div>
+  <p class="why">Ten situation cards go up around the room and groups rotate between them. Each card has three questions in the same order: a hypothetical present, its consequences, then an imagined past. <strong>The questions force the target structure</strong>, so students practise the grammar while arguing about something they care about. The theme ties into Ecuador's 2026 World Cup campaign.</p>
+  <div class="sheet">
+    <div class="split">
+      <div class="card-mini">
+        <h3>CORNER: Ecuador reaches the final</h3>
+        <p class="inst">Ecuador reaches the World Cup Final for the first time in history.</p>
+        <ul>
+          <li>What would happen if Ecuador reached the World Cup Final?</li>
+          <li>How would the country celebrate?</li>
+          <li>How would Ecuadorian football be different today if Ecuador had reached a final in the past?</li>
+        </ul>
+      </div>
+      <div class="card-mini">
+        <h3>CORNER: Robots referee the World Cup</h3>
+        <p class="inst">Human referees are replaced by robots and artificial intelligence.</p>
+        <ul>
+          <li>What would happen if robots refereed World Cup matches?</li>
+          <li>Would football be more impartial?</li>
+          <li>How would famous matches have been different if robots had been used in the past?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+
+<li class="sample" data-cat="language">
+  <div class="sample-head">
+    <span class="cat">Grammar &amp; vocabulary</span>
+    <h2>Running Dictation: Chance and Choices</h2>
+    <ul class="tags"><li>B1+</li><li>Vocabulary: luck, fate, decisions</li><li>Group, kinesthetic</li><li>30 min</li></ul>
+  </div>
+  <p class="why">Full model sentences go on the wall. A runner reads and memorises one, then dictates it to the writer, who fills in the gapped version. <strong>Each of the four groups gets the sentences in a different order</strong>, so teams cannot copy each other. A short story gap-fill then recycles every target item in a new context.</p>
+  <div class="sheet">
+    <h3>Wall sentence</h3>
+    <p>“Her chance encounter with the CEO at the conference turned into a lucky break that opened many doors for her career.”</p>
+    <h3>Group 2 worksheet</h3>
+    <ol>
+      <li>You'll <span class="blank"></span> in trouble if you misbehave again! You won't <span class="blank"></span> this time.</li>
+      <li>Her <span class="blank"></span> with the CEO at the conference turned into a <span class="blank"></span> that opened many doors for her career.</li>
+    </ol>
+    <h3>Follow-up story</h3>
+    <p>María had a <span class="blank"></span> with a guy on the street, and it turned into a <span class="blank"></span> for her. … After that, she made the <span class="blank"></span> to accept his proposal; she didn't want to <span class="blank"></span> in a boring job!</p>
+  </div>
+</li>
+
+<li class="sample" data-cat="language">
+  <div class="sample-head">
+    <span class="cat">Grammar &amp; vocabulary</span>
+    <h2>Gerunds and Infinitives: Guided Discovery</h2>
+    <ul class="tags"><li>B1+</li><li>Inductive grammar</li><li>Pairs, then whole class</li><li>25 min</li></ul>
+  </div>
+  <p class="why">Students work out the rule before I state it. Each section shows authentic-sounding examples, asks them to name the pattern, and then tests it straight away. <strong>The rule is something they notice, not something they copy</strong>, which makes it stick better.</p>
+  <div class="sheet">
+    <h3>Look at the sentences</h3>
+    <p>“What a <b>weird thing</b> to do.” &nbsp;·&nbsp; “The mall is a <b>terrible place</b> to go.”</p>
+    <ol>
+      <li>What part of speech are the bold words? <i>nouns / adjectives</i></li>
+      <li>What comes after the bold words? <i>a gerund / an infinitive</i></li>
+    </ol>
+    <h3>Complete the sentences</h3>
+    <ol>
+      <li>Why do adults waste time <i>going / to go</i> to things like book signings?</li>
+      <li>OK, this is worth <i>waiting / to wait</i> for!</li>
+    </ol>
+    <p class="inst">Fixed expressions, like <i>have fun</i>, are usually followed by <i>a gerund / an infinitive</i>.</p>
+  </div>
+</li>
+
+<li class="sample" data-cat="readwrite">
+  <div class="sample-head">
+    <span class="cat">Reading &amp; writing</span>
+    <h2>Reading Practice: The Future of Remote Work</h2>
+    <ul class="tags"><li>B2</li><li>Inference &amp; author's purpose</li><li>Exam-style multiple choice</li><li>Practice hour</li></ul>
+  </div>
+  <p class="why">These are comprehension questions I wrote for an argumentative text. They go beyond finding facts: <strong>students locate information by section, explain why the author uses a statistic, and infer the author's stance</strong>. These are the skills the end-of-level reading exam and essay writing both depend on.</p>
+  <div class="sheet">
+    <ol start="2">
+      <li>The author mentions “250 hours annually” in the 2nd paragraph to emphasize:
+        <br>a) how little time people spend commuting &nbsp; b) the exact amount employers should pay for travel &nbsp; <span class="good">c) the significant amount of time saved by remote work</span> &nbsp; d) the maximum legal commuting time</li>
+      <li>What can be inferred about the author's opinion on hybrid work models?
+        <br>a) They are the perfect solution for all companies. &nbsp; <span class="good">b) They represent a reasonable compromise.</span> &nbsp; c) They are too complicated to implement. &nbsp; d) They will eventually fail.</li>
+    </ol>
+  </div>
+</li>
+
+<li class="sample" data-cat="readwrite">
+  <div class="sample-head">
+    <span class="cat">Reading &amp; writing</span>
+    <h2>Thesis Statement Review</h2>
+    <ul class="tags"><li>B2</li><li>Persuasive essay</li><li>Evaluate, then fix</li><li>15 min</li></ul>
+  </div>
+  <p class="why">This is one step in my persuasive essay sequence: thesis, introduction, body paragraphs, conclusion, each with its own slides and a draft template. Students judge real-looking thesis statements against a clear standard (a claim plus three reasons). <strong>The weak examples show the most common problems</strong>, such as announcing the topic, describing instead of arguing, or giving only one reason.</p>
+  <div class="sheet">
+    <p class="inst">Read each thesis statement. If it is strong, write “Good” and underline the three reasons. If it is weak, write “Weak” and explain the problem.</p>
+    <ol>
+      <li>Introducing mindfulness programs in the workplace is important to reduce stress, improve focus, and increase job satisfaction.</li>
+      <li>This essay will talk about the benefits of learning a second language.</li>
+      <li>Social media includes safety protocols, different settings, and a variety of platforms to choose from.</li>
+      <li>Banning sugary drinks in schools is a good idea because it helps students stay healthy.</li>
+    </ol>
+    <p class="key">Key: 1 Good · 2 Weak, announces the topic with no claim · 3 Weak, describes instead of arguing · 4 Weak, only one reason</p>
+  </div>
+</li>
+
+<li class="sample" data-cat="language">
+  <div class="sample-head">
+    <span class="cat">Grammar &amp; vocabulary</span>
+    <h2>Find the Mistake: Error Hunt</h2>
+    <ul class="tags"><li>B1 to B2</li><li>Accuracy &amp; L1 interference</li><li>Team game with slides</li><li>20 min</li></ul>
+  </div>
+  <p class="why">Each set has three sentences and exactly one error. The errors target <strong>typical mistakes of Spanish-speaking learners</strong> (<i>I'm agree</i>, <i>according with</i>, <i>she can to speak</i>). Teams race to find the mistake and correct it, and the slides reveal the answers.</p>
+  <div class="sheet">
+    <div class="split">
+      <div><h3>Set 2</h3><p>A. She can to speak three languages.<br>B. He should visit his grandmother more often.<br>C. We might go to the cinema later.</p></div>
+      <div><h3>Set 7</h3><p>A. I don't like dark chocolate.<br>B. I arrived a bit late.<br>C. I'm agree with you.</p></div>
+      <div><h3>Set 8</h3><p>A. According with the report, sales dropped.<br>B. She depends on her parents.<br>C. We discussed the problem.</p></div>
+      <div><h3>Set 9</h3><p>A. These books are mine.<br>B. This objects are dangerous.<br>C. I don't like those colors.</p></div>
+    </div>
+  </div>
+</li>
+
+<li class="sample" data-cat="assessment">
+  <div class="sample-head">
+    <span class="cat">Assessment &amp; feedback</span>
+    <h2>Persuasive Essay Exam and Analytic Rubric</h2>
+    <ul class="tags"><li>B2</li><li>Persuasive essay</li><li>5 criteria × 5 bands</li><li>10 points</li></ul>
+  </div>
+  <p class="why">This is the writing exam I use with English V students. The prompt takes a real local controversy and asks students to argue a position. The analytic rubric scores five criteria from 2 to 0.4 points each, so <strong>students see exactly where their points went</strong>, and different teachers mark consistently. The criteria match what the essay sequence above teaches: thesis, topic sentences, cohesion and persuasive register.</p>
+  <p class="prompt">A dog recently became the center of a court case in Ecuador, where a judge had to decide who should take care of him. Some people believe animals deserve legal rights and protection, just like humans. Others think animals should be cared for, but giving them legal rights creates unnecessary problems. Which opinion do you agree with? Explain your position using specific reasons and examples.</p>
+  <div class="rubric-wrap"><table class="rubric">
+    <thead><tr><th>Criteria</th><th>2 pts</th><th>1.6 pts</th><th>1.2 pts</th><th>0.8 pts</th><th>0.4 pts</th></tr></thead>
+    <tbody><tr><th>1. Content<br><span style="font-weight:400;color:var(--muted)">Introduction, body, conclusion</span></th><td>Fully developed, logical structure. Strong hook, relevant background, well-structured thesis. Each body paragraph has a clear topic sentence, support and concluding sentence. Conclusion reinforces the thesis.</td><td>Clear overall structure with minor issues in cohesion or development. Introduction and conclusion present but may lack impact.</td><td>Basic structure evident. Thesis or topic sentences may be unclear or underdeveloped. Conclusion weak or overly brief.</td><td>Structure inconsistent or incomplete. Paragraphs lack clear focus. Introduction and/or conclusion poorly developed or off-topic.</td><td>Disorganized or missing essential components. No clear introduction, body or conclusion.</td></tr><tr><th>2. Language<br><span style="font-weight:400;color:var(--muted)">Grammar and vocabulary</span></th><td>Grammar mostly accurate with consistent control and variety. Vocabulary broad, precise and suited to persuasive writing.</td><td>Grammar generally accurate with some variety. Vocabulary appropriate, with occasional misuse or awkward phrasing.</td><td>Some errors that do not impede understanding. Vocabulary basic but sufficient; may be repetitive.</td><td>Frequent errors interfere with clarity. Vocabulary limited, repetitive or inappropriate.</td><td>Persistent errors and very limited or incorrect vocabulary prevent communication.</td></tr><tr><th>3. Language<br><span style="font-weight:400;color:var(--muted)">Spelling, punctuation, capitalization</span></th><td>No noticeable errors. Mechanics enhance clarity.</td><td>A few minor errors that do not affect readability.</td><td>Some errors that slightly disrupt flow or clarity.</td><td>Frequent errors that interfere with readability.</td><td>Numerous serious errors that hinder comprehension.</td></tr><tr><th>4. Organization<br><span style="font-weight:400;color:var(--muted)">Coherence and cohesion</span></th><td>Ideas flow logically. Varied cohesive devices (linking words, reference, substitution). Smooth transitions.</td><td>Logical progression with generally appropriate cohesive devices. Minor lapses.</td><td>Basic linking words. Some abrupt connections; paragraphing may be inconsistent.</td><td>Overuse, underuse or misuse of cohesive devices. Ideas feel disjointed.</td><td>No logical flow. Serious problems with cohesion and paragraphing.</td></tr><tr><th>5. Communicative achievement<br><span style="font-weight:400;color:var(--muted)">Register, style, tone</span></th><td>Consistently formal, varied and engaging persuasive register.</td><td>Mostly appropriate register with minor lapses.</td><td>Somewhat appropriate but inconsistent or too neutral. Style mechanical.</td><td>Inconsistent or inappropriate register. Persuasive voice weak.</td><td>Register and tone unsuitable for persuasive writing.</td></tr></tbody>
+  </table></div>
+  <p class="why" style="font-size:14px;color:var(--muted)">Band 0 applies when the student does not complete the requested task.</p>
+</li>
+
+<li class="sample" data-cat="assessment">
+  <div class="sample-head">
+    <span class="cat">Assessment &amp; feedback</span>
+    <h2>Unit Quiz: Life Choices and Conditionals</h2>
+    <ul class="tags"><li>B1+ to B2</li><li>Vocabulary · grammar · reading</li><li>Weighted scoring</li><li>20 min</li></ul>
+  </div>
+  <p class="why">This is a short unit quiz with three sections and points for each item. Vocabulary is tested in context, never as isolated definitions. Grammar items <strong>mix present, past and mixed time frames</strong>, so students have to choose the right conditional instead of repeating one pattern. A True / False / Not Given reading section completes it.</p>
+  <div class="sheet">
+    <h3>Part 1 · Vocabulary in context <span class="inst">(0.5 each)</span></h3>
+    <p class="inst">a) chance encounter · b) deliberate decision · c) fate · d) fortunate · e) life-changing experience · f) lucky break · g) path · h) wind up</p>
+    <ol>
+      <li>If you don't take better care of yourself, you'll <span class="blank"></span> being really sick.</li>
+      <li>I made a <span class="blank"></span> never to go back to that store. Their salespeople are so rude!</li>
+    </ol>
+    <h3>Part 2 · Conditionals <span class="inst">(0.5 each)</span></h3>
+    <ol>
+      <li>If we <span class="blank"></span> (not take) a wrong turn, we wouldn't be lost now.</li>
+      <li>He wouldn't be so tired if he <span class="blank"></span> (go) to bed earlier last night.</li>
+      <li>If you <span class="blank"></span> (win) the lottery next week, what would you do?</li>
+    </ol>
+  </div>
+</li>
+
+<li class="sample" data-cat="assessment">
+  <div class="sample-head">
+    <span class="cat">Assessment &amp; feedback</span>
+    <h2>Feedback Bank: 5-Minute Video Pitch</h2>
+    <ul class="tags"><li>B2</li><li>Oral presentation</li><li>Written feedback</li><li>Reusable comment bank</li></ul>
+  </div>
+  <p class="why">These are comments I wrote while grading students' recorded pitches. They are grouped so feedback is <strong>specific, balanced and fast to give</strong> across large classes. Each one names something the student can change next time, such as words to re-pronounce, the exact grammar slip, or timing, instead of a general “good job”.</p>
+  <div class="sheet">
+    <div class="split">
+      <div class="card-mini"><h3>Strengths</h3><ul>
+        <li>You clearly mapped out the presentation, transitioning smoothly from the causes to the consequences.</li>
+        <li>Your solutions were very concrete and actionable.</li>
+        <li>Finishing with a question was engaging.</li></ul></div>
+      <div class="card-mini"><h3>Language</h3><ul>
+        <li>Check the grammar: you said “many families spends…”, “this issues”.</li>
+        <li>Watch the ends of words; sometimes you don't pronounce the full word.</li>
+        <li>Check word stress, for example <i>imPORtance</i>.</li></ul></div>
+      <div class="card-mini"><h3>Delivery</h3><ul>
+        <li>Pace yourself and articulate each word clearly.</li>
+        <li>Don't read from the slides.</li>
+        <li>Your partner spoke more than you. Share the time equally.</li></ul></div>
+    </div>
+  </div>
+</li>
+
+<li class="sample" data-cat="digital">
+  <div class="sample-head">
+    <span class="cat">Digital tools</span>
+    <h2>Interactive Review Games</h2>
+    <ul class="tags"><li>B1+ to B2</li><li>Grammar &amp; writing review</li><li>Wordwall &amp; Genially</li><li>Self-checking</li></ul>
+  </div>
+  <p class="why">I build short online games for each unit's grammar and vocabulary. Students play on their phones at the end of class or at home and get instant feedback. <strong>18 live activities cover units 7 to 11</strong>, from Wordwall quizzes and unjumbles to Genially picture-vocabulary games. The links below open the live activities.</p>
+  <ul class="games"><li><a href="https://wordwall.net/resource/57889540" target="_blank" rel="noopener"><span class="g-t">Second, third and mixed conditionals ↗</span><span class="g-m">Wordwall · Quiz</span></a></li><li><a href="https://wordwall.net/resource/57890222" target="_blank" rel="noopener"><span class="g-t">Wishes and regrets ↗</span><span class="g-m">Wordwall · Quiz</span></a></li><li><a href="https://wordwall.net/resource/64988937" target="_blank" rel="noopener"><span class="g-t">Gerunds after prepositions ↗</span><span class="g-m">Wordwall · Spin the wheel</span></a></li><li><a href="https://wordwall.net/resource/58594632" target="_blank" rel="noopener"><span class="g-t">Causative verbs ↗</span><span class="g-m">Wordwall · Quiz</span></a></li><li><a href="https://wordwall.net/resource/17493538" target="_blank" rel="noopener"><span class="g-t">Passive voice ↗</span><span class="g-m">Wordwall · Quiz</span></a></li><li><a href="https://wordwall.net/resource/5776913" target="_blank" rel="noopener"><span class="g-t">Thesis and topic sentences ↗</span><span class="g-m">Wordwall · Open the box</span></a></li><li><a href="https://wordwall.net/resource/57153380" target="_blank" rel="noopener"><span class="g-t">Gerunds and infinitives ↗</span><span class="g-m">Wordwall · Quiz</span></a></li><li><a href="https://wordwall.net/resource/57419846" target="_blank" rel="noopener"><span class="g-t">Modal-like expressions ↗</span><span class="g-m">Wordwall · Unjumble</span></a></li><li><a href="https://wordwall.net/resource/57594054" target="_blank" rel="noopener"><span class="g-t">Future forms ↗</span><span class="g-m">Wordwall · Quiz</span></a></li><li><a href="https://wordwall.net/resource/57886727" target="_blank" rel="noopener"><span class="g-t">Vocabulary: luck and choice ↗</span><span class="g-m">Wordwall · Match up</span></a></li><li><a href="https://wordwall.net/resource/58933774" target="_blank" rel="noopener"><span class="g-t">Passive voice questions ↗</span><span class="g-m">Wordwall · Gameshow quiz</span></a></li><li><a href="https://view.genial.ly/647519405b3b5c0018216d1f" target="_blank" rel="noopener"><span class="g-t">Unit 7.1 vocabulary ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li><li><a href="https://view.genial.ly/647654b1b2745d001208e26f" target="_blank" rel="noopener"><span class="g-t">Unit 7.2 vocabulary ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li><li><a href="https://view.genial.ly/647e0d149ef4600018cd0886" target="_blank" rel="noopener"><span class="g-t">Unit 8.1 picture vocabulary ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li><li><a href="https://view.genial.ly/64847fd9c174b30011dec32e" target="_blank" rel="noopener"><span class="g-t">Unit 8.2 vocabulary ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li><li><a href="https://view.genial.ly/649095fc5433da0011810958" target="_blank" rel="noopener"><span class="g-t">Unit 9.2 vocabulary ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li><li><a href="https://view.genial.ly/64b5997b43d23b0012cf0eb3" target="_blank" rel="noopener"><span class="g-t">Unit 10.2 vocabulary ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li><li><a href="https://view.genial.ly/64c916f9286663001b5a340d" target="_blank" rel="noopener"><span class="g-t">Unit 11.1 vocabulary game ↗</span><span class="g-m">Genially · Interactive quiz</span></a></li></ul>
+</li>
+
+<li class="sample" data-cat="digital">
+  <div class="sample-head">
+    <span class="cat">Digital tools</span>
+    <h2>World Cup Pair Grouper</h2>
+    <ul class="tags"><li>Any level</li><li>Classroom management</li><li>Web app I built</li><li>Phone + QR</li></ul>
+  </div>
+  <p class="why">I built this small web app to form pairs quickly in a class of 40. The teacher sets the class size and picks World Cup 2026 countries. Students scan a QR code, get a country, and find the classmate with the same flag. <strong>Grouping is fast, random and fits the World Cup theme</strong> of the speaking corners above.</p>
+  <a class="tool-link" href="https://lidi27-max.github.io/Prep/world-cup-grouper-2026.html" target="_blank" rel="noopener">Open the Pair Grouper ↗</a>
+</li>
+
+</ul>
+
+<footer>
+  <span>All samples are original materials I designed and used with my own classes. I have removed student names and course data.</span>
+  <span>Full files are available on request.</span>
+</footer>
+</div>
+
+<script>
+(function(){
+  const btns=[...document.querySelectorAll('#filters button')];
+  const items=[...document.querySelectorAll('#samples .sample')];
+  btns.forEach(b=>{
+    const f=b.dataset.f;
+    b.querySelector('.count').textContent=f==='all'?items.length:items.filter(i=>i.dataset.cat===f).length;
+    b.addEventListener('click',()=>{
+      btns.forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+      items.forEach(i=>{i.hidden=!(f==='all'||i.dataset.cat===f)});
+    });
+  });
+})();
+</script>
+
+</body></html>
