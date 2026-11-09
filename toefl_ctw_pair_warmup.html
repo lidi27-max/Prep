@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Complete the Words — Pair Warm-Up</title>
+<style>
+:root{--navy:#002060;--teal:#1C7293;--ok:#1b7f4b;--bad:#b3261e;--bg:#f4f7fb}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:#1a2233;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:18px 20px}header h1{margin:0;font-size:1.35rem}header p{margin:4px 0 0;opacity:.85;font-size:.95rem}
+main{max-width:820px;margin:0 auto;padding:18px}
+.card{background:#fff;border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,30,80,.12)}
+h2{margin:0 0 8px;font-size:1.1rem;color:var(--navy)}
+.roles{display:flex;gap:12px;flex-wrap:wrap}.roles div{flex:1;min-width:240px;border-left:4px solid var(--teal);padding:4px 10px;background:#eef5f8;border-radius:4px;font-size:.95rem}
+.text{font-size:1.2rem;line-height:2.4}
+.w{white-space:nowrap}
+.w{white-space:nowrap}
+.w input{font:inherit;width:1.25em;height:1.7em;border:0;border-bottom:3px solid var(--teal);background:#eef5f8;text-align:center;padding:0;margin:0 3px;outline:none;text-transform:lowercase;border-radius:3px 3px 0 0}
+.w input:focus{background:#cfe6f0}.w.ok input{border-color:var(--ok);background:#e3f4ea}.w.bad input{border-color:var(--bad);background:#fbe7e5}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-size:.95rem;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;background:var(--teal);color:#fff}
+button.sec{background:#e3eaf2;color:var(--navy)}button:hover{filter:brightness(1.08)}
+.msg{margin-top:10px;font-weight:600}.hint{margin-top:10px;display:none;background:#fff8e1;border-left:4px solid #e0a800;padding:8px 12px;border-radius:4px;font-size:.95rem}
+.hint.show{display:block}.talk ul{margin:6px 0 0 18px;padding:0}
+</style></head><body>
+<header><h1>Complete the Words — Pair Warm-Up</h1><p>TOEFL iBT Preparation Course · Session 2 · Work with a partner (10 minutes)</p></header>
+<main>
+<div class="card"><h2>Work with your partner</h2><p style="margin:0">Discuss each sentence together and help each other find the missing letters. <strong>Each line is one missing letter</strong>: the number of lines tells you how long the word is. The first half of every word is given.</p></div>
+
+<div class="card" id="r1"><h2>Round 1</h2><div class="text" data-items='[["Climate ",""],["cha","nge"],[" is ",""],["affec","ting"],[" many ",""],["count","ries"],[" ",""],["aro","und"],[" the ",""],["wor","ld"],[".",""]]'></div>
+<div class="btns"><button data-a="check">Check</button><button class="sec" data-a="hint">Hint</button><button class="sec" data-a="reveal">Show answers</button></div>
+<div class="hint">Hint: “is ______ many countries” — after <em>is</em> you need a verb ending in <em>-ing</em>. Which word follows “Climate”? Look at the topic.</div><div class="msg"></div></div>
+
+<div class="card" id="r2"><h2>Round 2</h2><div class="text" data-items='[["Students who ",""],["sle","ep"],[" well ",""],["usua","lly"],[" perform ",""],["bet","ter"],[" on ",""],["exa","ms"],[" because ",""],["th","ey"],[" can ",""],["concen","trate"],[" more ",""],["eas","ily"],[".",""]]'></div>
+<div class="btns"><button data-a="check">Check</button><button class="sec" data-a="hint">Hint</button><button class="sec" data-a="reveal">Show answers</button></div>
+<div class="hint">Hint: look at the word classes. “Students who ___ well” needs a verb; “perform ___ on” needs a comparative; “can ___ more” needs a base verb; “___ easily” — look at the ending <em>-ily</em>.</div><div class="msg"></div></div>
+
+<div class="card talk"><h2>Discuss with your partner</h2><ul><li>Which clues helped you most: the first words, grammar, or word endings?</li><li>Which blank was the hardest? Why?</li></ul></div>
+</main>
+<script>
+document.querySelectorAll('.card .text').forEach(function(box){
+  var items=JSON.parse(box.dataset.items);
+  items.forEach(function(it){
+    box.appendChild(document.createTextNode(it[0]));
+    if(it[1]){var s=document.createElement('span');s.className='w';s.dataset.ans=it[1];
+      for(var i=0;i<it[1].length;i++){var inp=document.createElement('input');inp.maxLength=1;inp.autocomplete='off';inp.spellcheck=false;
+        inp.setAttribute('autocapitalize','off');inp.setAttribute('aria-label','letter '+(i+1));s.appendChild(inp);}
+      s.addEventListener('input',function(e){var t=e.target;if(t.value&&t.nextElementSibling)t.nextElementSibling.focus();});
+      s.addEventListener('keydown',function(e){var t=e.target;if(e.key==='Backspace'&&!t.value&&t.previousElementSibling){t.previousElementSibling.focus();}});
+      box.appendChild(s);}
+  });
+});
+function val(w){return Array.prototype.map.call(w.querySelectorAll('input'),function(i){return i.value.trim().toLowerCase()||' ';}).join('');}
+function fill(w,txt){var ins=w.querySelectorAll('input');for(var i=0;i<ins.length;i++)ins[i].value=txt[i];}
+document.querySelectorAll('.card').forEach(function(card){
+  card.addEventListener('click',function(e){
+    var a=e.target.dataset&&e.target.dataset.a;if(!a)return;
+    var ws=card.querySelectorAll('.w'),msg=card.querySelector('.msg');
+    if(a==='hint'){card.querySelector('.hint').classList.toggle('show');return;}
+    if(a==='reveal'){ws.forEach(function(w){fill(w,w.dataset.ans);w.className='w ok';});msg.textContent='Answers shown. Discuss why each ending fits.';return;}
+    var ok=0;ws.forEach(function(w){if(val(w)===w.dataset.ans){w.className='w ok';ok++;}else{w.className='w bad';}});
+    msg.textContent=ok+' of '+ws.length+' correct'+(ok===ws.length?' — well done!':'. Fix the red words and check again.');
+  });
+});
+</script></body></html>
