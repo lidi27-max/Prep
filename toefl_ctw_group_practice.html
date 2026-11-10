@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOEFL – Complete the Words: Group Practice</title>
+<style>
+:root{--navy:#002060;--teal:#1C7293;--ok:#1b7f4b;--bad:#b3261e;--bg:#f4f7fb}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:#1a2233;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:18px 20px}header h1{margin:0;font-size:1.35rem}header p{margin:4px 0 0;opacity:.85;font-size:.95rem}
+main{max-width:900px;margin:0 auto;padding:18px}
+.card{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,30,80,.12)}
+h2{margin:0 0 8px;font-size:1.1rem;color:var(--navy)}ol{margin:6px 0 0 20px;padding:0}li{margin-bottom:4px}
+.text{font-size:1.1rem;line-height:3}
+.gap{display:inline-block;white-space:nowrap;vertical-align:baseline}
+.gap .n{font-size:.7rem;color:var(--teal);font-weight:700;vertical-align:super;margin-right:1px}
+.gap select{font:inherit;font-size:.78rem;border:1px solid #9db4c8;border-radius:6px;padding:2px 3px;background:#fff;color:#1a2233;margin:0 2px;max-width:112px}
+.gap .pre{font-weight:600}
+.gap input{font:inherit;width:1.2em;height:1.6em;border:0;border-bottom:3px solid var(--teal);background:#eef5f8;text-align:center;padding:0;margin:0 2px;outline:none;text-transform:lowercase;border-radius:3px 3px 0 0}
+.gap input:focus{background:#cfe6f0}
+.gap.ok input{border-color:var(--ok);background:#e3f4ea}.gap.bad input{border-color:var(--bad);background:#fbe7e5}
+.gap.kok select{border-color:var(--ok);background:#e3f4ea}.gap.kbad select{border-color:var(--bad);background:#fbe7e5}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-size:.95rem;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:var(--teal);color:#fff}
+button.sec{background:#e3eaf2;color:var(--navy)}button:hover{filter:brightness(1.08)}
+.score{margin-top:12px;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin-top:8px}th,td{border:1px solid #d5dde8;padding:6px 8px;text-align:left}th{background:#e8eff7;color:var(--navy)}
+td.y{color:var(--ok);font-weight:600}td.n{color:var(--bad);font-weight:600}
+#review{display:none}
+.tip{font-size:.92rem;color:#4a5568;margin-top:8px}
+</style></head><body>
+<header><h1>Complete the Words — Group Practice</h1><p>TOEFL iBT Preparation Course · Session 2 · Work in groups of 3–4 (about 10 minutes)</p></header>
+<main>
+<div class="card"><h2>How to work in your group</h2>
+<ol><li>Read the whole paragraph first. The first sentence is complete: use it to find the topic.</li>
+<li>For each gap, discuss together and choose the <strong>kind of word</strong> in the drop-down list.</li>
+<li>Then type the missing letters. <strong>Each box is one missing letter.</strong> Spelling counts.</li>
+<li>Press <strong>Check</strong>, talk about the gaps you missed and fix them.</li></ol>
+<p class="tip">Choose one person to share the screen and type. Everyone discusses.</p></div>
+
+<div class="card"><div class="text" id="text"></div>
+<div class="btns"><button id="check">Check</button><button class="sec" id="reveal">Show answers</button><button class="sec" id="reset">Start over</button></div>
+<div class="score" id="score"></div></div>
+
+<div class="card" id="review"><h2>Review: kind of word and clue</h2><table><thead><tr><th>#</th><th>Word</th><th>Kind of word</th><th>Clue next to the gap</th><th>Your result</th></tr></thead><tbody id="rows"></tbody></table></div>
+</main>
+<script>
+var KINDS=['Noun','Verb','Modal verb','Adjective','Adverb','Preposition','Determiner','Linking word'];
+var T=[
+"Psychology is the scientific study of behavior and mental processes, encompassing a wide range of topics such as perception, emotion, personality, and social interactions. Researchers ",
+["inves","tigate","Verb","Its subject is “Researchers”, and it introduces what they study (“how people…”)."]," how ",
+["peo","ple","Noun","Subject of the verbs “think, feel and act”; it follows “how”."]," think, ",
+["fe","el","Verb","One item in the list of verbs “think, … and act”."]," and ",
+["ac","t","Verb","Last item in the list, after “and”."]," in ",
+["var","ious","Adjective","It describes the noun “situations” that follows."]," situations. It is ",
+["esse","ntial","Adjective","It follows the linking verb “is” and describes “It”."]," to ",
+["coll","ect","Verb","Base form after “to”; its object is “data”."]," data ",
+["care","fully","Adverb","It says how researchers collect data; the -ly ending is a clue."]," and ",
+["app","ly","Verb","Base form joined to “collect” by “and”, after “to”."]," critical ",
+["thin","king","Noun","It follows the adjective “critical”; an -ing noun."]," when interpreting findings. Understanding psychological concepts can help students make informed decisions in their daily lives. Moreover, studies in this field provide valuable insight into human development, learning, and emotions."
+];
+var box=document.getElementById('text'),gaps=[],k=0;
+T.forEach(function(it){
+  if(typeof it==='string'){box.appendChild(document.createTextNode(it));return;}
+  k++;var g=document.createElement('span');g.className='gap';g.dataset.ans=it[1];g.dataset.kind=it[2];
+  var n=document.createElement('span');n.className='n';n.textContent=k;g.appendChild(n);
+  var sel=document.createElement('select');sel.setAttribute('aria-label','kind of word for gap '+k);
+  var o=document.createElement('option');o.value='';o.textContent='kind?';sel.appendChild(o);
+  KINDS.forEach(function(x){var op=document.createElement('option');op.value=x;op.textContent=x;sel.appendChild(op);});
+  g.appendChild(sel);
+  var pre=document.createElement('span');pre.className='pre';pre.textContent=it[0];g.appendChild(pre);
+  for(var i=0;i<it[1].length;i++){var inp=document.createElement('input');inp.maxLength=1;inp.autocomplete='off';inp.spellcheck=false;
+    inp.setAttribute('autocapitalize','off');inp.setAttribute('aria-label','letter '+(i+1)+' of gap '+k);g.appendChild(inp);}
+  g.addEventListener('input',function(e){var t=e.target;if(t.tagName==='INPUT'&&t.value&&t.nextElementSibling)t.nextElementSibling.focus();});
+  g.addEventListener('keydown',function(e){var t=e.target;if(t.tagName==='INPUT'&&e.key==='Backspace'&&!t.value&&t.previousElementSibling&&t.previousElementSibling.tagName==='INPUT')t.previousElementSibling.focus();});
+  box.appendChild(g);gaps.push({el:g,pre:it[0],ans:it[1],kind:it[2],clue:it[3]});
+});
+function typed(g){return Array.prototype.map.call(g.querySelectorAll('input'),function(i){return i.value.trim().toLowerCase()||' ';}).join('');}
+function fill(g,t){var ins=g.querySelectorAll('input');for(var i=0;i<ins.length;i++)ins[i].value=t[i];}
+function review(res){
+  var rows=document.getElementById('rows');rows.innerHTML='';
+  gaps.forEach(function(g,i){var r=res[i];var tr=document.createElement('tr');
+    function td(t,c){var d=document.createElement('td');d.textContent=t;if(c)d.className=c;tr.appendChild(d);}
+    td(i+1);td(g.pre+g.ans);td(g.kind);td(g.clue);
+    td(r?((r.k?'Kind ✓':'Kind ✗')+' · '+(r.w?'Word ✓':'Word ✗')):'—',r&&r.k&&r.w?'y':'n');rows.appendChild(tr);});
+  document.getElementById('review').style.display='block';
+}
+document.getElementById('check').onclick=function(){
+  var kc=0,wc=0,res=[];
+  gaps.forEach(function(g){var sel=g.el.querySelector('select').value;
+    var k=sel===g.kind,w=typed(g.el)===g.ans;
+    g.el.classList.remove('ok','bad','kok','kbad');
+    g.el.classList.add(k?'kok':'kbad');g.el.classList.add(w?'ok':'bad');
+    if(k)kc++;if(w)wc++;res.push({k:k,w:w});});
+  document.getElementById('score').textContent='Kind of word: '+kc+'/'+gaps.length+'   ·   Words spelled correctly: '+wc+'/'+gaps.length+(wc===gaps.length?'  — excellent!':'. Fix the red gaps and check again.');
+  review(res);
+};
+document.getElementById('reveal').onclick=function(){
+  gaps.forEach(function(g){fill(g.el,g.ans);g.el.querySelector('select').value=g.kind;g.el.classList.remove('bad','kbad');g.el.classList.add('ok','kok');});
+  document.getElementById('score').textContent='Answers shown. Discuss the clue for each gap.';
+  review(gaps.map(function(){return {k:true,w:true};}));
+};
+document.getElementById('reset').onclick=function(){
+  gaps.forEach(function(g){g.el.className='gap';g.el.querySelector('select').value='';fill(g.el,'                    ');});
+  document.getElementById('score').textContent='';document.getElementById('review').style.display='none';
+};
+</script></body></html>
