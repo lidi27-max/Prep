@@ -92,13 +92,12 @@ body{font-family:'Trebuchet MS',Trebuchet,sans-serif;background:var(--bg);color:
 .passage-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.75rem;margin-bottom:1.5rem;font-size:16px;line-height:3;color:var(--text)}
 .word-item{display:inline-flex;align-items:baseline;white-space:nowrap}
 .word-prefix{font-size:16px;color:var(--text);font-weight:400}
-.blank-wrap{display:inline-block;position:relative}
-.blank-input{display:block;border:none;border-bottom:2.5px solid #378add;background:transparent;font-size:16px;font-family:'Courier New',monospace;font-weight:700;color:var(--blue);outline:none;padding:0 2px 4px;text-align:center;letter-spacing:5px;transition:border-color .15s;position:relative;z-index:4}
-.blank-input::placeholder{color:var(--text);font-weight:900;letter-spacing:5px;font-size:16px;opacity:1}
-.blank-input:focus::placeholder{color:#c0c8d4}
-.blank-input.correct{border-bottom-color:var(--green)!important;color:#0f6e56}
-.blank-input.wrong{border-bottom-color:var(--coral)!important;color:#c0392b}
-.blank-input.revealed{border-bottom-color:var(--gold)!important;color:#854f0b}
+.gapbox{display:inline-flex;gap:3px;margin-left:2px;vertical-align:baseline}
+.gapbox input{width:1.15em;height:1.7em;border:0;border-bottom:3px solid #378add;background:#eef5f8;text-align:center;font:inherit;font-weight:700;color:var(--blue);padding:0;outline:none;text-transform:lowercase;border-radius:3px 3px 0 0}
+.gapbox input:focus{background:#cfe3f6}
+.gapbox.ok input{border-bottom-color:var(--green);background:var(--green-bg);color:#0f6e56}
+.gapbox.bad input{border-bottom-color:var(--coral);background:var(--coral-bg);color:#c0392b}
+.gapbox.rev input{border-bottom-color:var(--gold);background:#fdf3de;color:#854f0b}
 
 /* Fill actions */
 .fill-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:.5rem;flex-wrap:wrap}
@@ -378,45 +377,45 @@ const MODULES = [
         label: "Read a notice",
         text: {
           kind: "notice",
-          title: "Welcome to the Library Quiet Zone!",
-          intro: "This area is specifically designated for quiet reading and study to ensure a peaceful environment for all patrons. Please adhere to the following guidelines:",
+          title: "Welcome to the Maplewood Community Pool!",
+          intro: "Our pool is open to residents and their guests from June to September. To keep everyone safe and comfortable, please observe the following rules:",
           items: [
-            "Noise Levels: Please keep noise to a minimum. This includes refraining from loud conversations and phone calls.",
-            "Electronic Devices: Ensure that all electronic devices, such as phones and laptops, are set to silent mode. The volume on headphones must be kept low.",
-            "Conversations: If you need to have a conversation, please conduct it quietly or proceed to another area of the library.",
-            "Music and Media: Listening to music or watching videos without headphones is not allowed. Please keep the volume of headphones at a level that only you can hear.",
-            "Respect for Others: Be mindful of those around you who are studying or reading. Your cooperation helps maintain a serene environment for everyone."
+            "Hours: The pool opens at 8:00 a.m. on weekdays and 10:00 a.m. on weekends. The last swim begins thirty minutes before closing.",
+            "Children: Swimmers under twelve must be accompanied by an adult at all times. Adults must stay within arm's reach of children who cannot swim.",
+            "Guests: Each household may bring up to two guests per visit. Guests must be signed in at the front desk.",
+            "Food and Drink: Eating is permitted only at the picnic tables outside the gate. Glass containers are not allowed anywhere on the pool deck.",
+            "Lockers: Lockers are free to use during your visit. Please bring your own lock and remove your belongings before leaving, since lockers are emptied each evening."
           ]
         },
         questions: [
           {
-            q: "What can be concluded about the library?",
+            q: "What can be concluded about the pool?",
             opts: [
-              "It has areas that are not specifically designated as quiet zones.",
-              "It has received numerous complaints about noise levels.",
-              "It is located on the campus of a university.",
-              "It holds a large collection of film and music recordings."
+              "It has an area outside the pool deck where people can eat.",
+              "It has received complaints about broken glass.",
+              "It offers swimming lessons for young children.",
+              "It stays open until midnight on weekends."
             ],
             ans: 0,
-            exp: "Guideline 3 says to \"proceed to another area of the library\" for conversations, implying non-quiet zones exist. Nothing in the notice supports B, C, or D."
+            exp: "Rule 4 says eating is permitted \"only at the picnic tables outside the gate,\" so there is a place to eat away from the pool deck. Nothing in the notice supports B, C, or D."
           },
           {
-            q: "The phrase \"adhere to\" in the opening paragraph is closest in meaning to",
-            opts: ["notice","read","follow","admire"],
+            q: "The word \"observe\" in the opening paragraph is closest in meaning to",
+            opts: ["notice","watch","follow","celebrate"],
             ans: 2,
             type: "Vocabulary",
-            exp: "\"Adhere to\" means to stick to or comply with rules. \"Follow\" is the closest synonym here. Admire, notice, and read do not match this meaning."
+            exp: "Here, \"observe the following rules\" means to obey or comply with them, so \"follow\" is the closest synonym. \"Watch\" and \"notice\" fit the other meaning of observe, but not rules."
           },
           {
-            q: "What is indicated about headphones?",
+            q: "What is indicated about swimmers under twelve?",
             opts: [
-              "They are not permitted in the library's quiet zone.",
-              "They are only allowed for use with smartphones and laptop computers.",
-              "They may not be shared between two users.",
-              "They should be kept at a low volume."
+              "They must bring their own lock for a locker.",
+              "They must be signed in at the front desk.",
+              "They may use the pool only on weekends.",
+              "They must have an adult with them at all times."
             ],
             ans: 3,
-            exp: "Guidelines 2 and 4 both state that headphone volume must be kept low. The notice does not ban headphones, restrict them to specific devices, or mention sharing."
+            exp: "Rule 2 states that swimmers under twelve \"must be accompanied by an adult at all times.\" The lock (A) and sign-in (B) rules are not specific to children, and nothing limits them to weekends (C)."
           }
         ]
       }
@@ -760,7 +759,7 @@ function renderFill() {
   body.appendChild(sh);
 
   const instr = document.createElement('div'); instr.className = 'instr-box';
-  instr.innerHTML = 'Fill in the <strong>missing letters</strong>. Each blank shows the exact number of missing letters as underscores. Type only the missing part, then press <strong>Tab</strong> to move to the next blank.';
+  instr.innerHTML = 'Fill in the <strong>missing letters</strong>. Each missing letter has its own box. Type one letter per box; the cursor moves on by itself. Press <strong>Tab</strong> to jump to the next word.';
   body.appendChild(instr);
 
   const wrap = document.createElement('div'); wrap.className = 'passage-wrap'; wrap.id = 'fillWrap';
@@ -779,60 +778,72 @@ function renderFill() {
 function renderFillTokens(tokens, wrap) {
   tokens.forEach(tok => {
     if (typeof tok === 'string') { wrap.appendChild(document.createTextNode(tok)); return; }
-    const len = tok.answer.length;
-    const w = Math.max(len * 15, 28);
     const wi = document.createElement('span'); wi.className = 'word-item';
     const pfx = document.createElement('span'); pfx.className = 'word-prefix'; pfx.textContent = tok.prefix;
     wi.appendChild(pfx);
-    const bw = document.createElement('span'); bw.className = 'blank-wrap'; bw.style.width = w + 'px'; bw.style.display = 'inline-block';
-    const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'blank-input';
-    inp.dataset.answer = tok.answer.toLowerCase(); inp.maxLength = len + 1; inp.style.width = w + 'px';
-    inp.setAttribute('autocomplete','off'); inp.setAttribute('autocorrect','off');
-    inp.setAttribute('autocapitalize','off'); inp.setAttribute('spellcheck','false');
-    inp.placeholder = '_'.repeat(len);
-    inp.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); focusNextBlank(inp); }});
-    bw.appendChild(inp); wi.appendChild(bw); wrap.appendChild(wi);
+    const box = document.createElement('span'); box.className = 'gapbox'; box.dataset.answer = tok.answer.toLowerCase();
+    for (let i = 0; i < tok.answer.length; i++) {
+      const inp = document.createElement('input'); inp.type = 'text'; inp.maxLength = 1;
+      ['autocomplete','autocorrect','autocapitalize'].forEach(a => inp.setAttribute(a,'off'));
+      inp.setAttribute('spellcheck','false');
+      inp.setAttribute('aria-label','letter ' + (i+1) + ' of ' + (tok.prefix + '…'));
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.replace(/[^A-Za-z\u00C0-\u017F]/g,'').slice(-1);
+        if (inp.value) moveFocus(inp, 1);
+      });
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Tab') { e.preventDefault(); focusNextBlank(inp, e.shiftKey ? -1 : 1); }
+        else if (e.key === 'Backspace' && !inp.value) { e.preventDefault(); moveFocus(inp, -1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); moveFocus(inp, 1); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); moveFocus(inp, -1); }
+      });
+      box.appendChild(inp);
+    }
+    wi.appendChild(box); wrap.appendChild(wi);
   });
 }
 
-function focusNextBlank(current) {
-  const inputs = Array.from(document.querySelectorAll('#fillWrap .blank-input'));
-  const idx = inputs.indexOf(current);
-  if (idx < inputs.length - 1) inputs[idx + 1].focus();
+function allLetterInputs() { return Array.from(document.querySelectorAll('#fillWrap .gapbox input')); }
+function moveFocus(cur, dir) {
+  const all = allLetterInputs(); const i = all.indexOf(cur);
+  if (all[i + dir]) all[i + dir].focus();
 }
-
-function getBlankInputs() { return Array.from(document.querySelectorAll('#fillWrap .blank-input')); }
+function focusNextBlank(cur, dir) {
+  const groups = getBlankInputs(); const g = cur.parentNode; const gi = groups.indexOf(g);
+  const target = groups[gi + dir];
+  if (target) target.querySelector('input').focus();
+}
+function getBlankInputs() { return Array.from(document.querySelectorAll('#fillWrap .gapbox')); }
+function groupVal(g) { return Array.from(g.querySelectorAll('input')).map(i => i.value).join('').trim().toLowerCase(); }
+function lockGroup(g) { g.querySelectorAll('input').forEach(i => i.disabled = true); }
 
 function checkFill(autoSubmit) {
-  // Timer keeps running
-  const inputs = getBlankInputs();
+  const groups = getBlankInputs();
   let correct = 0; userAnswers = [];
-  inputs.forEach(inp => {
-    const user = inp.value.trim().toLowerCase();
-    const ans = inp.dataset.answer;
+  groups.forEach(g => {
+    const user = groupVal(g);
     userAnswers.push(user);
-    inp.disabled = true;
-    inp.classList.remove('correct','wrong','revealed');
-    if (user === ans) { inp.classList.add('correct'); correct++; }
-    else { inp.classList.add('wrong'); }
+    lockGroup(g);
+    g.classList.remove('ok','bad','rev');
+    if (user === g.dataset.answer) { g.classList.add('ok'); correct++; }
+    else g.classList.add('bad');
   });
   fillScore = correct;
   document.getElementById('fillCheckBtn').disabled = true;
   document.getElementById('fillRevealBtn').disabled = true;
-  setTimeout(() => showFillResult(correct, inputs), 300);
+  setTimeout(() => showFillResult(correct, groups), 300);
 }
 
 function revealFill() {
-  // Timer keeps running
-  const inputs = getBlankInputs();
+  const groups = getBlankInputs();
   userAnswers = [];
-  inputs.forEach(inp => {
-    const user = inp.value.trim().toLowerCase();
+  groups.forEach(g => {
+    const user = groupVal(g);
     userAnswers.push(user);
-    inp.disabled = true;
-    inp.classList.remove('correct','wrong','revealed');
-    if (user === inp.dataset.answer) inp.classList.add('correct');
-    else { inp.value = inp.dataset.answer; inp.classList.add('revealed'); }
+    lockGroup(g);
+    g.classList.remove('ok','bad','rev');
+    if (user === g.dataset.answer) g.classList.add('ok');
+    else { g.querySelectorAll('input').forEach((i, k) => i.value = g.dataset.answer[k]); g.classList.add('rev'); }
   });
   document.getElementById('fillCheckBtn').disabled = true;
   document.getElementById('fillRevealBtn').disabled = true;
