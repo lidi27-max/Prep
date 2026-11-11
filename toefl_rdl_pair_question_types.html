@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOEFL Read in Daily Life — Name That Question Type</title>
+<style>
+body{font-family:Calibri,Arial,sans-serif;max-width:860px;margin:24px auto;padding:0 16px;color:#222;line-height:1.45}
+h1{color:#002060;font-size:26px}h2{color:#1C7293;margin-top:34px}
+.text{background:#f3f6fb;border-left:5px solid #002060;padding:12px 16px;white-space:pre-line;border-radius:4px}
+.q{border:1px solid #ccd;border-radius:6px;padding:12px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:bold}label{display:block;margin:3px 0;cursor:pointer}
+select{font-size:16px;padding:3px;margin-bottom:8px}button{background:#002060;color:#fff;border:0;border-radius:4px;padding:6px 14px;font-size:15px;cursor:pointer;margin-top:6px}
+.fb{margin-top:8px;padding:8px 10px;background:#e8eef8;border-radius:4px;display:none}.src{font-size:13px;color:#666}
+</style></head><body>
+<h1>Name That Question Type</h1>
+<p>Work with your partner. For each question, choose the <b>question type</b> and the <b>answer</b>. Explain your choice to each other, then press <b>Check</b>.</p>
+<div id="app"></div>
+<script>
+const TYPES=["Factual","Negative Factual","Inference","Reference","Vocabulary"];
+const DATA=[
+{title:"Text 1 — Email",src:"Source: ETS, The Official Guide to the TOEFL iBT Test: Pocket Edition, Practice Test — Reading (Cooking class).",
+text:`Subject: Cooking class
+Maria Lopez,
+Thank you for your interest in the Foster Dining Hall cooking class.
+There is currently a waiting list for this popular event. To secure your spot, respond to this email to confirm your registration.
+There is a $10 fee for the use of equipment and ingredients, payable when you arrive.
+Hair nets will be provided and must be worn at all times in the dining hall kitchen. We have aprons for you to borrow, or you can bring your own.
+Best regards,
+Michael Brown`,
+qs:[
+{q:"What is the main purpose of the email?",o:["To tell Maria how to confirm her place in the class","To cancel the cooking class","To ask Maria to pay the fee online","To ask Maria to bring ingredients"],a:0,t:"Factual",w:"Main purpose is stated: respond to confirm registration, plus class details."},
+{q:"The word “secure” in “To secure your spot” is closest in meaning to:",o:["protect from danger","guarantee","find","pay for"],a:1,t:"Vocabulary",w:"To secure a spot = to make sure you get it."},
+{q:"What can be inferred about Maria Lopez’s spot in the class?",o:["She is currently on the waiting list.","She will lose her spot if she does not respond to this email.","She will secure her spot after she pays a fee.","She has told Michael Brown that she cannot attend."],a:1,t:"Inference",w:"She must respond to confirm; the fee is paid on arrival, not to secure the spot. (ETS item 21.)"}]},
+{title:"Text 2 — Notice",src:"Original text written for this class.",
+text:`Brookfield Library — Late-Fee Amnesty Week
+This week only, return any overdue book and we will waive your late fee.
+Please bring books to the front desk, not the outdoor drop box. They must be scanned by a staff member first.
+A library card is not required to return books, but you will need yours to borrow new ones.`,
+qs:[
+{q:"What does “They” refer to?",o:["The late fees","The overdue books","The staff members","The outdoor drop boxes"],a:1,t:"Reference",w:"The nearest noun is the drop box, but books are what must be scanned."},
+{q:"Which of the following is NOT true according to the notice?",o:["Late fees are cancelled this week.","Books should be returned to the front desk.","A library card is needed to return books.","Staff scan the books."],a:2,t:"Negative Factual",w:"A card is not required to return books, only to borrow."},
+{q:"When can readers return overdue books without a fee?",o:["Any time this year","Only this week","Only on weekends","After they borrow new books"],a:1,t:"Factual",w:"“This week only.”"}]},
+{title:"Text 3 — Text messages",src:"Original text written for this class.",
+text:`Dana (6:02 p.m.): Are you still coming to the study group tonight?
+Ravi (6:05 p.m.): Yes! My bus is late, though. I’ll be about 20 minutes behind.
+Dana (6:06 p.m.): No problem. We’re in Room 114, but if the door’s locked, text me and I’ll come down.
+Ravi (6:08 p.m.): Great. Can you save me a seat? I’m bringing the lab notes everyone asked for.`,
+qs:[
+{q:"What is most likely true about Ravi?",o:["He will miss the study group.","He will arrive after the group has started.","He is already in Room 114.","He forgot the lab notes."],a:1,t:"Inference",w:"His bus is late and he will be about 20 minutes behind."},
+{q:"What will Dana do if the door is locked?",o:["Call the library","Wait outside","Go downstairs to meet Ravi","Move the group to another room"],a:2,t:"Factual",w:"“Text me and I’ll come down.”"},
+{q:"“Can you save me a seat?” is closest in meaning to:",o:["Can you buy me a chair?","Can you keep a place for me?","Can you move my chair?","Can you count the seats?"],a:1,t:"Vocabulary",w:"Save a seat = keep a place available."}]}];
+const app=document.getElementById('app');
+DATA.forEach((d,i)=>{let h=`<h2>${d.title}</h2><div class="text">${d.text}</div><div class="src">${d.src}</div>`;
+d.qs.forEach((q,j)=>{const id=`${i}_${j}`;
+h+=`<div class="q"><p>${j+1}. ${q.q}</p>`+q.o.map((o,k)=>`<label><input type="radio" name="r${id}" value="${k}"> ${"ABCD"[k]}. ${o}</label>`).join('')+
+`<div>Question type: <select id="t${id}"><option value="">choose…</option>${TYPES.map(t=>`<option>${t}</option>`).join('')}</select></div>
+<button onclick="chk(${i},${j})">Check</button><div class="fb" id="f${id}"></div></div>`});
+app.insertAdjacentHTML('beforeend',h)});
+function chk(i,j){const q=DATA[i].qs[j],id=`${i}_${j}`;
+const r=document.querySelector(`input[name=r${id}]:checked`),t=document.getElementById('t'+id).value;
+const f=document.getElementById('f'+id);
+f.innerHTML=`<b>Answer: ${"ABCD"[q.a]}</b> ${(r&&+r.value===q.a)?'✔ your answer':'(you chose '+(r?"ABCD"[r.value]:'nothing')+')'}<br><b>Type: ${q.t}</b> ${t===q.t?'✔':'(you chose '+(t||'nothing')+')'}<br>${q.w}`;f.style.display='block'}
+</script></body></html>
