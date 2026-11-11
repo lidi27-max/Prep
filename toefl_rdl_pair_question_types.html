@@ -15,19 +15,22 @@ select{font-size:16px;padding:3px;margin-bottom:8px}button{background:#002060;co
 <script>
 const TYPES=["Factual","Negative Factual","Inference","Reference","Vocabulary"];
 const DATA=[
-{title:"Text 1 — Email",src:"Source: ETS, The Official Guide to the TOEFL iBT Test: Pocket Edition, Practice Test — Reading (Cooking class).",
-text:`Subject: Cooking class
-Maria Lopez,
-Thank you for your interest in the Foster Dining Hall cooking class.
-There is currently a waiting list for this popular event. To secure your spot, respond to this email to confirm your registration.
-There is a $10 fee for the use of equipment and ingredients, payable when you arrive.
-Hair nets will be provided and must be worn at all times in the dining hall kitchen. We have aprons for you to borrow, or you can bring your own.
-Best regards,
-Michael Brown`,
+{title:"Text 1 — Email",src:"Original text written for this class.",
+text:`To: Ms. Okafor
+From: Larkspur Home Goods
+Date: April 8, 2026, 2:15 P.M.
+Subject: Your newsletter preferences
+
+Dear Ms. Okafor,
+
+As you requested, we have removed your address from the Larkspur weekly newsletter. Our mailing list updates every Friday, and the next issue goes out on Thursday, April 9. Order confirmations and account alerts are separate and will continue as usual. If you clicked unsubscribe by mistake, you can rejoin at larkspurhome.com/newsletter at any time; for questions about your account, simply reply to this email.
+
+Kind regards,
+Priya Nair, Larkspur Home Goods`,
 qs:[
-{q:"What is the main purpose of the email?",o:["To tell Maria how to confirm her place in the class","To cancel the cooking class","To ask Maria to pay the fee online","To ask Maria to bring ingredients"],a:0,t:"Factual",w:"Main purpose is stated: respond to confirm registration, plus class details."},
-{q:"The word “secure” in “To secure your spot” is closest in meaning to:",o:["protect from danger","guarantee","find","pay for"],a:1,t:"Vocabulary",w:"To secure a spot = to make sure you get it."},
-{q:"What can be inferred about Maria Lopez’s spot in the class?",o:["She is currently on the waiting list.","She will lose her spot if she does not respond to this email.","She will secure her spot after she pays a fee.","She has told Michael Brown that she cannot attend."],a:1,t:"Inference",w:"She must respond to confirm; the fee is paid on arrival, not to secure the spot. (ETS item 21.)"}]},
+{q:"Which of the following is NOT mentioned in the email?",o:["The day of the week the mailing list is updated","How often the store will send her account alerts","A way to reverse her request if it was a mistake","A way to reach the store with questions about her account"],a:1,t:"Negative Factual",w:"Account alerts “will continue as usual”, but how often they are sent is never stated. A, C and D are all in the email."},
+{q:"What can be inferred about Ms. Okafor’s newsletter?",o:["She will not receive any more newsletters.","She may still receive one more issue after her request.","Her account alerts have been cancelled.","She already rejoined the newsletter."],a:1,t:"Inference",w:"The next issue goes out on Thursday, April 9, but the list only updates on Friday, so one more issue may still reach her."},
+{q:"What can Ms. Okafor do if she unsubscribed by mistake?",o:["Wait for the Friday update to be added again","Rejoin on the store’s website at any time","Pay a fee to restart the newsletter","Call the store’s office"],a:1,t:"Factual",w:"“You can rejoin at larkspurhome.com/newsletter at any time.”"}]},
 {title:"Text 2 — Notice",src:"Original text written for this class.",
 text:`Brookfield Library — Late-Fee Amnesty Week
 This week only, return any overdue book and we will waive your late fee.
