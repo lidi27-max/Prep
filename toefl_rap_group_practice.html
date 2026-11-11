@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOEFL Read an Academic Passage — Name That Question Type</title>
+<style>
+body{font-family:Calibri,Arial,sans-serif;max-width:860px;margin:24px auto;padding:0 16px;color:#222;line-height:1.45}
+h1{color:#002060;font-size:26px}h2{color:#1C7293;margin-top:34px}
+.text{background:#f3f6fb;border-left:5px solid #002060;padding:12px 16px;white-space:pre-line;border-radius:4px}
+.q{border:1px solid #ccd;border-radius:6px;padding:12px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:bold}label{display:block;margin:3px 0;cursor:pointer}
+select{font-size:16px;padding:3px;margin-bottom:8px}button{background:#002060;color:#fff;border:0;border-radius:4px;padding:6px 14px;font-size:15px;cursor:pointer;margin-top:6px}
+.fb{margin-top:8px;padding:8px 10px;background:#e8eef8;border-radius:4px;display:none}.src{font-size:13px;color:#666}
+</style></head><body>
+<h1>Name That Question Type — Academic Passage</h1>
+<p>Work with your partner. Read the passage. For each question, choose the <b>question type</b> and the <b>answer</b>. Explain your choice to each other, then press <b>Check</b>.</p>
+<div id="app"></div>
+<script>
+const TYPES=["Factual","Negative Factual","Vocabulary","Select the Sentence","Sentence Simplification","Reference","Inference","Rhetorical Purpose","Insert Text"];
+const DATA=[{title:"Arctic Sea Ice and Global Climate",src:"Source: passage adapted from the ETS Reading lesson material used in this course.",
+text:`Arctic sea ice forms when ocean water freezes during winter and partially melts each summer. Over the past few decades, satellite observations have revealed a consistent decline in both the area and thickness of this ice. Scientists consider these measurements an important indicator of global climate change.
+
+When sea ice melts, the darker ocean surface beneath it absorbs more sunlight, leading to additional warming—a process known as the ice-albedo feedback. This effect not only accelerates melting but also influences weather patterns far beyond the Arctic. Researchers have linked declining ice cover to shifts in jet streams and more extreme weather in temperate regions.
+
+Melting sea ice also affects marine life. Species such as polar bears and seals depend on stable ice platforms for hunting and breeding. As these platforms disappear, animals must travel farther to find food, and survival rates drop. Indigenous communities that rely on sea ice for travel and hunting face similar challenges as their traditional routes become unsafe.
+
+Scientists are monitoring seasonal cycles to understand how long-term warming might alter global ocean currents. Small changes in these currents can disrupt ecosystems and even affect rainfall patterns worldwide.`,
+qs:[
+{q:"According to the passage, what have satellite observations shown about Arctic sea ice?",o:["Its area and thickness have steadily declined.","It now melts only in summer.","It has grown thicker in some regions.","It has changed ocean currents."],a:0,t:"Factual",w:"“A consistent decline in both the area and thickness of this ice.”"},
+{q:"The word “accelerates” in paragraph 2 is closest in meaning to:",o:["slows down","explains","speeds up","repeats"],a:2,t:"Vocabulary",w:"If the effect accelerates melting, melting happens faster."},
+{q:"What does “This effect” in paragraph 2 refer to?",o:["The darker ocean surface","The ice-albedo feedback","Satellite observations","Extreme weather"],a:1,t:"Reference",w:"“…a process known as the ice-albedo feedback. This effect not only accelerates melting…”"},
+{q:"Why does the author mention polar bears and seals?",o:["To compare two species that hunt in the Arctic","To explain how scientists measure sea ice","To give examples of animals that depend on stable ice","To show that animals have moved to temperate regions"],a:2,t:"Rhetorical Purpose",w:"They are examples of species that depend on ice platforms for hunting and breeding."},
+{q:"What can be inferred about the ice-albedo feedback process?",o:["It is the primary cause of extreme weather in temperate regions.","It was first discovered through satellite observations.","Scientists have only recently begun to study its effects.","It creates a cycle that makes further warming increasingly difficult to stop."],a:3,t:"Inference",w:"Melting exposes dark water, which absorbs more sunlight, which causes more melting. The text says it “accelerates” melting."}]}];
+const app=document.getElementById('app');
+DATA.forEach((d,i)=>{let h=`<h2>${d.title}</h2><div class="text">${d.text}</div><div class="src">${d.src}</div>`;
+d.qs.forEach((q,j)=>{const id=`${i}_${j}`;
+h+=`<div class="q"><p>${j+1}. ${q.q}</p>`+q.o.map((o,k)=>`<label><input type="radio" name="r${id}" value="${k}"> ${"ABCD"[k]}. ${o}</label>`).join('')+
+`<div>Question type: <select id="t${id}"><option value="">choose…</option>${TYPES.map(t=>`<option>${t}</option>`).join('')}</select></div>
+<button onclick="chk(${i},${j})">Check</button><div class="fb" id="f${id}"></div></div>`});
+app.insertAdjacentHTML('beforeend',h)});
+function chk(i,j){const q=DATA[i].qs[j],id=`${i}_${j}`;
+const r=document.querySelector(`input[name=r${id}]:checked`),t=document.getElementById('t'+id).value;
+const f=document.getElementById('f'+id);
+f.innerHTML=`<b>Answer: ${"ABCD"[q.a]}</b> ${(r&&+r.value===q.a)?'✔ your answer':'(you chose '+(r?"ABCD"[r.value]:'nothing')+')'}<br><b>Type: ${q.t}</b> ${t===q.t?'✔':'(you chose '+(t||'nothing')+')'}<br>${q.w}`;f.style.display='block'}
+</script></body></html>
