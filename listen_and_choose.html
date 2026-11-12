@@ -54,6 +54,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
 .waveform.on .wb:nth-child(8){animation-delay:.1s}
 .replay-hint{font-size:11px;color:rgba(255,255,255,.4);display:none;position:relative;z-index:1}
 .replay-hint.show{display:block}
+.play-btn:disabled{cursor:not-allowed;transform:none}
+.play-btn.used{opacity:.45}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .options-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:none}
 .options-lbl.show{display:block;animation:fadeUp .3s ease}
@@ -109,7 +111,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
       <h1>Listen &amp; Choose a Response</h1>
       <p>You will hear a short spoken prompt. After it finishes, four options will appear. Choose the best response.</p>
       <div class="rules">
-        <div class="rule"><span class="rule-icon">▶</span><span>Press play and listen to the full audio first</span></div>
+        <div class="rule"><span class="rule-icon">▶</span><span>Press play: the audio plays only once, so listen carefully</span></div>
         <div class="rule"><span class="rule-icon">👁</span><span>Options appear only after the audio ends</span></div>
         <div class="rule"><span class="rule-icon">🎯</span><span>Pick the most natural and logical response</span></div>
       </div>
@@ -129,7 +131,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
         <div class="wb" style="height:28px"></div><div class="wb" style="height:20px"></div>
         <div class="wb" style="height:14px"></div><div class="wb" style="height:8px"></div>
       </div>
-      <div class="replay-hint" id="replayHint">▶ Tap to replay</div>
+      <div class="replay-hint" id="replayHint">✔ Audio played once</div>
     </div>
     <div class="options-lbl" id="optLbl">Choose the best response:</div>
     <div class="options" id="opts"></div>
@@ -166,9 +168,12 @@ document.getElementById("startBtn").addEventListener("click", function() {
   loadQ(0);
 });
 
+var started = false;
 playBtn.addEventListener("click", function() {
-  if (aud.paused) { aud.play().catch(function(){}); }
-  else { aud.pause(); }
+  if (started) return;
+  started = true;
+  playBtn.disabled = true;
+  aud.play().catch(function(){ started = false; playBtn.disabled = false; });
 });
 
 nextBtn.addEventListener("click", function() {
@@ -192,12 +197,16 @@ aud.addEventListener("ended", function() {
   playIcon.innerHTML = "<path d=\"M8 5v14l11-7z\"/>";
   waveform.classList.remove("on");
   replayHint.classList.add("show");
+  playBtn.classList.add("used");
   if (!hasPlayed) { hasPlayed = true; revealOpts(); }
 });
 
 function loadQ(idx) {
   answered = false;
   hasPlayed = false;
+  started = false;
+  playBtn.disabled = false;
+  playBtn.classList.remove("used");
   var q = QS[idx];
   document.getElementById("qCounter").textContent = "Question " + (idx + 1) + " of " + QS.length;
   updateProg();
