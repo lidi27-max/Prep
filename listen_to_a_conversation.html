@@ -83,7 +83,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
 <body>
 <div class="hdr">
   <div><div class="hdr-title">Listen to a Conversation</div><div class="hdr-sub">TOEFL iBT&#174; Listening Practice</div></div>
-  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" id="pFill"></div></div><div class="prog-lbl" id="pLbl">0 / 6</div></div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" id="pFill"></div></div><div class="prog-lbl" id="pLbl">Conversation 1 / 3</div></div>
 </div>
 <div class="main">
   <div class="screen active" id="startScreen">
@@ -101,7 +101,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
   </div>
   <div class="screen" id="questionScreen">
     <div class="conv-badge" id="convBadge">&#128172; Conversation 1 of 3</div>
-    <div class="q-counter" id="qCounter">Question 1 of 6</div>
+    <div class="q-counter" id="qCounter">Question 1 of 2</div>
     <div class="player">
       <div class="player-hint">Listen to the conversation</div>
       <button class="play-btn" id="playBtn"><svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
@@ -141,7 +141,7 @@ var fb=document.getElementById("fb");
 var nextBtn=document.getElementById("nextBtn");
 var LETS=["A","B","C","D"];
 
-function updateProg(){document.getElementById("pFill").style.width=(cur/QS.length*100)+"%";document.getElementById("pLbl").textContent=cur+" / "+QS.length;}
+function updateProg(){document.getElementById("pFill").style.width=(cur/QS.length*100)+"%";var qq=QS[Math.min(cur,QS.length-1)];document.getElementById("pLbl").textContent="Conversation "+(qq.audio_key+1)+" / 3";}
 
 document.getElementById("startBtn").addEventListener("click",function(){
   document.getElementById("startScreen").classList.remove("active");
@@ -164,8 +164,8 @@ function loadQ(idx){
   answered=false;
   var q=QS[idx];
   var newConv=(idx===0)||(QS[idx-1].audio_key!==q.audio_key);
-  document.getElementById("convBadge").textContent="&#128172; Conversation "+(q.audio_key+1)+" of 3";
-  document.getElementById("qCounter").textContent="Question "+(idx+1)+" of "+QS.length;
+  document.getElementById("convBadge").innerHTML="&#128172; Conversation "+(q.audio_key+1)+" of 3";
+  var sameAudio=QS.filter(function(x){return x.audio_key===q.audio_key;});document.getElementById("qCounter").textContent="Question "+(sameAudio.indexOf(q)+1)+" of "+sameAudio.length;
   updateProg();
   playBtn.classList.remove("playing");playIcon.innerHTML="<path d=\"M8 5v14l11-7z\"/>";waveform.classList.remove("on");
   replayHint.classList.remove("show");qCard.classList.remove("show");
@@ -212,7 +212,7 @@ function showResults(){
   document.getElementById("questionScreen").classList.remove("active");
   aud.pause();
   document.getElementById("pFill").style.width="100%";
-  document.getElementById("pLbl").textContent=QS.length+" / "+QS.length;
+  document.getElementById("pLbl").textContent="Done";
   var pct=Math.round(score/QS.length*100);
   var msg=score===6?"Perfect score! Excellent listening comprehension."
     :score>=4?"Great work! Keep practicing your active listening."
