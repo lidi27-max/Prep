@@ -30,7 +30,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
 .player-hint{font-size:11px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;position:relative;z-index:1}
 .player-note{font-size:11px;color:rgba(255,255,255,.3);position:relative;z-index:1;text-align:center}
 .play-btn{width:64px;height:64px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;z-index:1}
-.play-btn:hover{background:#1d8fa3;transform:scale(1.05)}.play-btn:active{transform:scale(.97)}
+.play-btn:hover{background:#1d8fa3;transform:scale(1.05)}.play-btn:active{transform:scale(.97)}.play-btn:disabled{cursor:not-allowed;transform:none}.play-btn.used{opacity:.45}
 .play-btn svg{width:26px;height:26px;fill:#fff}.play-btn.playing{background:var(--gold)}
 .waveform{display:flex;align-items:center;gap:3px;height:28px;position:relative;z-index:1}
 .wb{width:3px;background:rgba(255,255,255,.2);border-radius:99px}
@@ -92,9 +92,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
       <h1>Listen to a Conversation</h1>
       <p>You will hear 3 conversations. Each one is followed by 2 questions, one at a time. Listen carefully before the questions appear.</p>
       <div class="rules">
-        <div class="rule"><span style="color:var(--teal)">&#9654;</span><span>Press play and listen to the full conversation first</span></div>
+        <div class="rule"><span style="color:var(--teal)">&#9654;</span><span>Press play: the audio plays only once, so listen carefully</span></div>
         <div class="rule"><span style="color:var(--teal)">&#128065;</span><span>Questions appear one by one after the audio ends</span></div>
-        <div class="rule"><span style="color:var(--teal)">&#127919;</span><span>You can replay the audio before answering each question</span></div>
+        <div class="rule"><span style="color:var(--teal)">&#127919;</span><span>The audio cannot be replayed</span></div>
       </div>
       <button class="btn-primary" id="startBtn">Start Practice &#8594;</button>
     </div>
@@ -111,7 +111,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
         <div class="wb" style="height:28px"></div><div class="wb" style="height:20px"></div>
         <div class="wb" style="height:14px"></div><div class="wb" style="height:8px"></div>
       </div>
-      <div class="replay-hint" id="replayHint">&#9654; Tap to replay</div>
+      <div class="replay-hint" id="replayHint">&#10004; Audio played once</div>
       <div class="player-note" id="playerNote"></div>
     </div>
     <div class="q-card" id="qCard"><div class="q-lbl">Question</div><div class="q-text" id="qText"></div></div>
@@ -148,11 +148,13 @@ document.getElementById("startBtn").addEventListener("click",function(){
   document.getElementById("questionScreen").classList.add("active");
   loadQ(0);
 });
-playBtn.addEventListener("click",function(){if(aud.paused){aud.play().catch(function(){});}else{aud.pause();}});
+var started=false;
+playBtn.addEventListener("click",function(){if(started)return;started=true;playBtn.disabled=true;aud.play().catch(function(){started=false;playBtn.disabled=false;});});
 nextBtn.addEventListener("click",function(){cur++;if(cur>=QS.length){showResults();}else{loadQ(cur);}});
 aud.addEventListener("play",function(){playBtn.classList.add("playing");playIcon.innerHTML="<path d=\"M6 19h4V5H6v14zm8-14v14h4V5h-4z\"/>";waveform.classList.add("on");});
 aud.addEventListener("pause",function(){playBtn.classList.remove("playing");playIcon.innerHTML="<path d=\"M8 5v14l11-7z\"/>";waveform.classList.remove("on");});
 aud.addEventListener("ended",function(){
+  playBtn.classList.add("used");
   playBtn.classList.remove("playing");playIcon.innerHTML="<path d=\"M8 5v14l11-7z\"/>";waveform.classList.remove("on");
   replayHint.classList.add("show");
   if(!audioReady){audioReady=true;revealQuestion();}
@@ -178,11 +180,11 @@ function loadQ(idx){
   });
   qText.textContent=q.q;
   if(newConv){
-    audioReady=false;aud.src=AUDIOS[q.audio_key];aud.load();
+    audioReady=false;started=false;playBtn.disabled=false;playBtn.classList.remove("used");aud.src=AUDIOS[q.audio_key];aud.load();
     playerNote.textContent=q.audio_key>0?"New conversation":"";
   } else {
     audioReady=true;
-    playerNote.textContent="Replay if needed";
+    playerNote.textContent="Audio played once";
     revealQuestion();
   }
 }
@@ -233,6 +235,7 @@ function showResults(){
 
 function restart(){
   cur=0;score=0;answered=false;audioReady=false;results=[];
+  started=false;playBtn.disabled=false;playBtn.classList.remove("used");
   aud.pause();aud.src="";
   document.getElementById("resultsScreen").classList.remove("active");
   document.getElementById("resultsScreen").innerHTML="";
