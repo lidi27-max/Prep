@@ -161,11 +161,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
 <script>
 var QS=[
   {n:11,prompt:"How did your brother react to taking care of the family business?",
-   parts:[{f:"He"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{g:7},{f:"retired."}],
-   ans:["agreed","to","continue","running","it","after","our parents","had"],
-   chips:["after","running","continue","it","our parents","agreed","to","had","since"],
-   extra:"since",
-   note:"'Agreed to continue running it' — verb + to-infinitive + gerund. 'after our parents had retired' uses past perfect for the earlier action. Extra word: 'since' — 'since' implies causality ('because'), which changes the meaning. 'after' is the correct temporal connector here."},
+   parts:[{f:"He"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"retired."}],
+   ans:["agreed","to continue","running","it","after","our parents","had"],
+   chips:["after","running","to continue","it","our parents","agreed","had","having"],
+   extra:"having",
+   note:"'Agreed to continue running it' — verb + to-infinitive + gerund. 'after our parents had retired' uses past perfect for the earlier action. Extra word: 'having' — after 'our parents' the clause needs a finite verb ('had retired'), not 'having'."},
   {n:12,prompt:"Was the new system easy to use?",
    parts:[{f:"I"},{g:0},{g:1},{g:2},{f:"on"},{g:3},{g:4},{g:5},{f:"."}],
    ans:["wasn't","able to","log in","my","first","attempt"],
@@ -175,13 +175,13 @@ var QS=[
   {n:13,prompt:"Why did the professor assign an extra essay this week?",
    parts:[{f:"She"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"formal writing."}],
    ans:["wanted","to give","students","another","chance","to practice"],
-   chips:["wanted","another","chance","students","to practice","to give","for"],
-   extra:"for",
-   note:"Purpose structure: 'wanted + to give + students + another chance + to practice'. Extra word: 'for' — 'to give' already expresses purpose without needing 'for'."},
+   chips:["wanted","another","chance","students","to practice","to give","gave"],
+   extra:"gave",
+   note:"Purpose structure: 'wanted + to give + students + another chance + to practice'. Extra word: 'gave' — the main verb is already 'wanted', so a second past-tense verb cannot be added."},
   {n:14,prompt:"My friend said she finally finished reading that long novel.",
    parts:[{g:0},{g:1},{g:2},{f:"whether"},{g:3},{g:4},{g:5},{f:"?"}],
-   ans:["Has","she","mentioned","she","liked","the ending"],
-   chips:["Has","mentioned","she","liked","the ending","she","if"],
+   ans:["has","she","mentioned","she","liked","the ending"],
+   chips:["has","mentioned","she","liked","the ending","she","if"],
    extra:"if",
    note:"Present perfect question + embedded clause: 'Has she mentioned whether she liked...' (normal word order, NOT inverted). Extra word: 'if' — both 'if' and 'whether' introduce indirect questions, but 'whether' is already fixed."},
   {n:15,prompt:"The supervisor said a new policy will take effect soon.",
@@ -193,27 +193,28 @@ var QS=[
   {n:16,prompt:"The professor mentioned there will be a guest speaker tomorrow.",
    parts:[{f:"Do"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"?"}],
    ans:["you","remember","what","topic","the lecture","will","cover"],
-   chips:["you","what","will","remember","cover","the lecture","topic","which"],
-   extra:"which",
-   note:"Question + embedded clause: 'Do you remember what topic the lecture will cover' (NOT inverted). Extra word: 'which' — 'what topic' is the correct phrasing for an unspecified topic."},
+   chips:["you","what","will","remember","cover","the lecture","topic","how"],
+   extra:"how",
+   note:"Question + embedded clause: 'Do you remember what topic the lecture will cover' (NOT inverted). Extra word: 'how' — the clause asks about a topic, so 'how' does not fit."},
   {n:17,prompt:"Did the manager give you feedback on your report?",
    parts:[{f:"She told"},{g:0},{g:1},{g:2},{g:3},{g:4},{f:"."}],
    ans:["me","which","sections","needed","more data"],
-   chips:["needed","had","more data","which","sections","me"],
-   extra:"had",
-   note:"Reported speech with 'which': 'told me which sections needed more data'. Simple past 'needed' is correct. Extra word: 'had' — past perfect is not required here since no sequence needs to be emphasised."},
+   chips:["needed","needs","more data","which","sections","me"],
+   extra:"needs",
+   note:"Reported speech with 'which': 'told me which sections needed more data'. Simple past 'needed' is correct. Extra word: 'needs' — it does not agree with the plural 'sections' (and the sentence is in the past)."},
   {n:18,prompt:"Why did the professor call you after class?",
    parts:[{f:"He asked"},{g:0},{g:1},{g:2},{g:3},{g:4},{f:"by tomorrow."}],
    ans:["me","to send","him","my","outline"],
-   chips:["to send","outline","my","me","him","his","class"],
-   extra:"class",
-   note:"'Asked me to send him my outline' — ask + object + to-infinitive. 'him' = indirect object (the professor), 'my outline' = direct object. Extra word: 'class' — it belongs in the prompt sentence but has no grammatical role in the reply."},
+   chips:["to send","outline","my","me","him","for"],
+   extra:"for",
+   note:"'Asked me to send him my outline' — ask + object + to-infinitive. 'him' = indirect object (the professor), 'my outline' = direct object. Extra word: 'for' — the sentence uses 'to send him', so there is no place for 'for'."},
   {n:19,prompt:"Why didn't you join us for dinner yesterday?",
    parts:[{f:"I would have gone"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
    ans:["if","I","hadn't","had","so much","work","to do"],
+   alts:[["if","I","hadn't","had","to do","so much","work"]],
    chips:["if","had","I","work","to do","not","hadn't","so much"],
    extra:"not",
-   note:"3rd conditional: 'would have gone + if + past perfect'. 'hadn't had' = had not had (contracted). Extra word: 'not' — 'hadn't' already contains the negation; adding 'not' creates a double negative."},
+   note:"3rd conditional: 'would have gone + if + past perfect'. 'hadn't had' = had not had (contracted). Two orders are correct: 'so much work to do' or 'to do so much work'. Extra word: 'not' — 'hadn't' already contains the negation; adding 'not' creates a double negative."},
   {n:20,prompt:"When will the new employee orientation begin?",
    parts:[{f:"It"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"."}],
    ans:["will","start","after","everyone","completes","the registration process"],
@@ -323,11 +324,13 @@ function updChk(){document.getElementById("checkBtn").disabled=!gapC.every(funct
 document.getElementById("checkBtn").addEventListener("click",function(){
   if(answered)return;answered=true;
   var q=QS[cur];
-  var ok=gapC.every(function(w,i){return w&&w.toLowerCase()===q.ans[i].toLowerCase();});
+  var ea=q.ans;
+  (q.alts||[]).forEach(function(a){if(gapC.every(function(w,i){return w&&w.toLowerCase()===a[i].toLowerCase();}))ea=a;});
+  var ok=gapC.every(function(w,i){return w&&w.toLowerCase()===ea[i].toLowerCase();});
   if(ok)score++;results.push({ok:ok,q:q});
   gapEls.forEach(function(g,i){
     g.classList.add("locked");
-    if(gapC[i]&&gapC[i].toLowerCase()===q.ans[i].toLowerCase())g.classList.add("correct");
+    if(gapC[i]&&gapC[i].toLowerCase()===ea[i].toLowerCase())g.classList.add("correct");
     else g.classList.add("wrong");
   });
   // Mark extra chip
@@ -353,7 +356,7 @@ document.getElementById("checkBtn").addEventListener("click",function(){
 function buildAns(q){
   var ai=0,r=[];
   q.parts.forEach(function(p){if(p.f!==undefined)r.push(p.f);else{r.push(q.ans[ai]);ai++;}});
-  return r.join(" ").replace(/\s([?.!,])/g,"$1");
+  var t=r.join(" ").replace(/\s([?.!,])/g,"$1");return t.charAt(0).toUpperCase()+t.slice(1);
 }
 
 document.getElementById("nextBtn").addEventListener("click",function(){
