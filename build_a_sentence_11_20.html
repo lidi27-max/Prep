@@ -83,6 +83,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
 .ri.bad{background:var(--red-l);color:#8b1a1a}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fadeUp .3s ease}
+.timer{color:#fff;font-family:'DM Mono',monospace;font-size:15px;font-weight:600;background:rgba(255,255,255,.1);border-radius:8px;padding:.3rem .7rem;min-width:64px;text-align:center}
+.timer.low{background:var(--red);color:#fff}
+.nav{display:flex;flex-wrap:wrap;gap:.35rem}
+.nb{width:38px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:#fff;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;font-weight:600;cursor:pointer}
+.nb.done{background:var(--teal-l);border-color:var(--teal);color:var(--teal-d)}
+.nb.cur{background:var(--navy);border-color:var(--navy);color:#fff}
+.ri-d{display:flex;flex-direction:column;gap:.2rem}
+.ri-n{opacity:.85;font-size:12px}
 </style>
 </head>
 <body>
@@ -94,6 +102,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
   <div class="prog-wrap">
     <div class="prog-track"><div class="prog-fill" id="pF" style="width:0%"></div></div>
     <div class="prog-lbl" id="pL">0 / 10</div>
+    <div class="timer" id="tmr" style="display:none">7:00</div>
   </div>
 </div>
 <div class="main">
@@ -101,47 +110,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;disp
     <div class="start-card">
       <div class="start-icon">🧩</div>
       <h1>Build a Sentence</h1>
-      <p>Drag the word chips into the gaps to complete the second speaker's reply. One chip is always extra — it doesn't fit anywhere.</p>
+      <p>Complete the second speaker's reply with the word chips. You have <b>7 minutes</b> for 10 questions, like in the real test.</p>
       <div class="rules">
         <div class="rule"><div class="rdot"></div><span>Read Speaker A's sentence for context</span></div>
         <div class="rule"><div class="rdot"></div><span>Some words are already given — fill only the gaps</span></div>
         <div class="rule"><div class="rdot"></div><span>Drag chips into gaps, or click a chip to fill the next empty gap</span></div>
         <div class="rule"><div class="rdot"></div><span>Click a filled gap to return that chip to the bank</span></div>
-        <div class="rule"><div class="rdot"></div><span>One chip is always extra — leave it in the bank</span></div>
+        <div class="rule"><div class="rdot"></div><span>In this practice, one chip in each question is extra — leave it in the bank</span></div>
+        <div class="rule"><div class="rdot"></div><span>You can go back and forth: skip a question and return to it. Answers and explanations appear when you finish or when time is up</span></div>
       </div>
-      <button class="btn-p" id="startBtn">Start Practice →</button>
+      <button class="btn-p" id="startBtn">Start (7:00) →</button>
     </div>
   </div>
   <div class="screen" id="s1">
+    <div class="nav" id="nav"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
       <div class="q-badge" id="qBadge">Question 11 of 20</div>
       <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace" id="qCtr">1 / 10</div>
     </div>
     <div class="exchange">
-      <div class="spk">
-        <div class="av a1">A</div>
-        <div class="bbl"><div class="bbl-txt" id="pTxt"></div></div>
-      </div>
-      <div class="spk">
-        <div class="av a2">B</div>
-        <div class="bbl"><div class="sent-row" id="sRow"></div></div>
-      </div>
+      <div class="spk"><div class="av a1">A</div><div class="bbl"><div class="bbl-txt" id="pTxt"></div></div></div>
+      <div class="spk"><div class="av a2">B</div><div class="bbl"><div class="sent-row" id="sRow"></div></div></div>
     </div>
     <div>
       <div class="blbl" style="margin-bottom:.5rem">Word bank — drag into the gaps above</div>
       <div class="wbank" id="wBank"></div>
     </div>
-    <div class="fb" id="fb">
-      <div class="fb-t" id="fbT"></div>
-      <div class="fb-a" id="fbA"></div>
-      <div class="fb-x" id="fbX"></div>
-      <div class="fb-n" id="fbN"></div>
-    </div>
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
       <button class="btn-o" id="clearBtn">Clear gaps</button>
-      <div style="display:flex;gap:.65rem">
-        <button class="btn-p" id="checkBtn" disabled>Check answer</button>
-        <button class="btn-o" id="nextBtn" style="display:none">Next →</button>
+      <div style="display:flex;gap:.65rem;flex-wrap:wrap">
+        <button class="btn-o" id="prevBtn">← Previous</button>
+        <button class="btn-o" id="nextBtn">Next →</button>
+        <button class="btn-p" id="finBtn">Finish</button>
       </div>
     </div>
   </div>
@@ -208,13 +208,12 @@ var QS=[
    chips:["to send","outline","my","me","him","for"],
    extra:"for",
    note:"'Asked me to send him my outline' — ask + object + to-infinitive. 'him' = indirect object (the professor), 'my outline' = direct object. Extra word: 'for' — the sentence uses 'to send him', so there is no place for 'for'."},
-  {n:19,prompt:"Why didn't you join us for dinner yesterday?",
-   parts:[{f:"I would have gone"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{g:6},{f:"."}],
-   ans:["if","I","hadn't","had","so much","work","to do"],
-   alts:[["if","I","hadn't","had","to do","so much","work"]],
-   chips:["if","had","I","work","to do","not","hadn't","so much"],
-   extra:"not",
-   note:"3rd conditional: 'would have gone + if + past perfect'. 'hadn't had' = had not had (contracted). Two orders are correct: 'so much work to do' or 'to do so much work'. Extra word: 'not' — 'hadn't' already contains the negation; adding 'not' creates a double negative."},
+  {n:19,prompt:"When did you finally see my message?",
+   parts:[{f:"Not until"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"."}],
+   ans:["the meeting","ended","did","I","check","my phone"],
+   chips:["did","I","my phone","the meeting","check","ended","checked"],
+   extra:"checked",
+   note:"Inversion after 'Not until': in the main clause the auxiliary comes before the subject ('did I check'), and the main verb goes back to the base form. Extra word: 'checked' — after 'did' the verb must be 'check'."},
   {n:20,prompt:"When will the new employee orientation begin?",
    parts:[{f:"It"},{g:0},{g:1},{g:2},{g:3},{g:4},{g:5},{f:"."}],
    ans:["will","start","after","everyone","completes","the registration process"],
@@ -223,177 +222,111 @@ var QS=[
    note:"Future + time clause: 'It will start after everyone completes...' — present simple in the time clause (NOT future). Extra word: 'complete' — after 'everyone' the verb needs the -s form ('completes'), so 'complete' does not fit."}
 ];
 
-var cur=0,score=0,answered=false,results=[];
-var gapC=[],gapEls=[],chipEls={},dragW=null,dragSrc=null;
-
-function upProg(){
-  document.getElementById("pF").style.width=(cur/QS.length*100)+"%";
-  document.getElementById("pL").textContent=cur+" / "+QS.length;
+var TIME=420,left=TIME,timer=null,cur=0,saved=[],order=[],finished=false;
+var gapC=[],gapEls=[],chipEls=[],dragW=null,dragSrc=null;
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["s0","s1","s2"].forEach(function(s){document.getElementById(s).classList.remove("active");});document.getElementById(id).classList.add("active");window.scrollTo(0,0);}
+function initState(){saved=QS.map(function(q){return new Array(q.ans.length).fill(null);});order=QS.map(function(q){return shuf(q.chips.slice());});cur=0;left=TIME;finished=false;}
+function isFull(i){return saved[i].every(function(x){return x!==null;});}
+function nDone(){var n=0;for(var i=0;i<QS.length;i++)if(isFull(i))n++;return n;}
+function fmt(t){var m=Math.floor(t/60),s=t%60;return m+":"+(s<10?"0":"")+s;}
+function upProg(){document.getElementById("pF").style.width=(nDone()/QS.length*100)+"%";document.getElementById("pL").textContent=nDone()+" / "+QS.length;}
+function buildNav(){
+  var nv=document.getElementById("nav");nv.innerHTML="";
+  QS.forEach(function(q,i){var b=document.createElement("button");b.className="nb"+(i===cur?" cur":"")+(isFull(i)&&i!==cur?" done":"");b.textContent=q.n;b.addEventListener("click",function(){loadQ(i);});nv.appendChild(b);});
 }
-
 function loadQ(i){
-  answered=false;
-  var q=QS[i];
+  cur=i;var q=QS[i];gapC=saved[i];
   document.getElementById("qBadge").textContent="Question "+q.n+" of 20";
   document.getElementById("qCtr").textContent=(i+1)+" / "+QS.length;
   document.getElementById("pTxt").textContent=q.prompt;
-  upProg();
-  document.getElementById("fb").className="fb";
-  document.getElementById("nextBtn").style.display="none";
-  document.getElementById("checkBtn").style.display="inline-flex";
-  document.getElementById("checkBtn").disabled=true;
-  gapC=new Array(q.ans.length).fill(null);
-  gapEls=[];chipEls={};
-  buildRow(q);buildBank(q);
+  document.getElementById("prevBtn").disabled=(i===0);
+  document.getElementById("nextBtn").disabled=(i===QS.length-1);
+  gapEls=[];chipEls=[];
+  buildRow(q);buildBank(i);renderGaps();buildNav();upProg();
 }
-
 function buildRow(q){
-  var row=document.getElementById("sRow");
-  row.innerHTML="";
-  var gi=0;
+  var row=document.getElementById("sRow");row.innerHTML="";var gi=0;
   q.parts.forEach(function(p){
-    if(p.f!==undefined){
-      var s=document.createElement("span");
-      s.className="fw";s.textContent=p.f;row.appendChild(s);
-    } else {
-      var d=document.createElement("div");
-      d.className="gap";d.dataset.gi=gi;
-      var mi=gi;
-      d.addEventListener("dragover",function(e){e.preventDefault();if(!answered)d.classList.add("dov");});
+    if(p.f!==undefined){var s=document.createElement("span");s.className="fw";s.textContent=p.f;row.appendChild(s);}
+    else{
+      var d=document.createElement("div");d.className="gap";d.dataset.gi=gi;var mi=gi;
+      d.addEventListener("dragover",function(e){e.preventDefault();d.classList.add("dov");});
       d.addEventListener("dragleave",function(){d.classList.remove("dov");});
-      d.addEventListener("drop",function(e){e.preventDefault();d.classList.remove("dov");if(!answered&&dragW)placeW(dragW,dragSrc,mi);});
-      d.addEventListener("click",function(){if(answered)return;if(gapC[mi]){retW(gapC[mi]);gapC[mi]=null;renderGaps();updChk();}});
+      d.addEventListener("drop",function(e){e.preventDefault();d.classList.remove("dov");if(dragW)placeW(dragW,dragSrc,mi);});
+      d.addEventListener("click",function(){if(gapC[mi]){retW(gapC[mi]);gapC[mi]=null;renderGaps();afterChange();}});
       gapEls.push(d);row.appendChild(d);gi++;
     }
   });
 }
-
-function buildBank(q){
-  var bk=document.getElementById("wBank");
-  bk.innerHTML="";
-  // chipEls is now an array of {word, el} so duplicate words work fine
-  chipEls=[];
-  shuf(q.chips).forEach(function(w,idx){
-    var c=document.createElement("div");
-    c.className="chip";c.textContent=w;c.draggable=true;c.dataset.w=w;c.dataset.ci=idx;
+function buildBank(i){
+  var bk=document.getElementById("wBank");bk.innerHTML="";chipEls=[];
+  var cnt={};saved[i].forEach(function(w){if(w)cnt[w]=(cnt[w]||0)+1;});
+  order[i].forEach(function(w,idx){
+    var c=document.createElement("div");c.className="chip";c.textContent=w;c.draggable=true;
+    if(cnt[w]>0){c.classList.add("used");cnt[w]--;}
     c.addEventListener("dragstart",function(e){dragW=w;dragSrc="bank";c.classList.add("dragging");e.dataTransfer.setData("text/plain",w);});
     c.addEventListener("dragend",function(){c.classList.remove("dragging");dragW=null;});
-    c.addEventListener("click",function(){if(answered||c.classList.contains("used"))return;var fe=firstEmpty();if(fe!==-1)placeW(w,"bank",fe);});
-    chipEls.push({word:w,el:c});
-    bk.appendChild(c);
+    c.addEventListener("click",function(){if(c.classList.contains("used"))return;var fe=firstEmpty();if(fe!==-1)placeW(w,"bank",fe);});
+    chipEls.push({word:w,el:c});bk.appendChild(c);
   });
 }
-
 function placeW(w,src,ti){
-  if(answered)return;
   if(gapC[ti])retW(gapC[ti]);
   if(src!=="bank"&&typeof src==="number")gapC[src]=null;
-  // Mark first unused chip with this word as used
-  for(var i=0;i<chipEls.length;i++){
-    if(chipEls[i].word===w&&!chipEls[i].el.classList.contains("used")){
-      chipEls[i].el.classList.add("used");break;
-    }
-  }
-  gapC[ti]=w;renderGaps();updChk();
+  for(var i=0;i<chipEls.length;i++){if(chipEls[i].word===w&&!chipEls[i].el.classList.contains("used")){chipEls[i].el.classList.add("used");break;}}
+  gapC[ti]=w;renderGaps();afterChange();
 }
-
-function retW(w){
-  // Return first used chip with this word
-  for(var i=0;i<chipEls.length;i++){
-    if(chipEls[i].word===w&&chipEls[i].el.classList.contains("used")){
-      chipEls[i].el.classList.remove("used");break;
-    }
-  }
-}
+function retW(w){for(var i=0;i<chipEls.length;i++){if(chipEls[i].word===w&&chipEls[i].el.classList.contains("used")){chipEls[i].el.classList.remove("used");break;}}}
 function firstEmpty(){for(var i=0;i<gapC.length;i++)if(!gapC[i])return i;return -1;}
-
 function renderGaps(){
   gapEls.forEach(function(g,i){
     var v=gapC[i];g.textContent=v||"";
-    if(v){
-      g.classList.add("filled");g.draggable=true;
-      g.ondragstart=function(e){dragW=v;dragSrc=i;e.dataTransfer.setData("text/plain",v);};
-    } else {
-      g.classList.remove("filled");g.draggable=false;g.ondragstart=null;
-    }
+    if(v){g.classList.add("filled");g.draggable=true;g.ondragstart=function(e){dragW=v;dragSrc=i;e.dataTransfer.setData("text/plain",v);};}
+    else{g.classList.remove("filled");g.draggable=false;g.ondragstart=null;}
   });
 }
-
-function updChk(){document.getElementById("checkBtn").disabled=!gapC.every(function(x){return x!==null;});}
-
-document.getElementById("checkBtn").addEventListener("click",function(){
-  if(answered)return;answered=true;
-  var q=QS[cur];
-  var ea=q.ans;
-  (q.alts||[]).forEach(function(a){if(gapC.every(function(w,i){return w&&w.toLowerCase()===a[i].toLowerCase();}))ea=a;});
-  var ok=gapC.every(function(w,i){return w&&w.toLowerCase()===ea[i].toLowerCase();});
-  if(ok)score++;results.push({ok:ok,q:q});
-  gapEls.forEach(function(g,i){
-    g.classList.add("locked");
-    if(gapC[i]&&gapC[i].toLowerCase()===ea[i].toLowerCase())g.classList.add("correct");
-    else g.classList.add("wrong");
-  });
-  // Mark extra chip
-  for(var ei=0;ei<chipEls.length;ei++){
-    if(chipEls[ei].word===q.extra&&!chipEls[ei].el.classList.contains("used")){
-      chipEls[ei].el.classList.remove("used");
-      chipEls[ei].el.classList.add("xtra");
-      chipEls[ei].el.draggable=false;
-      break;
-    }
-  }
-  var fb=document.getElementById("fb");
-  fb.className="fb show fu "+(ok?"ok":"bad");
-  document.getElementById("fbT").textContent=ok?"✓ Correct!":"✗ Not quite";
-  document.getElementById("fbA").innerHTML="<strong>Answer:</strong> "+buildAns(q);
-  document.getElementById("fbX").innerHTML="<strong>Extra word:</strong> <em>"+q.extra+"</em> — this one doesn't fit.";
-  document.getElementById("fbN").innerHTML="<strong>Grammar note:</strong> "+q.note;
-  document.getElementById("checkBtn").style.display="none";
-  document.getElementById("nextBtn").style.display="inline-flex";
-  upProg();
-});
-
-function buildAns(q){
+function afterChange(){buildNav();upProg();}
+function sentence(q,arr){
   var ai=0,r=[];
-  q.parts.forEach(function(p){if(p.f!==undefined)r.push(p.f);else{r.push(q.ans[ai]);ai++;}});
+  q.parts.forEach(function(p){if(p.f!==undefined)r.push(p.f);else{r.push(arr[ai]||"___");ai++;}});
   var t=r.join(" ").replace(/\s([?.!,])/g,"$1");return t.charAt(0).toUpperCase()+t.slice(1);
 }
-
-document.getElementById("nextBtn").addEventListener("click",function(){
-  cur++;document.getElementById("fb").className="fb";
-  document.getElementById("nextBtn").style.display="none";
-  document.getElementById("checkBtn").style.display="inline-flex";
-  if(cur>=QS.length)showRes();else loadQ(cur);
-});
-
-document.getElementById("clearBtn").addEventListener("click",function(){
-  if(answered)return;
-  gapC.forEach(function(w,i){if(w){retW(w);gapC[i]=null;}});
-  renderGaps();updChk();
-});
-
-function showRes(){
-  document.getElementById("pF").style.width="100%";
-  document.getElementById("pL").textContent=QS.length+" / "+QS.length;
-  show("s2");
-  var pct=Math.round(score/QS.length*100);
-  document.getElementById("sN").textContent=score+"/"+QS.length;
-  document.getElementById("sP").textContent=pct+"%";
-  var msgs=["Keep practicing!","Getting there.","Good effort.","Nice work!","Strong!","Excellent!","Outstanding!","Perfect!","Perfect!","Perfect!","Perfect!"];
-  var dets=["Focus on embedded question word order — they don't invert like direct questions.","Review the grammar notes for each error. Watch for extra words that look plausible.","Solid base. Pay attention to which temporal connectors fit each context.","Well done. Review the notes to lock in the patterns.","Very strong. Keep this up!"];
-  document.getElementById("sMsg").textContent=msgs[score]||"Perfect!";
-  document.getElementById("sDet").textContent=dets[Math.min(Math.floor(score/3),dets.length-1)];
-  document.getElementById("rList").innerHTML=results.map(function(r,i){
-    return "<div class='ri "+(r.ok?"ok":"bad")+"'><span style='font-weight:600;flex-shrink:0;font-family:\"DM Mono\",monospace;font-size:11px;min-width:28px'>Q"+r.q.n+"</span><span>"+(r.ok?"✓ Correct":"✗ "+buildAns(r.q))+"</span></div>";
-  }).join("");
+function isOk(q,arr){
+  var sets=[q.ans].concat(q.alts||[]);
+  return sets.some(function(a){return arr.every(function(w,i){return w&&w.toLowerCase()===a[i].toLowerCase();});});
 }
-
-function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function show(id){["s0","s1","s2"].forEach(function(s){document.getElementById(s).classList.remove("active");});document.getElementById(id).classList.add("active");window.scrollTo(0,0);}
-
-document.getElementById("startBtn").addEventListener("click",function(){show("s1");loadQ(0);});
-document.getElementById("retryBtn").addEventListener("click",function(){cur=0;score=0;answered=false;results=[];show("s1");loadQ(0);});
+function esc(t){return t;}
+function finish(timeUp){
+  if(finished)return;finished=true;clearInterval(timer);
+  document.getElementById("tmr").style.display="none";
+  var score=0;
+  var rows=QS.map(function(q,i){
+    var ok=isOk(q,saved[i]);if(ok)score++;
+    var mine=saved[i].some(function(x){return x;})?sentence(q,saved[i]):"(no answer)";
+    return "<div class='ri "+(ok?"ok":"bad")+"'><span style='font-weight:600;flex-shrink:0;font-family:\"DM Mono\",monospace;font-size:11px;min-width:28px'>Q"+q.n+"</span><div class='ri-d'><span>"+(ok?"✓ "+sentence(q,q.ans):"✗ Your answer: "+mine+"<br><strong>Correct:</strong> "+sentence(q,q.ans))+"</span><span class='ri-n'><strong>Extra word:</strong> "+q.extra+" — "+q.note+"</span></div></div>";
+  });
+  show("s2");
+  var used=TIME-left;
+  document.getElementById("sN").textContent=score+"/"+QS.length;
+  document.getElementById("sP").textContent=Math.round(score/QS.length*100)+"%";
+  document.getElementById("sMsg").textContent=score>=9?"Excellent!":score>=7?"Strong work!":score>=5?"Good effort.":"Keep practicing!";
+  document.getElementById("sDet").textContent=(timeUp?"Time is up. ":"Time used: "+fmt(used)+". ")+"Read each explanation and add the mistakes to your error log.";
+  document.getElementById("rList").innerHTML=rows.join("");
+}
+function startTimer(){
+  var t=document.getElementById("tmr");t.style.display="block";t.className="timer";t.textContent=fmt(left);
+  clearInterval(timer);
+  timer=setInterval(function(){left--;t.textContent=fmt(Math.max(left,0));if(left<=60)t.className="timer low";if(left<=0)finish(true);},1000);
+}
+function begin(){initState();show("s1");loadQ(0);startTimer();}
+document.getElementById("startBtn").addEventListener("click",begin);
+document.getElementById("retryBtn").addEventListener("click",begin);
 document.getElementById("backBtn").addEventListener("click",function(){show("s0");});
+document.getElementById("prevBtn").addEventListener("click",function(){if(cur>0)loadQ(cur-1);});
+document.getElementById("nextBtn").addEventListener("click",function(){if(cur<QS.length-1)loadQ(cur+1);});
+document.getElementById("finBtn").addEventListener("click",function(){finish(false);});
+document.getElementById("clearBtn").addEventListener("click",function(){gapC.forEach(function(w,i){if(w){retW(w);gapC[i]=null;}});renderGaps();afterChange();});
 </script>
 </body>
 </html>
