@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warm-Up — Find and Fix the Mistake</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A2744;--teal:#2E8B6A;--teal-l:#E8F5EE;--teal-d:#1B6B4A;--gold:#E8A020;--green:#1a9c5b;--green-l:#e3fcef;--red:#c0392b;--red-l:#fef0f0;--bg:#f0f4f8;--card:#fff;--text:#1A2744;--muted:#5a6a7e;--border:#dde3ec;--light:#f5f7fa}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;align-items:center;min-height:100vh}
+.hdr{width:100%;background:var(--navy);min-height:56px;display:flex;align-items:center;justify-content:space-between;padding:.5rem 1.5rem;gap:1rem}
+.hdr-title{color:#fff;font-size:14px;font-weight:600}
+.hdr-sub{color:rgba(255,255,255,.5);font-size:11px;font-family:'DM Mono',monospace}
+.score{color:#7ddbb5;font-family:'DM Mono',monospace;font-size:13px;white-space:nowrap}
+.main{width:100%;max-width:760px;padding:1.5rem 1.25rem 3rem;display:flex;flex-direction:column;gap:1rem}
+.intro{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.4rem}
+.intro h1{font-size:20px;margin-bottom:.4rem}
+.intro p,.intro li{font-size:14px;line-height:1.6;color:var(--muted)}
+.intro ul{margin:.5rem 0 0 1.1rem}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:.7rem}
+.card.ok{border-color:var(--green);background:var(--green-l)}
+.card.no{border-color:var(--red)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.num{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:var(--teal-d);background:var(--teal-l);border-radius:6px;padding:.2rem .55rem}
+.tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+textarea{width:100%;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.5;padding:.7rem .85rem;border:1.5px solid var(--border);border-radius:10px;color:var(--text);resize:vertical;min-height:64px;background:#fff}
+textarea:focus{outline:none;border-color:var(--teal)}
+.row{display:flex;gap:.5rem;flex-wrap:wrap}
+button{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;border-radius:9px;padding:.55rem 1rem;cursor:pointer;border:1.5px solid var(--teal);background:var(--teal);color:#fff}
+button.sec{background:#fff;color:var(--teal-d)}
+button:hover{filter:brightness(.95)}
+.fb{display:none;font-size:14px;line-height:1.6;border-radius:10px;padding:.7rem .9rem}
+.fb.show{display:block}
+.fb.good{background:#fff;border:1px solid var(--green)}
+.fb.bad{background:var(--red-l);border:1px solid var(--red)}
+.fb.hint{background:#fff8e6;border:1px solid var(--gold)}
+.fb b{font-weight:700}
+.final{display:none;background:var(--navy);color:#fff;border-radius:14px;padding:1.25rem 1.4rem;font-size:14px;line-height:1.6}
+.final.show{display:block}
+.final strong{color:#7ddbb5}
+</style>
+</head>
+<body>
+<div class="hdr"><div><div class="hdr-title">Warm-Up — Find and Fix the Mistake</div><div class="hdr-sub">TOEFL iBT Preparation · Session 9</div></div><div class="score" id="score">0 / 8 fixed</div></div>
+<div class="main">
+  <div class="intro">
+    <h1>Fix the grammar, together</h1>
+    <p>Each sentence has <b>one</b> grammar mistake. Work with your partner in the breakout room:</p>
+    <ul>
+      <li>Read the sentence aloud and decide what is wrong.</li>
+      <li>Edit the sentence in the box so it is correct, then press <b>Check</b>.</li>
+      <li>If you are stuck, press <b>Hint</b>. Read every explanation: these patterns appear in Build a Sentence.</li>
+      <li>Both partners help each other. There are no roles.</li>
+    </ul>
+  </div>
+  <div id="list"></div>
+  <div class="final" id="final"></div>
+</div>
+<script>
+var Q=[
+{w:"My advisor asked me what was my research topic.",ok:["my advisor asked me what my research topic was"],h:"Look at the word order after “what”. Is this a direct question?",e:"<b>Reported (embedded) question:</b> no inversion after the question word (what + subject + verb), and the verb moves back in time (was)."},
+{w:"If I would have known about the deadline, I would have asked for more time.",ok:["if i had known about the deadline i would have asked for more time"],h:"Check the verb form in the if-clause.",e:"<b>Third conditional:</b> if + past perfect, would have + past participle. Never “would have” in the if-clause."},
+{w:"Not only she finished the project, but she also presented it.",ok:["not only did she finish the project but she also presented it"],h:"A negative adverbial at the beginning of a sentence changes the word order.",e:"<b>Inversion:</b> after “Not only” at the start, use auxiliary + subject + base verb (Not only did she finish…)."},
+{w:"He said me that the library would close early.",ok:["he told me that the library would close early","he said that the library would close early","he said to me that the library would close early"],h:"Which reporting verb needs a person right after it?",e:"<b>Reporting verbs:</b> “told + person” (He told me that…) or “said + that” without a person (He said that…)."},
+{w:"She spoke slowly so that everyone can understand her.",ok:["she spoke slowly so that everyone could understand her"],h:"Compare the tense of “spoke” with the tense after “so that”.",e:"<b>Purpose clause:</b> so that + could when the main verb is in the past (tense agreement)."},
+{w:"Had I knew about the change, I would have called you.",ok:["had i known about the change i would have called you","if i had known about the change i would have called you"],h:"This is a conditional without “if”. Which verb form follows “Had I”?",e:"<b>Inverted third conditional:</b> Had + subject + past participle (Had I known…) means the same as If I had known…"},
+{w:"She asked me if did I finish the report.",ok:["she asked me if i finished the report","she asked me if i had finished the report","she asked me whether i finished the report","she asked me whether i had finished the report"],h:"This is a reported yes/no question. Is the word order direct or embedded?",e:"<b>Reported yes/no question:</b> if / whether + subject + verb, with no do/did and no inversion."},
+{w:"Never I have seen such a long line at the registrar’s office.",ok:["never have i seen such a long line at the registrar s office","never have i seen such a long line at the registrars office"],h:"What happens to the word order after a negative adverb like “never” at the start?",e:"<b>Inversion:</b> after Never / Rarely / Seldom at the start of a sentence, put the auxiliary before the subject (Never have I seen…)."}
+];
+var fixed=0,done={};
+function norm(s){return s.toLowerCase().replace(/[’‘`]/g,"'").replace(/'/g," ").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim()}
+var list=document.getElementById('list');
+Q.forEach(function(q,i){
+  var c=document.createElement('div');c.className='card';c.id='c'+i;
+  c.innerHTML='<div class="top"><span class="num">'+(i+1)+' / '+Q.length+'</span><span class="tag">Find and fix</span></div>'+
+  '<textarea id="t'+i+'" spellcheck="false"></textarea>'+
+  '<div class="row"><button onclick="chk('+i+')">Check</button><button class="sec" onclick="hint('+i+')">Hint</button><button class="sec" onclick="rst('+i+')">Reset</button></div>'+
+  '<div class="fb" id="f'+i+'"></div>';
+  list.appendChild(c);
+  document.getElementById('t'+i).value=q.w;
+});
+function show(i,cls,html){var f=document.getElementById('f'+i);f.className='fb show '+cls;f.innerHTML=html}
+function chk(i){
+  var q=Q[i],v=document.getElementById('t'+i).value,n=norm(v),c=document.getElementById('c'+i);
+  if(n===norm(q.w)){c.className='card no';show(i,'bad','You have not changed the sentence yet. Find the mistake and edit it.');return}
+  if(q.ok.indexOf(n)>-1){
+    c.className='card ok';show(i,'good','✓ Correct. '+q.e);
+    if(!done[i]){done[i]=1;fixed++;document.getElementById('score').textContent=fixed+' / '+Q.length+' fixed';if(fixed===Q.length)fin()}
+  }else{
+    c.className='card no';show(i,'bad','Not yet. Check the grammar again, change only what is wrong and keep the rest of the sentence. Press Hint if you need help.');
+  }
+}
+function hint(i){show(i,'hint','💡 '+Q[i].h)}
+function rst(i){document.getElementById('t'+i).value=Q[i].w;document.getElementById('c'+i).className='card';document.getElementById('f'+i).className='fb'}
+function fin(){var f=document.getElementById('final');f.className='final show';f.innerHTML='<strong>All 8 sentences fixed.</strong> Reported speech, conditionals and inversion all appear in Build a Sentence. Write down the pattern that was hardest for you: you will use it in the practice today. Go back to the main room when your teacher calls you.'}
+</script>
+</body>
+</html>
