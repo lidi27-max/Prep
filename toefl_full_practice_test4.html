@@ -130,6 +130,12 @@
     .info-grid, .score-grid { grid-template-columns: 1fr; }
     .content-area { padding: 20px 16px; }
   }
+  .q-locked { display: none !important; }
+  .q-wait { font-size: 0.85rem; color: #888; font-style: italic; margin: 8px 0 0; }
+  body.review .option { pointer-events: none; }
+  body.review .module-wrap { padding-top: 56px; }
+  #review-bar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 99; background: #1A2744; color: #fff; padding: 8px 12px; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; font-size: 0.85rem; }
+  #review-bar button { background: #fff; color: #1A2744; border: 0; border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
 </style>
 </head>
 <body>
@@ -176,7 +182,7 @@
     <p style="color:#555; font-size:0.9rem; margin-bottom:28px; line-height:1.6;">
       Each module has a <strong>15-minute timer</strong> that starts automatically. 
       The audio in the Listening section plays <strong>only once</strong>, just like on the real exam. 
-      You may use Next and Back within each module.
+      Within each module you can scroll up and down and change your answers until you submit it. In Listening, the questions appear after the audio ends. At the end you will see your score and the correct answers.
     </p>
     <button class="btn-primary" onclick="startModule('r1')">Start Test →</button>
   </div>
@@ -237,10 +243,13 @@
       <div class="band-label">Estimated TOEFL Band</div>
       <div class="band-val" id="toefl-band">—</div>
     </div>
-    <p style="font-size:0.85rem; color:#888; margin-bottom:16px;">Scroll down to review your answers with feedback highlighted in each module.</p>
+    <p style="font-size:0.85rem; color:#888; margin-bottom:16px;">Use the buttons below to review each module: correct answers are in green and your wrong answers in red.</p>
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
       <button class="btn-primary" onclick="location.reload()">Try Again</button>
-      <button style="background:#f0f4f8; color:#1A2744; border:2px solid #1A2744; border-radius:10px; padding:14px 28px; font-family:inherit; font-size:1rem; font-weight:700; cursor:pointer;" onclick="document.getElementById('screen-r1').classList.add('active'); document.getElementById('screen-r1').scrollIntoView({behavior:'smooth'})">Review Reading M1</button>
+      <button style="background:#f0f4f8; color:#1A2744; border:2px solid #1A2744; border-radius:10px; padding:12px 18px; font-family:inherit; font-size:0.95rem; font-weight:700; cursor:pointer;" onclick="reviewModule('r1')">Review Reading M1</button>
+      <button style="background:#f0f4f8; color:#1A2744; border:2px solid #1A2744; border-radius:10px; padding:12px 18px; font-family:inherit; font-size:0.95rem; font-weight:700; cursor:pointer;" onclick="reviewModule('r2')">Review Reading M2</button>
+      <button style="background:#f0f4f8; color:#1A2744; border:2px solid #1A2744; border-radius:10px; padding:12px 18px; font-family:inherit; font-size:0.95rem; font-weight:700; cursor:pointer;" onclick="reviewModule('l1')">Review Listening M1</button>
+      <button style="background:#f0f4f8; color:#1A2744; border:2px solid #1A2744; border-radius:10px; padding:12px 18px; font-family:inherit; font-size:0.95rem; font-weight:700; cursor:pointer;" onclick="reviewModule('l2')">Review Listening M2</button>
     </div>
   </div>
 </div>
@@ -1142,6 +1151,7 @@ function startModule(mod) {
 // ===== FINISH MODULE =====
 function finishModule(mod) {
   stopTimer(mod);
+  scoreModule(mod);
   // Store answers but don't show feedback yet
   if (mod === 'r1') showScreen('tr1-r2');
   else if (mod === 'r2') showScreen('tr2-l1');
@@ -1288,6 +1298,7 @@ function playOnce(key, btnId) {
   audio.play();
   audio.onended = () => {
     if (btn) { btn.innerHTML = '<span class="play-icon">✓</span> Played'; }
+    revealQuestions(btnId);
   };
   audio.onerror = () => {
     if (btn) { btn.disabled = false; btn.innerHTML = '<span>▶</span> Play'; state.playedAudio.delete(key); }
@@ -1332,6 +1343,61 @@ function checkFills(mod, answers) {
   updateProgress(mod);
 }
 
+
+// ===== AUDIO FIRST, THEN QUESTIONS =====
+const revealMap = {};
+function setupAudioGate() {
+  document.querySelectorAll('#screen-l1 .audio-btn, #screen-l2 .audio-btn').forEach(btn => {
+    const qb = btn.closest('.question-block');
+    let targets, anchor;
+    if (qb) { targets = [qb.querySelector('.options')]; anchor = qb.querySelector('.audio-note') || btn; }
+    else {
+      const sec = btn.closest('.task-section');
+      targets = Array.from(sec.querySelectorAll('.question-block'));
+      anchor = sec.querySelector('.audio-note') || btn;
+    }
+    targets.forEach(t => t && t.classList.add('q-locked'));
+    const wait = document.createElement('p');
+    wait.className = 'q-wait';
+    wait.textContent = qb ? 'The answer choices appear when the audio ends.' : 'The questions appear when the audio ends.';
+    anchor.insertAdjacentElement('afterend', wait);
+    revealMap[btn.id] = { targets, wait };
+  });
+}
+function revealQuestions(btnId) {
+  const r = revealMap[btnId];
+  if (!r) return;
+  r.targets.forEach(t => t && t.classList.remove('q-locked'));
+  r.wait.style.display = 'none';
+}
+function unlockAll() {
+  document.querySelectorAll('.q-locked').forEach(t => t.classList.remove('q-locked'));
+  document.querySelectorAll('.q-wait').forEach(t => t.style.display = 'none');
+}
+
+// ===== REVIEW MODE =====
+function reviewModule(mod) {
+  unlockAll();
+  document.body.classList.add('review');
+  document.querySelectorAll('.timer-box').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('.letter-box').forEach(b => b.readOnly = true);
+  showScreen(mod);
+  document.getElementById('review-bar').style.display = 'flex';
+}
+function backToScore() {
+  document.getElementById('review-bar').style.display = 'none';
+  document.body.classList.remove('review');
+  showScreen('final');
+}
+document.addEventListener('DOMContentLoaded', setupAudioGate);
 </script>
+<div id="review-bar">
+  <span>Review:</span>
+  <button onclick="reviewModule('r1')">Reading 1</button>
+  <button onclick="reviewModule('r2')">Reading 2</button>
+  <button onclick="reviewModule('l1')">Listening 1</button>
+  <button onclick="reviewModule('l2')">Listening 2</button>
+  <button onclick="backToScore()">← Back to score</button>
+</div>
 </body>
 </html>
