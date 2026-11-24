@@ -407,7 +407,7 @@
 <div class="header">
   <div class="header-eyebrow">TOEFL iBT 2026 · Writing Section</div>
   <h1>Write an <em>Email</em></h1>
-  <p class="header-sub">2 prompts · 7 minutes each · write in complete sentences</p>
+  <p class="header-sub">1 prompt · 7 minutes · write in complete sentences</p>
 </div>
 
 <div class="card">
@@ -417,10 +417,9 @@
   </div>
 
   <!-- Prompt switcher -->
-  <div class="prompt-switcher">
+  <div class="prompt-switcher" style="display:none">
     <span class="switcher-label">Prompt</span>
     <button class="prompt-tab active" id="tab0" onclick="switchPrompt(0)">1 — Parking permit</button>
-    <button class="prompt-tab" id="tab1" onclick="switchPrompt(1)">2 — Orientation session</button>
   </div>
 
   <!-- Card top: title + timer -->
@@ -490,7 +489,7 @@
 // ── Prompts data ──────────────────────────────────────
 const PROMPTS = [
   {
-    badge: "PROMPT 1 / 2",
+    badge: "PROMPT",
     title: "Campus Parking Permit",
     to: "Campus Parking Office <parking@university.edu>",
     subject: "Parking Permit Renewal Request",
@@ -500,18 +499,6 @@ const PROMPTS = [
       "Explain why renewal is important for you",
       "Request information about the renewal process"
     ]
-  },
-  {
-    badge: "PROMPT 2 / 2",
-    title: "Campus Orientation Session",
-    to: "Orientation Office <orientation@university.edu>",
-    subject: "Questions About Upcoming Orientation Session",
-    scenario: "You are planning to attend a campus orientation session but have questions about the schedule and what to expect.",
-    tasks: [
-      "Ask for details about the schedule",
-      "Explain your interest in attending",
-      "Request advice for new students"
-    ]
   }
 ];
 
@@ -520,8 +507,8 @@ let currentPrompt = 0;
 let timeLeft = 7 * 60;
 let timerInterval = null;
 let isRunning = false;
-let promptDone = [false, false];
-let responses = ["", ""];
+let promptDone = [false];
+let responses = [""];
 
 const TOTAL_TIME = 7 * 60;
 
@@ -651,9 +638,9 @@ function timesUp() {
   // Mark tab as done
   document.getElementById('tab' + currentPrompt).classList.add('done-tab');
 
-  const bothDone = promptDone[0] && promptDone[1];
+  const bothDone = promptDone[0];
   if (bothDone) {
-    showBanner('done', '🎉 Both prompts complete! Great work, Ariana.');
+    showBanner('done', '⏰ Time is up! Copy your email now: it is not saved here.');
   } else {
     const next = currentPrompt === 0 ? 1 : 0;
     showBanner('times-up', `⏰ Time's up! Switch to Prompt ${next + 1} when you're ready.`);
