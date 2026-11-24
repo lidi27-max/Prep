@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warm-Up — Which Sentence Is Correct?</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A2744;--teal:#2E8B6A;--teal-l:#E8F5EE;--teal-d:#1B6B4A;--gold:#E8A020;--green:#1a9c5b;--green-l:#e3fcef;--red:#c0392b;--red-l:#fef0f0;--bg:#f0f4f8;--card:#fff;--text:#1A2744;--muted:#5a6a7e;--border:#dde3ec}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;align-items:center;min-height:100vh}
+.hdr{width:100%;background:var(--navy);min-height:56px;display:flex;align-items:center;justify-content:space-between;padding:.5rem 1.5rem;gap:1rem}
+.hdr-title{color:#fff;font-size:14px;font-weight:600}.hdr-sub{color:rgba(255,255,255,.5);font-size:11px;font-family:'DM Mono',monospace}
+.score{color:#7ddbb5;font-family:'DM Mono',monospace;font-size:13px}
+.main{width:100%;max-width:720px;padding:1.5rem 1.25rem 3rem;display:flex;flex-direction:column;gap:1rem}
+.intro,.card,.final{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem}
+.intro h1{font-size:20px;margin-bottom:.4rem}.intro p{font-size:14px;line-height:1.6;color:var(--muted)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.num{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:var(--teal-d);background:var(--teal-l);border-radius:6px;padding:.2rem .55rem}
+.opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:16px;line-height:1.5;padding:.75rem .9rem;margin-bottom:.55rem;border:1.5px solid var(--border);border-radius:10px;background:#fff;color:var(--text);cursor:pointer}
+.opt:hover{border-color:var(--teal)}
+.opt b{display:inline-block;width:22px;font-family:'DM Mono',monospace;color:var(--muted)}
+.opt.ok{border-color:var(--green);background:var(--green-l)}
+.opt.no{border-color:var(--red);background:var(--red-l)}
+.opt:disabled{cursor:default}
+.fb{display:none;font-size:14px;line-height:1.6;border-radius:10px;padding:.7rem .9rem;background:#f5f7fa;border:1px solid var(--border)}
+.fb.show{display:block}
+.final{display:none;background:var(--navy);color:#fff;font-size:14px;line-height:1.6}.final.show{display:block}
+.final button{margin-top:.8rem;font-family:inherit;font-size:13px;font-weight:600;border-radius:9px;padding:.55rem 1rem;cursor:pointer;border:0;background:#7ddbb5;color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="hdr"><div><div class="hdr-title">Warm-Up — Which Sentence Is Correct?</div><div class="hdr-sub">TOEFL iBT Preparation · Session 10</div></div><div class="score" id="score">0 / 10</div></div>
+<div class="main">
+<div class="intro"><h1>Word order check</h1><p>Read both sentences and choose the correct one. Look at the first word, the punctuation and the verb order. Read the explanation after each answer. Then press the next question.</p></div>
+<div id="area"></div>
+<div class="final" id="final"></div>
+</div>
+<script>
+var Q=[
+{a:"Do you know what time the library closes?",b:"Do you know what time does the library close?",e:"Embedded question: after “Do you know”, use statement order (what time + subject + verb), without do/does."},
+{a:"She asked me where had I parked my car.",b:"She asked me where I had parked my car.",e:"Reported question: the subject comes before the verb (where I had parked), with no inversion."},
+{a:"I wonder is the lab open on Saturdays.",b:"I wonder if the lab is open on Saturdays.",e:"Yes/no embedded question: if / whether + subject + verb. Do not start with the verb."},
+{a:"Could you explain how the system works?",b:"Could you explain how does the system work?",e:"Direct question at the start (Could you…?), but the embedded part (how the system works) uses statement order."},
+{a:"What did the professor say about the deadline?",b:"What the professor said about the deadline?",e:"A direct question needs an auxiliary before the subject (did the professor say), and the sentence ends with a question mark."},
+{a:"Not only he arrived late, but he also forgot his notes.",b:"Not only did he arrive late, but he also forgot his notes.",e:"Inversion: Not only + auxiliary + subject + verb (did he arrive)."},
+{a:"The assignments graded by the teaching assistant were.",b:"The assignments were graded by the teaching assistant.",e:"Passive voice: subject + be + past participle (were graded) + by + agent."},
+{a:"Never I have seen such a crowded cafeteria.",b:"Never have I seen such a crowded cafeteria.",e:"Inversion after Never: auxiliary before the subject (have I seen)."},
+{a:"He wanted to know whether she had finished the report.",b:"He wanted to know whether had she finished the report.",e:"Reported yes/no question: whether + subject + verb. No inversion after whether."},
+{a:"I’m not sure which course should I take next semester.",b:"I’m not sure which course I should take next semester.",e:"Embedded question: which course + subject + verb (I should take). The sentence ends with a period, so it is a statement."}
+];
+var cur=0,sc=0,answered=false;
+function norm(){}
+function render(){
+  var q=Q[cur],flip=(cur*7+3)%2===0;
+  var good=q.a,bad=q.b; if(cur===1||cur===2||cur===5||cur===6||cur===7||cur===9){good=q.b;bad=q.a;}
+  var opts=[good,bad]; if(flip)opts.reverse();
+  var h='<div class="card"><div class="top"><span class="num">'+(cur+1)+' / '+Q.length+'</span></div>';
+  opts.forEach(function(t,i){h+='<button class="opt" data-ok="'+(t===good?1:0)+'"><b>'+(i?'B':'A')+'</b>'+t+'</button>';});
+  h+='<div class="fb" id="fb"></div><div style="margin-top:.6rem"><button class="opt" id="nx" style="display:none;width:auto;font-weight:600;background:#2E8B6A;color:#fff;border-color:#2E8B6A">'+(cur===Q.length-1?'See results':'Next →')+'</button></div></div>';
+  document.getElementById('area').innerHTML=h;answered=false;
+  Array.prototype.forEach.call(document.querySelectorAll('.opt[data-ok]'),function(b){b.onclick=function(){pick(b)}});
+  document.getElementById('nx').onclick=next;
+  window.__g=good;
+}
+function pick(b){
+  if(answered)return;answered=true;
+  var ok=b.getAttribute('data-ok')==='1';
+  if(ok)sc++;
+  Array.prototype.forEach.call(document.querySelectorAll('.opt[data-ok]'),function(x){x.disabled=true;if(x.getAttribute('data-ok')==='1')x.classList.add('ok');else if(x===b)x.classList.add('no');});
+  var fb=document.getElementById('fb');fb.className='fb show';fb.innerHTML=(ok?'✓ Correct. ':'✗ Not quite. ')+Q[cur].e;
+  document.getElementById('nx').style.display='inline-block';
+  document.getElementById('score').textContent=sc+' / '+Q.length;
+}
+function next(){
+  cur++;
+  if(cur>=Q.length){
+    document.getElementById('area').innerHTML='';
+    var f=document.getElementById('final');f.className='final show';
+    f.innerHTML='<strong>You got '+sc+' out of '+Q.length+'.</strong><br>These patterns (embedded questions, inversion and passive voice) are the ones that appear in Build a Sentence. Notice which type gave you trouble: you will use it in the group practice.<br><button onclick="restart()">Try again</button>';
+    return;
+  }
+  render();
+}
+function restart(){cur=0;sc=0;document.getElementById('final').className='final';document.getElementById('score').textContent='0 / '+Q.length;render();}
+render();
+</script>
+</body>
+</html>
