@@ -482,7 +482,7 @@
 </div>
 
 <p class="footer-tip">
-  <strong>Tip:</strong> Use 1 min to read the prompt, 5 min to write, 1 min to proofread. Aim for <strong>70–90 words</strong>.
+  <strong>Tip:</strong> Use 1 min to read the prompt, 5 min to write, 1 min to proofread. There is no official word count: cover all three points with a reason or detail for each.
 </p>
 
 <script>
@@ -666,7 +666,7 @@ function updateWordCount() {
   const words = text === '' ? 0 : text.split(/\s+/).filter(w => w.length > 0).length;
   const span = document.getElementById('wordCount');
   span.textContent = words;
-  span.style.color = words >= 70 && words <= 90 ? 'var(--green)' : words > 90 ? 'var(--warn)' : 'var(--teal)';
+  span.style.color = 'var(--teal)';
 }
 
 function updateProgress() {
