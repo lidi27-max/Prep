@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Self-Check: Score Your Email</title>
+<style>
+:root{--navy:#002060;--teal:#1C7293;--pale:#E8EEF8}
+*{box-sizing:border-box}body{font-family:Calibri,Arial,sans-serif;margin:0;background:#f5f7fb;color:#1a1a1a}
+header{background:var(--navy);color:#fff;padding:14px 22px}header h1{margin:0;font-size:22px}header p{margin:4px 0 0;font-size:14px;opacity:.85}
+main{max-width:820px;margin:0 auto;padding:18px}
+.card{background:#fff;border:1px solid #d5dbe8;border-radius:10px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:18px;color:var(--navy)}.card p.d{margin:0 0 10px;color:#444;font-size:15px}
+label{display:block;border:2px solid #c3cde3;border-radius:8px;padding:9px 12px;margin:7px 0;cursor:pointer;line-height:1.35}
+label:hover{border-color:var(--teal)}input{margin-right:8px}
+label.sel{border-color:var(--teal);background:var(--pale)}
+button{background:var(--navy);color:#fff;border:0;padding:10px 20px;border-radius:8px;font-size:16px;cursor:pointer}
+#res{display:none;text-align:center}
+.lvl{font-size:56px;font-weight:700;color:var(--navy);margin:0}
+.tip{background:var(--pale);border-radius:8px;padding:10px 12px;text-align:left;margin:8px 0;line-height:1.4}
+.note{font-size:13px;color:#555}
+</style></head><body>
+<header><h1>Self-Check: Score Your Email</h1><p>Read your email again. Choose the sentence that describes it best in each box. Nothing is saved or sent.</p></header>
+<main id="m"></main>
+<script>
+const C=[
+{t:"1. Completing the task",d:"Did you address every required point?",o:["All three points are covered and each has a reason, a detail or an example.","All three points are covered, but one or two are very short.","One point is missing or I only repeated the prompt."],tip:"Reread the three bullet points. For each one, underline the sentence that answers it and add a reason or a detail if it has none."},
+{t:"2. Organization and tone",d:"Is it clear, connected and right for the reader?",o:["Greeting, purpose, details, request and closing with my name; the tone fits the reader; I used linking words.","The structure is clear, but a few sentences are not connected or one phrase is too casual or too direct.","The email is hard to follow, or the tone does not fit the reader (rude, too casual or too formal)."],tip:"Check the opening and the closing, and replace any command with a polite request (Could you…? I would appreciate it if you could…)."},
+{t:"3. Language variety",d:"Did you use different structures and words?",o:["I used different kinds of sentences (statements, questions, conditionals) and precise words.","I used mostly simple sentences or repeated some words.","My sentences are very short and basic, and I repeated the same words."],tip:"Join two short sentences with because, so, although or however, and replace repeated words with synonyms."},
+{t:"4. Accuracy",d:"Grammar, spelling, punctuation and capital letters.",o:["Only a few small errors; the meaning is always clear.","Some errors, but I can still understand every sentence.","Many errors; some sentences are hard to understand."],tip:"Read the email slowly, one sentence at a time. Check capital letters, verb forms, word order in questions and the there/their kind of mistakes."}];
+const m=document.getElementById('m');
+C.forEach((c,i)=>{const d=document.createElement('div');d.className='card';
+ d.innerHTML='<h2>'+c.t+'</h2><p class="d">'+c.d+'</p>'+c.o.map((o,k)=>'<label><input type="radio" name="c'+i+'" value="'+(3-k)+'">'+o+'</label>').join('');m.appendChild(d)});
+m.addEventListener('change',e=>{if(e.target.type==='radio'){document.querySelectorAll('input[name="'+e.target.name+'"]').forEach(r=>r.parentElement.classList.toggle('sel',r.checked))}});
+const b=document.createElement('div');b.className='card';b.innerHTML='<button id="go">Show my level</button><div id="res"></div><p class="note">This is a practice estimate based on the ETS Write an Email scoring guide. It is not an official score, and your teacher grades your work.</p>';m.appendChild(b);
+document.getElementById('go').onclick=()=>{
+ let tot=0,low=[];
+ for(let i=0;i<C.length;i++){const r=document.querySelector('input[name="c'+i+'"]:checked');if(!r){alert('Please answer all four boxes.');return}tot+=+r.value;if(+r.value<3)low.push([+r.value,i])}
+ const lvl=tot>=11?5:tot>=9?4:tot>=7?3:tot>=5?2:1;
+ low.sort((a,b)=>a[0]-b[0]);
+ const names={5:'A fully successful response',4:'A generally successful response',3:'A partially successful response',2:'A mostly unsuccessful response',1:'An unsuccessful response'};
+ const res=document.getElementById('res');res.style.display='block';
+ res.innerHTML='<p class="lvl">'+lvl+'</p><p><b>'+names[lvl]+'</b></p>'+(low.length?'<p style="text-align:left"><b>Improve first:</b></p>'+low.slice(0,2).map(x=>'<div class="tip"><b>'+C[x[1]].t+'.</b> '+C[x[1]].tip+'</div>').join(''):'<div class="tip">Great job. Keep checking all four areas in every email you write.</div>');
+ res.scrollIntoView({behavior:'smooth'});
+};
+</script></body></html>
