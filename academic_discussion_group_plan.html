@@ -23,22 +23,22 @@ button{font:inherit;font-weight:600;background:var(--teal);color:#fff;border:0;b
 <label>2. What is Lucas's position?</label><select data-a="a"><option value="">Choose...</option><option value="a">He agrees that it should be free.</option><option value="b">He thinks riders should keep paying.</option><option value="c">He has no position.</option></select><div class="fb"></div>
 <label>3. What is Maya's main reason?</label><select data-a="c"><option value="">Choose...</option><option value="a">Buses are too crowded.</option><option value="b">People prefer to drive.</option><option value="c">Without fares, the service could get worse or taxes could rise.</option></select><div class="fb"></div>
 <button class="alt" onclick="chk1()">Check Step 1</button></div>
-<div class="card"><h2>Step 2 · Choose a position and plan with IRT</h2>
+<div class="card"><h2>Step 2 · Choose a position and plan with IRT (Idea, Reason, Tie-in)</h2>
 <label>Your group's position</label><select id="pos"><option value="">Choose...</option><option>I agree with Lucas</option><option>I agree with Maya</option><option>I have a new idea (a middle option)</option></select>
 <div class="note" style="margin-top:.4rem">Click a starter to add it to your Idea box. Finish it with your own words.</div>
 <div class="chips"><span class="chip">In my opinion, </span><span class="chip">I believe that </span><span class="chip">From my perspective, </span><span class="chip">I would argue that </span></div>
 <label>I · Idea (your position in one sentence)</label><textarea id="I"></textarea>
-<label>R · Reason (why? give one detail or example)</label><textarea id="R"></textarea>
-<div class="chips"><span class="chip">This is because </span><span class="chip">For example, </span><span class="chip">For instance, </span></div>
-<label>T · Tie-in (name Lucas or Maya and add or answer something)</label><textarea id="T"></textarea>
-<div class="chips"><span class="chip">I agree with Lucas that </span><span class="chip">Building on Maya's idea, </span><span class="chip">While Maya argues that ..., I think </span><span class="chip">I understand Lucas's point; however, </span></div></div>
+<label>R · Reason (why? give a detail or an example, and connect to Lucas or Maya)</label><textarea id="R"></textarea>
+<div class="chips"><span class="chip">This is because </span><span class="chip">For example, </span><span class="chip">I agree with Lucas that ..., because </span><span class="chip">While Maya argues that ..., I think </span><span class="chip">I understand Maya's point; however, </span></div>
+<label>T · Tie-in (one closing sentence that links back to your Idea)</label><textarea id="T"></textarea>
+<div class="chips"><span class="chip">For these reasons, </span><span class="chip">This is why </span><span class="chip">All things considered, </span><span class="chip">That is why, unlike Maya, </span></div></div>
 <div class="card"><h2>Step 3 · Check your plan</h2>
 <label class="opt"><input type="checkbox"> My Idea gives a clear position and does not start with a greeting.</label>
-<label class="opt"><input type="checkbox"> My Reason has a detail or an example, not only a general statement.</label>
-<label class="opt"><input type="checkbox"> My Tie-in names Lucas or Maya and adds my own idea.</label>
+<label class="opt"><input type="checkbox"> My Reason has a detail or an example, not only a general statement, and it connects to Lucas or Maya.</label>
+<label class="opt"><input type="checkbox"> My Tie-in is one closing sentence that links back to my Idea.</label>
 <label class="opt"><input type="checkbox"> We used our own words and did not copy phrases from the posts.</label>
 <button onclick="document.getElementById('m').style.display='block'">Show a sample plan</button>
-<div class="model" id="m"><b>Sample plan (one possible answer):</b><br>I · I believe public transportation should be free only for students, seniors and low-income riders.<br>R · This is because these groups depend on buses and trains the most, and a discount for them helps without taking all the fare money away from the system.<br>T · I understand Maya's concern about taxes and service quality; however, a targeted program costs far less than free rides for everyone, and it still supports the families Lucas wants to help.<br><span class="note">Different positions can earn a high score. What matters is a clear idea, a developed reason and a link to the discussion.</span></div>
+<div class="model" id="m"><b>Sample plan (one possible answer):</b><br>I · I believe public transportation should be free only for students, seniors and low-income riders.<br>R · This is because these groups depend on buses and trains the most, and a discount for them helps without taking all the fare money away from the system.<br>R (connection) · I understand Maya's concern about taxes and service quality; however, a targeted program costs far less than free rides for everyone, and it still supports the families Lucas wants to help.<br>T · For these reasons, a targeted free pass is the fairest solution.<br><span class="note">Different positions can earn a high score. What matters is a clear idea, a developed reason with a connection to the discussion, and a closing sentence.</span></div>
 <p class="note">When you finish, one person types your Idea sentence in the main chat.</p></div></div>
 <script>
 function chk1(){document.querySelectorAll('select[data-a]').forEach(function(s){var f=s.nextElementSibling;if(!s.value){f.innerHTML='';return}f.innerHTML=s.value===s.dataset.a?'<span class="ok">Correct.</span>':'<span class="no">Look at the post again.</span>'})}
