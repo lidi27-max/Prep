@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Academic Discussion · Group Planning</title><style>:root{--teal:#1A7A7A;--navy:#1A2A4A;--gold:#C8A84B;--lt:#E8EEF2;--muted:#64748B;--text:#1E293B;--green:#217A4A;--red:#B03A2E;--bg:#F7F9FA}
+*{box-sizing:border-box}body{margin:0;font-family:'DM Sans',system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);padding:1.2rem 1rem 4rem}
+.wrap{max-width:860px;margin:0 auto}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600}
+h1{font-family:Georgia,serif;color:var(--navy);margin:.2rem 0 .3rem;font-size:1.8rem}.sub{color:var(--muted);font-size:14px;margin-bottom:1rem}
+.card{background:#fff;border:1px solid var(--lt);border-radius:14px;padding:1.1rem 1.2rem;margin:0 0 1rem;box-shadow:0 3px 16px rgba(26,42,74,.06)}
+.who{font-weight:700;color:var(--navy);margin-bottom:2px}.post{margin:0 0 .8rem;line-height:1.5}.prof{border-left:4px solid var(--teal);padding-left:.8rem}.stu{border-left:4px solid var(--gold);padding-left:.8rem}
+h2{font-size:1.05rem;color:var(--teal);margin:.2rem 0 .7rem}select,textarea{width:100%;font:inherit;padding:.5rem;border:1px solid #c5d0da;border-radius:8px;background:#fff}
+textarea{min-height:70px;resize:vertical}label{display:block;font-weight:600;margin:.6rem 0 .25rem;font-size:14px}
+button{font:inherit;font-weight:600;background:var(--teal);color:#fff;border:0;border-radius:8px;padding:.55rem 1rem;cursor:pointer}button.alt{background:var(--navy)}button.ghost{background:#fff;color:var(--teal);border:1px solid var(--teal)}
+.fb{margin-top:.4rem;font-size:14px}.ok{color:var(--green);font-weight:600}.no{color:var(--red);font-weight:600}.row{display:grid;grid-template-columns:1fr 230px;gap:.7rem;align-items:center;padding:.5rem 0;border-bottom:1px dashed var(--lt)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:.3rem 0 .6rem}.chip{background:var(--lt);border-radius:999px;padding:.25rem .7rem;font-size:13px;cursor:pointer;border:1px solid #cfd9e2}
+.model{background:#f1f8f8;border:1px solid #cfe5e5;border-radius:10px;padding:.8rem 1rem;margin-top:.6rem;display:none}.hide{display:none}.opt{display:block;padding:.55rem .7rem;margin:.3rem 0;border:1px solid #c5d0da;border-radius:8px;cursor:pointer;background:#fff}.opt.sel{border-color:var(--teal);background:#eaf5f5}
+.note{font-size:13px;color:var(--muted)}.wc{font-size:13px;color:var(--muted);text-align:right}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<div class="eyebrow">Writing › Write for an Academic Discussion · Group practice</div>
+<h1>Plan a Post Together</h1><div class="sub">Work as a group for about 8 minutes. One person shares the screen and types. You are planning, not writing the whole post.</div>
+<div class="card"><div class="who">Dr. Rivera</div><div class="post prof">This week we are discussing public transportation in large cities. Some city governments are considering making buses and trains free for everyone, paid for through taxes. Others believe riders should keep paying for the service. I would like you to discuss whether you think public transportation should be free in large cities. Explain why you think so.</div>
+<div class="who">Lucas</div><div class="post stu">I think it should be free. Free buses and trains would reduce traffic, because more people would leave their cars at home. It would also help families with low incomes, who spend a large part of their budget on getting to work.</div>
+<div class="who">Maya</div><div class="post stu">I disagree. Public transportation needs money to stay clean and on time, and fares pay for part of that. If the service becomes free, cities may have to raise taxes or reduce the number of buses, and that would hurt the same people we want to help.</div></div>
+<div class="card"><h2>Step 1 · Understand the discussion</h2>
+<label>1. What is the professor's question?</label><select data-a="b"><option value="">Choose...</option><option value="a">Do large cities have too much traffic?</option><option value="b">Should public transportation be free in large cities?</option><option value="c">How do city governments collect taxes?</option></select><div class="fb"></div>
+<label>2. What is Lucas's position?</label><select data-a="a"><option value="">Choose...</option><option value="a">He agrees that it should be free.</option><option value="b">He thinks riders should keep paying.</option><option value="c">He has no position.</option></select><div class="fb"></div>
+<label>3. What is Maya's main reason?</label><select data-a="c"><option value="">Choose...</option><option value="a">Buses are too crowded.</option><option value="b">People prefer to drive.</option><option value="c">Without fares, the service could get worse or taxes could rise.</option></select><div class="fb"></div>
+<button class="alt" onclick="chk1()">Check Step 1</button></div>
+<div class="card"><h2>Step 2 · Choose a position and plan with IRT</h2>
+<label>Your group's position</label><select id="pos"><option value="">Choose...</option><option>I agree with Lucas</option><option>I agree with Maya</option><option>I have a new idea (a middle option)</option></select>
+<div class="note" style="margin-top:.4rem">Click a starter to add it to your Idea box. Finish it with your own words.</div>
+<div class="chips"><span class="chip">In my opinion, </span><span class="chip">I believe that </span><span class="chip">From my perspective, </span><span class="chip">I would argue that </span></div>
+<label>I · Idea (your position in one sentence)</label><textarea id="I"></textarea>
+<label>R · Reason (why? give one detail or example)</label><textarea id="R"></textarea>
+<div class="chips"><span class="chip">This is because </span><span class="chip">For example, </span><span class="chip">For instance, </span></div>
+<label>T · Tie-in (name Lucas or Maya and add or answer something)</label><textarea id="T"></textarea>
+<div class="chips"><span class="chip">I agree with Lucas that </span><span class="chip">Building on Maya's idea, </span><span class="chip">While Maya argues that ..., I think </span><span class="chip">I understand Lucas's point; however, </span></div></div>
+<div class="card"><h2>Step 3 · Check your plan</h2>
+<label class="opt"><input type="checkbox"> My Idea gives a clear position and does not start with a greeting.</label>
+<label class="opt"><input type="checkbox"> My Reason has a detail or an example, not only a general statement.</label>
+<label class="opt"><input type="checkbox"> My Tie-in names Lucas or Maya and adds my own idea.</label>
+<label class="opt"><input type="checkbox"> We used our own words and did not copy phrases from the posts.</label>
+<button onclick="document.getElementById('m').style.display='block'">Show a sample plan</button>
+<div class="model" id="m"><b>Sample plan (one possible answer):</b><br>I · I believe public transportation should be free only for students, seniors and low-income riders.<br>R · This is because these groups depend on buses and trains the most, and a discount for them helps without taking all the fare money away from the system.<br>T · I understand Maya's concern about taxes and service quality; however, a targeted program costs far less than free rides for everyone, and it still supports the families Lucas wants to help.<br><span class="note">Different positions can earn a high score. What matters is a clear idea, a developed reason and a link to the discussion.</span></div>
+<p class="note">When you finish, one person types your Idea sentence in the main chat.</p></div></div>
+<script>
+function chk1(){document.querySelectorAll('select[data-a]').forEach(function(s){var f=s.nextElementSibling;if(!s.value){f.innerHTML='';return}f.innerHTML=s.value===s.dataset.a?'<span class="ok">Correct.</span>':'<span class="no">Look at the post again.</span>'})}
+var last=null;document.querySelectorAll('textarea').forEach(function(t){t.addEventListener('focus',function(){last=t})});
+document.querySelectorAll('.chip').forEach(function(c){c.addEventListener('mousedown',function(e){e.preventDefault()});c.addEventListener('click',function(){var t=last||document.getElementById('I');t.value+=(t.value&&!/\s$/.test(t.value)?' ':'')+c.textContent;t.focus()})});
+</script></body></html>
