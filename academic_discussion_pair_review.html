@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Academic Discussion · Pair Self-Evaluation</title><style>:root{--teal:#1A7A7A;--navy:#1A2A4A;--gold:#C8A84B;--lt:#E8EEF2;--muted:#64748B;--text:#1E293B;--green:#217A4A;--red:#B03A2E;--amber:#B7791F;--bg:#F7F9FA}
+*{box-sizing:border-box}body{margin:0;font-family:'DM Sans',system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);padding:1.2rem 1rem 4rem}
+.wrap{max-width:900px;margin:0 auto}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600}
+h1{font-family:Georgia,serif;color:var(--navy);margin:.2rem 0 .3rem;font-size:1.8rem}.sub{color:var(--muted);font-size:14px;margin-bottom:1rem}
+.card{background:#fff;border:1px solid var(--lt);border-radius:14px;padding:1.1rem 1.2rem;margin:0 0 1rem;box-shadow:0 3px 16px rgba(26,42,74,.06)}
+h2{font-size:1.05rem;color:var(--teal);margin:.2rem 0 .7rem}select,textarea{width:100%;font:inherit;padding:.45rem;border:1px solid #c5d0da;border-radius:8px;background:#fff}
+textarea{min-height:110px;resize:vertical}label{display:block;font-weight:600;margin:.6rem 0 .25rem;font-size:14px}
+button{font:inherit;font-weight:600;background:var(--teal);color:#fff;border:0;border-radius:8px;padding:.55rem 1rem;cursor:pointer}button.alt{background:var(--navy)}button.ghost{background:#fff;color:var(--teal);border:1px solid var(--teal)}
+.hd{display:grid;grid-template-columns:1fr 150px 150px;gap:.6rem;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-bottom:.3rem;border-bottom:2px solid var(--lt)}
+.row{display:grid;grid-template-columns:1fr 150px 150px;gap:.6rem;align-items:center;padding:.5rem 0;border-bottom:1px dashed var(--lt)}
+.row.diff{background:#fff7e6;border-radius:8px}.flag{font-size:12px;color:var(--amber);font-weight:700;grid-column:1/-1;display:none}.row.diff .flag{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:.3rem 0 .6rem}.chip{background:var(--lt);border-radius:999px;padding:.25rem .7rem;font-size:13px;cursor:pointer;border:1px solid #cfd9e2}
+.note{font-size:13px;color:var(--muted)}.wc{font-size:13px;color:var(--muted);text-align:right}.ok{color:var(--green);font-weight:600}.no{color:var(--red);font-weight:600}.am{color:var(--amber);font-weight:600}
+.out{background:#f1f8f8;border:1px solid #cfe5e5;border-radius:10px;padding:.8rem 1rem;margin-top:.6rem;white-space:pre-wrap;display:none}
+@media(max-width:700px){.hd{display:none}.row{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<div class="eyebrow">Writing › Write for an Academic Discussion · Pair self-evaluation</div>
+<h1>Evaluate Your Post Together</h1><div class="sub">About 15 minutes. Nothing is saved. One person shares the screen. First the writer evaluates the post, then the partner decides without looking at the writer's answers. Then you talk about every orange row. After that, switch roles.</div>
+<div class="card"><h2>Step 1 · Paste the writer's post</h2><div class="note">Copy the post from your Canvas submission (or from the quiz before you press Submit) and paste it here.</div>
+<textarea id="post" placeholder="Paste the post here..."></textarea><div class="wc" id="wc">0 words</div></div>
+<div class="card"><h2>Step 2 · Name the part of each sentence</h2><div class="note">Writer: choose first. Partner: choose without looking. Choose "Not there" if you think a part is missing.</div>
+<button class="alt" onclick="split()" style="margin:.5rem 0">Split into sentences</button><div id="sents"></div><div id="sum" style="margin-top:.5rem"></div></div>
+<div class="card"><h2>Step 3 · Check the post</h2><div class="hd"><div>Question</div><div>Writer</div><div>Partner</div></div><div id="ck"></div><div id="cksum" style="margin-top:.5rem"></div></div>
+<div class="card"><h2>Step 4 · Talk, then reflect</h2><div class="note">Look at every orange row. Read the sentence aloud and decide together: who is right? Then the writer completes the reflection.</div>
+<label>One thing I will change in my next post</label><div class="chips"><span class="chip">I will add a detail after </span><span class="chip">I will connect my second reason to </span><span class="chip">I will write a closing sentence that starts with </span><span class="chip">I will write ___ instead of ___, because </span><span class="chip">I will keep 1 minute to proofread for </span></div><textarea id="ref" style="min-height:80px"></textarea>
+<div style="margin-top:.7rem;display:flex;gap:.5rem;flex-wrap:wrap"><button onclick="mk()">Make my reflection</button><button class="ghost" onclick="reset()">Switch roles (clear everything)</button></div><div class="out" id="out"></div><div class="note" style="margin-top:.5rem">Add your reflection to your error log.</div></div>
+</div><script>
+var J=["Idea","Reason 1","Reason 2 (with a classmate)","Tie-in (closing)","Detail or example","Other"];
+var C=["The Idea gives a clear position (agree or disagree) and there is no greeting.","The first reason has a detail or an example.","The second reason connects to ONE classmate and gives a reason.","There is a closing sentence that links back to the Idea.","The words are the writer's own (not copied from the classmates)."];
+function words(t){t=t.trim();return t?t.split(/\s+/).length:0}
+function esc(x){return x.replace(/</g,'&lt;')}
+var opts=function(a){return '<option value="">Choose...</option>'+a.map(function(j){return '<option>'+j+'</option>'}).join('')};
+function drawCk(){var h='';C.forEach(function(c,i){h+='<div class="row" data-i="'+i+'"><div>'+c+'</div><select onchange="cs()">'+opts(["Yes","Not yet"])+'</select><select onchange="cs()">'+opts(["Yes","Not yet"])+'</select><div class="flag">Talk about this one.</div></div>'});document.getElementById('ck').innerHTML=h+'<div class="row"><div>The post has at least 100 words.</div><div id="c100" class="note" style="grid-column:2/4">Paste the post first.</div></div>'}
+function cs(){var d=0,all=0,full=0;document.querySelectorAll('#ck .row[data-i]').forEach(function(r){var s=r.querySelectorAll('select');var a=s[0].value,b=s[1].value;r.classList.remove('diff');if(a&&b){full++;if(a!==b){d++;r.classList.add('diff')}}});document.getElementById('cksum').innerHTML=full<5?'<span class="note">Both of you answer every row.</span>':(d?'<span class="am">You disagree on '+d+' row'+(d>1?'s':'')+'. Talk about them.</span>':'<span class="ok">You agree on every row.</span>')}
+document.getElementById('post').addEventListener('input',function(){var n=words(this.value);document.getElementById('wc').textContent=n+' words';var c=document.getElementById('c100');c.innerHTML=n?('<span class="'+(n>=100?'ok':'no')+'">'+(n>=100?'Yes, ':'Not yet, ')+n+' words</span>'):'Paste the post first.'});
+function split(){var t=document.getElementById('post').value.replace(/\s+/g,' ').trim();var s=t.match(/[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g)||[];var h='<div class="hd"><div>Sentence</div><div>Writer</div><div>Partner</div></div>';var n=0;s.forEach(function(x){x=x.trim();if(!x)return;n++;h+='<div class="row"><div>'+esc(x)+'</div><select onchange="ps()">'+opts(J)+'</select><select onchange="ps()">'+opts(J)+'</select><div class="flag">Talk about this one.</div></div>'});document.getElementById('sents').innerHTML=n?h:'<div class="note">Paste a post in Step 1 first.</div>';document.getElementById('sum').innerHTML=''}
+function ps(){var rows=document.querySelectorAll('#sents .row');var d=0,full=0,pw=[],pp=[];rows.forEach(function(r){var s=r.querySelectorAll('select');var a=s[0].value,b=s[1].value;r.classList.remove('diff');pw.push(a);pp.push(b);if(a&&b){full++;if(a!==b){d++;r.classList.add('diff')}}});
+var four=["Idea","Reason 1","Reason 2 (with a classmate)","Tie-in (closing)"];var miss=four.filter(function(p){return pw.indexOf(p)<0});var msg='';
+if(full<rows.length){msg='<span class="note">Both of you choose a part for every sentence.</span>'}else{msg=d?'<span class="am">You disagree on '+d+' sentence'+(d>1?'s':'')+'. Talk about them.</span>':'<span class="ok">You agree on every sentence.</span>';if(miss.length)msg+=' <span class="no">The writer did not find: '+miss.join(', ')+'.</span>'}
+document.getElementById('sum').innerHTML=msg}
+document.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){var t=document.getElementById('ref');t.value+=(t.value&&!/\s$/.test(t.value)?' ':'')+c.textContent;t.focus()})});
+function mk(){var o=document.getElementById('out');o.style.display='block';o.textContent='My reflection\n\nOne thing I will change in my next post: '+(document.getElementById('ref').value.trim()||'...')}
+function reset(){document.getElementById('post').value='';document.getElementById('wc').textContent='0 words';document.getElementById('sents').innerHTML='';document.getElementById('sum').innerHTML='';document.getElementById('ref').value='';document.getElementById('out').style.display='none';drawCk();document.getElementById('cksum').innerHTML=''}
+drawCk();
+</script></body></html>
